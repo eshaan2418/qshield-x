@@ -1,0 +1,21 @@
+# Ingress frame FIFO: no silent overwrite, occupancy invariants. k-induction (unbounded proof).
+[tasks]
+prove_w2_n4
+prove_w4_n2
+
+[options]
+mode prove
+depth 24
+
+[engines]
+smtbmc bitwuzla
+
+[script]
+read_verilog -sv -formal qsx_ingress.sv ingress_formal.sv
+prove_w2_n4: chparam -set W 2 -set NBUF 4 ingress_formal
+prove_w4_n2: chparam -set W 4 -set NBUF 2 ingress_formal
+prep -top ingress_formal
+
+[files]
+../../rtl/qsx_ingress.sv
+ingress_formal.sv

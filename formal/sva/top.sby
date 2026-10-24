@@ -1,0 +1,37 @@
+# qsx_top (d=3 graph, LANES=8, NBUF=2) shell properties.
+#  stub_prove : k-induction with the abstract core (unbounded, all core behaviours)
+#  real_bmc   : bounded model check with the real QSX-UF core
+#  real_cover : reachability of OK / CFG_INVALID / FRAME_ERROR responses with the real core
+[tasks]
+stub_prove
+real_bmc
+real_cover
+
+[options]
+stub_prove: mode prove
+stub_prove: depth 20
+real_bmc: mode bmc
+real_bmc: depth 40
+real_cover: mode cover
+real_cover: depth 60
+
+[engines]
+smtbmc bitwuzla
+
+[script]
+stub_prove: read_verilog -sv -formal -I. core_stub.sv
+real_bmc: read_verilog -sv -formal -I. qsx_uf_core.sv qsx_min_tree.sv
+real_cover: read_verilog -sv -formal -I. qsx_uf_core.sv qsx_min_tree.sv
+read_verilog -sv -formal -I. qsx_ingress.sv qsx_cfg.sv qsx_top.sv top_formal.sv
+prep -top top_formal
+
+[files]
+core_stub.sv
+top_formal.sv
+../../rtl/qsx_uf_core.sv
+../../rtl/qsx_min_tree.sv
+../../rtl/qsx_ingress.sv
+../../rtl/qsx_cfg.sv
+../../rtl/qsx_top.sv
+../../build/rtl/d3_q5/qsx_graph_defs.svh
+../../build/rtl/d3_q5/qsx_graph_tables.svh
