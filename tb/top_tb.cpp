@@ -3,6 +3,9 @@
 //
 //   top_tb --graph g.qsxg --lanes P [--random N] [--stim dets.b8] [--seed S]
 //          [--gap PROB] [--bp PROB] [--malformed PROB] [--reconfig 0|1] [--latency 0|1] [--json f]
+//          [--max-rounds R] [--dump frames.bin]
+// --max-rounds R: configure the accelerator through a complete cfg session at start (growth-round limit R).
+// --dump: every output frame as {uint32 nwords, nwords x uint32} in arrival order (bench/e2e_demo.py).
 //
 // --latency 1: frames are sent one at a time with no gaps/backpressure; per-frame end-to-end latency
 // (cycles from first input beat accepted to output header accepted) is recorded.
@@ -40,8 +43,8 @@ struct Expect {
 
 int main(int argc, char** argv) {
   Verilated::commandArgs(argc, argv);
-  std::string graph, stim, json;
-  int lanes = 8, reconfig = 0, latency_mode = 0, pipe = 0;
+  std::string graph, stim, json, dump;
+  int lanes = 8, reconfig = 0, latency_mode = 0, pipe = 0, max_rounds = 255;
   long nrand = 0;
   double gap = 0.0, bp = 0.0, malformed = 0.0;
   unsigned long long seed = 1;
@@ -59,12 +62,16 @@ int main(int argc, char** argv) {
     else if (k == "--reconfig") reconfig = std::atoi(v.c_str());
     else if (k == "--latency") latency_mode = std::atoi(v.c_str());
     else if (k == "--json") json = v;
+    else if (k == "--dump") dump = v;
+    else if (k == "--max-rounds") max_rounds = std::atoi(v.c_str());
   }
   Graph gq = Graph::load(graph);
   Graph gu = gq;  // unweighted variant for reconfiguration
   std::fill(gu.thr.begin(), gu.thr.end(), 2);
   const int W = (gq.V + 31) / 32, CW = (gq.E + 31) / 32;
-  HwModel mq(gq, HwParams{lanes, 255, 0, pipe}), mu(gu, HwParams{lanes, 255, 0, pipe});
+  HwModel mq(gq, HwParams{lanes, max_rounds, 0, pipe}), mu(gu, HwParams{lanes, max_rounds, 0, pipe});
+  std::ofstream dumpf;
+  if (!dump.empty()) dumpf.open(dump, std::ios::binary);
   HwModel* model = &mq;
   bool cfg_valid_state = true;
 
@@ -124,6 +131,11 @@ int main(int argc, char** argv) {
 
   auto check_out = [&](const std::vector<uint32_t>& fr) {
     checked++;
+    if (dumpf) {
+      uint32_t n = static_cast<uint32_t>(fr.size());
+      dumpf.write(reinterpret_cast<const char*>(&n), 4);
+      dumpf.write(reinterpret_cast<const char*>(fr.data()), 4 * n);
+    }
     if (exp.empty()) {
       std::fprintf(stderr, "unexpected output frame\n");
       mism++;
@@ -233,7 +245,7 @@ int main(int argc, char** argv) {
   };
   auto cfg_session = [&](const Graph& g, bool complete) {
     cfg_write(0x000, 1);
-    cfg_write(0x001, 255);
+    cfg_write(0x001, static_cast<uint32_t>(max_rounds));
     cfg_write(0x002, 0);
     const int nw = (g.E + 7) / 8;
     for (int w = 0; w < nw; w++) {
@@ -252,6 +264,10 @@ int main(int argc, char** argv) {
   for (int i = 0; i < 4; i++) tick(true);
   top->rst_n = 1;
   tick(true);
+  if (max_rounds != 255) {
+    cfg_session(gq, true);
+    if (!top->cfg_ok) mism++, std::fprintf(stderr, "cfg not ok after initial session\n");
+  }
 
   const size_t N = synd.size();
   const size_t r1 = N / 4, r2 = N / 4 + std::min<size_t>(50, N / 8), r3 = N / 2;
