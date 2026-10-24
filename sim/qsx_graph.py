@@ -20,16 +20,34 @@ import numpy as np
 import stim
 
 
-def make_circuit(d: int, p: float, rounds: int | None = None, basis: str = "z") -> stim.Circuit:
+def make_circuit(d: int, p: float, rounds: int | None = None, basis: str = "z",
+                 meas_factor: float = 1.0) -> stim.Circuit:
+    """Uniform circuit-level depolarizing noise (DECISIONS D2); meas_factor scales the measurement
+    flip probability only (readout-degradation scenario, M6)."""
     return stim.Circuit.generated(
         f"surface_code:rotated_memory_{basis}",
         distance=d,
         rounds=d if rounds is None else rounds,
         after_clifford_depolarization=p,
         before_round_data_depolarization=p,
-        before_measure_flip_probability=p,
+        before_measure_flip_probability=min(0.5, p * meas_factor),
         after_reset_flip_probability=p,
     )
+
+
+def add_regional_burst(c: stim.Circuit, center: tuple[float, float], radius: float, p_burst: float) -> stim.Circuit:
+    """Correlated-burst scenario (M6): after every DEPOLARIZE1 layer, apply extra DEPOLARIZE1(p_burst) to the
+    qubits within `radius` of `center` (lattice coordinates). Models a localised high-error event."""
+    coords = c.get_final_qubit_coordinates()
+    region = {q for q, xy in coords.items() if (xy[0] - center[0]) ** 2 + (xy[1] - center[1]) ** 2 <= radius ** 2}
+    out = stim.Circuit()
+    for inst in c.flattened():
+        out.append(inst)
+        if inst.name == "DEPOLARIZE1":
+            tg = [t.value for t in inst.targets_copy() if t.value in region]
+            if tg:
+                out.append("DEPOLARIZE1", tg, p_burst)
+    return out
 
 
 @dataclass
@@ -56,7 +74,7 @@ class Graph:
                 f.write(f"{u} {v} {t} {o} {p:.9e}\n")
 
     @staticmethod
-    def read(path: str) -> "Graph":
+    def read(path: str) -> Graph:
         with open(path) as f:
             assert f.readline().split() == ["qsxg", "1"]
             hdr = f.readline().split()
@@ -140,10 +158,12 @@ def graph_from_dem(dem: stim.DetectorErrorModel, weights: str = "unweighted", me
     return g
 
 
-def build(d: int, p: float, weights: str = "unweighted", rounds: int | None = None) -> tuple[stim.Circuit, Graph]:
-    c = make_circuit(d, p, rounds)
+def build(d: int, p: float, weights: str = "unweighted", rounds: int | None = None,
+          meas_factor: float = 1.0) -> tuple[stim.Circuit, Graph]:
+    c = make_circuit(d, p, rounds, meas_factor=meas_factor)
     dem = c.detector_error_model(decompose_errors=True)
-    g = graph_from_dem(dem, weights, meta=f"rotated_memory_z d={d} rounds={rounds or d} p={p}")
+    meta = f"rotated_memory_z d={d} rounds={rounds or d} p={p} meas_factor={meas_factor}"
+    g = graph_from_dem(dem, weights, meta=meta)
     return c, g
 
 

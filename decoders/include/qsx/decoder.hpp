@@ -81,6 +81,7 @@ struct HwParams {
   int lanes = 8;              // P: vertices processed per cycle in the parity/activity scans
   int max_rounds = 255;
   uint32_t cycle_budget = 0;  // watchdog; 0 = disabled
+  int pipe = 0;               // RTL PIPE parameter: +1 cycle per LABEL and per DIST phase
 };
 
 struct HwResult {

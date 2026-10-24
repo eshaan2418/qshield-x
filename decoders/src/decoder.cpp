@@ -428,6 +428,7 @@ HwResult HwModel::decode(const uint8_t* defect) {
       label_.swap(label_n_);
       if (!ch) break;
     }
+    cyc += p_.pipe;  // registered convergence flag: the stable iteration is observed one cycle later
     // S_PAR, S_ACT: NCH cycles each
     par_.assign(V, 0);
     bnd_.assign(V, 0);
@@ -481,6 +482,7 @@ HwResult HwModel::decode(const uint8_t* defect) {
       dist_.swap(dist_n_);
       if (!ch) break;
     }
+    cyc += p_.pipe;
     // S_PEH
     pe_.assign(V, -1);
     for (int v = 0; v < V; v++) {

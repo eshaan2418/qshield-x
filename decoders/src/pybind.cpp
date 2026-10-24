@@ -41,6 +41,27 @@ struct PyDecoder {
     return py::make_tuple(obs, status, rounds, lat);
   }
 
+  // Cycle-exact hardware model (bit-exact with rtl/qsx_uf_core.sv): obs, status, busy cycles.
+  py::tuple decode_batch_hw(py::array_t<uint8_t, py::array::c_style | py::array::forcecast> dets, int lanes,
+                            int max_rounds, int pipe) {
+    auto d = dets.unchecked<2>();
+    if (d.shape(1) != g.V) throw std::runtime_error("dets must have shape (shots, V)");
+    const py::ssize_t n = d.shape(0);
+    HwModel hw(g, HwParams{lanes, max_rounds, 0, pipe});
+    py::array_t<uint64_t> obs(n);
+    py::array_t<uint8_t> status(n);
+    py::array_t<uint32_t> cycles(n);
+    std::vector<uint8_t> row(g.V);
+    for (py::ssize_t i = 0; i < n; i++) {
+      for (int v = 0; v < g.V; v++) row[v] = d(i, v);
+      HwResult r = hw.decode(row.data());
+      obs.mutable_at(i) = r.obs;
+      status.mutable_at(i) = r.status;
+      cycles.mutable_at(i) = static_cast<uint32_t>(r.cycles);
+    }
+    return py::make_tuple(obs, status, cycles);
+  }
+
   py::list corrections(py::array_t<uint8_t, py::array::c_style | py::array::forcecast> defect) {
     auto d = defect.unchecked<1>();
     std::vector<int> sp;
@@ -58,6 +79,8 @@ PYBIND11_MODULE(qsxdec, m) {
       .def(py::init<const std::string&, int>(), py::arg("graph"), py::arg("max_rounds") = 255)
       .def("decode_batch", &PyDecoder::decode_batch, py::arg("dets"), py::arg("timing") = false)
       .def("corrections", &PyDecoder::corrections)
+      .def("decode_batch_hw", &PyDecoder::decode_batch_hw, py::arg("dets"), py::arg("lanes") = 8,
+           py::arg("max_rounds") = 255, py::arg("pipe") = 0)
       .def_property_readonly("V", [](const PyDecoder& p) { return p.g.V; })
       .def_property_readonly("E", [](const PyDecoder& p) { return p.g.E; });
 }
