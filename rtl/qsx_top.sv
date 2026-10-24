@@ -8,6 +8,7 @@
 `include "qsx_graph_defs.svh"
 module qsx_top #(
   parameter int LANES    = 8,
+  parameter int PIPE     = 0,
   parameter int NBUF     = 4,
   parameter int OUT_CORR = 1,
   parameter int RB       = 8,
@@ -33,6 +34,16 @@ module qsx_top #(
   output reg  [31:0] stat_frames_in,
   output reg  [31:0] stat_frames_out,
   output wire [CB-1:0] stat_last_cycles
+`ifdef FORMAL
+  , output wire [3:0] f_inflight         // frames inside the accelerator (formal accounting)
+  , output wire [(`QSX_E+7)/8-1:0] f_cfg_written
+  , output wire f_in_hdr_next, output wire f_out_hdr_next
+  , output wire [3:0] f_eg_status
+  , output wire f_cfg_bad
+  , output wire [NBUF*16-1:0] f_slot_tag, output wire [((NBUF <= 1) ? 1 : $clog2(NBUF))-1:0] f_rslot
+  , output wire [15:0] f_cur_tag, output wire [15:0] f_eg_tag
+  , output wire f_disp_holds_o, output wire f_eg_pending_o
+`endif
 );
   localparam int V  = `QSX_V;
   localparam int E  = `QSX_E;
@@ -51,7 +62,14 @@ module qsx_top #(
   qsx_ingress #(.W(W), .NBUF(NBUF)) u_in (
     .clk(clk), .rst_n(rst_n), .s_tdata(s_axis_tdata), .s_tvalid(s_axis_tvalid),
     .s_tready(s_axis_tready), .s_tlast(s_axis_tlast), .rd_avail(rd_avail), .rd_ferr(rd_ferr),
-    .rd_beat(rd_beat), .rd_data(rd_data), .rd_pop(rd_pop), .count(fifo_count));
+    .rd_beat(rd_beat), .rd_data(rd_data), .rd_pop(rd_pop), .count(fifo_count)
+`ifdef FORMAL
+    , .f_partial(f_partial), .f_hdr_next(f_in_hdr_next), .f_slot_tag(f_slot_tag), .f_rslot(f_rslot)
+`endif
+    );
+`ifdef FORMAL
+  wire f_partial;
+`endif
 
   // ---------------------------------------------------------------- config + core
   wire [E*TB-1:0] thr;
@@ -65,12 +83,16 @@ module qsx_top #(
   qsx_cfg #(.RB(RB), .CB(CB)) u_cfg (
     .clk(clk), .rst_n(rst_n), .cfg_valid(cfg_valid), .cfg_ready(cfg_ready), .cfg_addr(cfg_addr),
     .cfg_wdata(cfg_wdata), .core_busy(core_busy || core_start), .thr(thr), .max_rounds(max_rounds),
-    .cycle_budget(cycle_budget), .cfg_open(cfg_open), .cfg_ok(cfg_ok), .cfg_err(cfg_err));
+    .cycle_budget(cycle_budget), .cfg_open(cfg_open), .cfg_ok(cfg_ok), .cfg_err(cfg_err)
+`ifdef FORMAL
+    , .f_written(f_cfg_written), .f_bad_thr(f_cfg_bad)
+`endif
+    );
 
   /* verilator lint_off UNUSEDSIGNAL */
   reg [W*32-1:0] defect_buf;  // bits >= V are padding
   /* verilator lint_on UNUSEDSIGNAL */
-  qsx_uf_core #(.LANES(LANES), .RB(RB), .CB(CB)) u_core (
+  qsx_uf_core #(.LANES(LANES), .PIPE(PIPE), .RB(RB), .CB(CB)) u_core (
     .clk(clk), .rst_n(rst_n), .start(core_start), .defect_in(defect_buf[V-1:0]), .thr_in(thr),
     .max_rounds(max_rounds), .cycle_budget(cycle_budget), .busy(core_busy), .done(core_done),
     .status(core_status), .obs(core_obs), .corr(core_corr), .cycles(stat_last_cycles),
@@ -207,5 +229,46 @@ module qsx_top #(
   assign m_axis_tlast  = eg_busy && eg_last;
 
   wire unused_ok = &{1'b0, core_rounds, fifo_count};
+
+`ifdef FORMAL
+  // ---------------------------------------------------------------- internal properties (M3)
+  // Frame accounting: partial ingress frame + committed FIFO frames + frame held by the dispatcher
+  // (after its slot was released) + egress frame whose header has not been sent yet.
+  wire f_disp_holds = ((dstate == D_GATE) && !rd_pop) || (dstate == D_WAIT) || (dstate == D_HOLD);
+  wire f_eg_pending = eg_busy && (eg_beat == {OB{1'b0}});
+  assign f_out_hdr_next = !eg_busy || (eg_beat == {OB{1'b0}});
+  assign f_eg_status = eg_status;
+  assign f_cur_tag = cur_tag;
+  assign f_eg_tag = eg_tag;
+  assign f_disp_holds_o = f_disp_holds;
+  assign f_eg_pending_o = f_eg_pending;
+  assign f_inflight = {3'b0, f_partial} + {{(3-$clog2(NBUF)){1'b0}}, fifo_count} +
+                      {3'b0, f_disp_holds} + {3'b0, f_eg_pending};
+  // Assertions are checked whenever reset is deasserted; the environment applies reset in cycle 0
+  // (formal/sva/*_formal.sv), so every register has been reset before the first checked cycle.
+  always @(*) if (rst_n) begin
+    // P6: the core starts only with a complete, committed configuration, and no configuration write
+    // is accepted in the start cycle (cfg_ready is low from start until the core is idle again)
+    if (core_start) assert (cfg_ok && !cfg_open && !(cfg_valid && cfg_ready));
+    if (core_busy) assert (!cfg_ready);
+    // the core is never started twice / never started while busy
+    if (core_start) assert (!core_busy && dstate == D_WAIT);
+    if (dstate == D_WAIT) assert (core_busy || core_start || core_done);
+    if (core_busy) assert (dstate == D_WAIT && !core_start);   // core only runs while dispatched
+    // P4 (internal): a non-OK core result is never loaded into the egress as OK
+    if (eg_load && pend_from_core && core_status != 3'd0) assert (core_corr == {E{1'b0}} && !core_obs);
+    // P4 (egress invariant): a non-OK frame in the egress holds obs = 0 and an all-zero correction
+    if (eg_busy && eg_status != 4'd0) assert (!eg_obs && (OUT_CORR == 0 || eg_corr == {CW*32{1'b0}}));
+    if (eg_busy && OUT_CORR != 0) assert (eg_corr[CW*32-1:E] == {(CW*32-E){1'b0}} || CW*32 == E);
+    // status registers only hold defined codes
+    if (eg_busy) assert (eg_status <= 4'd5);
+    if (dstate == D_HOLD && !pend_from_core) assert (pend_status == 4'd4 || pend_status == 4'd5);
+    if (dstate == D_HOLD && pend_from_core) assert (core_status <= 3'd3);
+    // egress beat index stays within the frame
+    if (eg_busy) assert (eg_beat <= OB'(OUT_CORR != 0 ? CW : 0));
+    // dispatcher only pops a frame that exists
+    if (rd_pop) assert (fifo_count != 0);
+  end
+`endif
 endmodule
 `default_nettype wire

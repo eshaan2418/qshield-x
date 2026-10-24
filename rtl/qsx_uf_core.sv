@@ -6,12 +6,16 @@
 //   CHK: no active cluster -> DINIT; rounds == max_rounds -> DONE(TIMEOUT); else GROW -> LABEL
 //   DINIT -> DIST (repeat until stable, inclusive) -> PEH -> PEEL (until every vertex done) -> DONE
 //   Any work state: cycle_budget != 0 && cycles == cycle_budget -> DONE(WATCHDOG)
+// PIPE=1 registers the grown-edge vector and the LABEL/DIST convergence flags (shorter critical path):
+//   each LABEL and each DIST phase then takes one extra cycle (the no-change iteration is observed one
+//   cycle later). qsx::HwModel reproduces both variants (HwParams::pipe).
 // Outputs `corr`/`obs` are forced to zero unless status == OK.
 `default_nettype none
 `include "qsx_graph_defs.svh"
 
 module qsx_uf_core #(
   parameter int LANES = 8,
+  parameter int PIPE = 0,
   parameter int RB = 8,
   parameter int CB = 20
 ) (
@@ -63,6 +67,8 @@ module qsx_uf_core #(
   reg  [V*MD-1:0] peh;
   reg  [E-1:0]    corr_r;
   reg  [IB-1:0]   idx;
+  reg  [E-1:0]    grown_r;     // PIPE=1 only
+  reg             lchg, lfirst; // PIPE=1 convergence pipeline
 
   assign busy = (state != S_IDLE);
   assign done = (state == S_DONE);
@@ -71,7 +77,10 @@ module qsx_uf_core #(
 
   // ------------------------------------------------------------------ edge fabric
   wire [E-1:0]    grown;
+  wire [E-1:0]    grown_c;
+  wire [E-1:0]    grown_n;     // grown vector after the GROW update (PIPE=1 register input)
   wire [E*TB-1:0] support_n;
+  assign grown = (PIPE != 0) ? grown_r : grown_c;
   genvar e, v, k, j, c;
   generate
     for (e = 0; e < E; e = e + 1) begin : g_edge
@@ -87,8 +96,10 @@ module qsx_uf_core #(
         assign inc = {1'b0, active[EU]} + {1'b0, active[EV]};
       end
       wire [TB:0] sum = {1'b0, s} + {{(TB-1){1'b0}}, inc};
-      assign grown[e] = (s == t);
-      assign support_n[e*TB +: TB] = (sum >= {1'b0, t}) ? t : sum[TB-1:0];
+      assign grown_c[e] = (s == t);
+      wire [TB-1:0] sn = (sum >= {1'b0, t}) ? t : sum[TB-1:0];
+      assign support_n[e*TB +: TB] = sn;
+      assign grown_n[e] = (sn == t);
     end
   endgenerate
 
@@ -242,6 +253,9 @@ module qsx_uf_core #(
         S_IDLE: if (start) begin
           defect  <= defect_in;
           support <= {E*TB{1'b0}};
+          for (i = 0; i < E; i = i + 1) grown_r[i] <= (thr_in[i*TB +: TB] == {TB{1'b0}});
+          lfirst  <= 1'b1;
+          lchg    <= 1'b1;
           for (i = 0; i < V; i = i + 1) label[i*VB +: VB] <= i[VB-1:0];
           cycles  <= {CB{1'b0}};
           rounds  <= {RB{1'b0}};
@@ -251,12 +265,15 @@ module qsx_uf_core #(
           state   <= S_LABEL;
         end
         S_LABEL: begin
-          label <= label_n;
-          if (label_n == label) begin
+          label  <= label_n;
+          lchg   <= (label_n != label);
+          lfirst <= 1'b0;
+          if ((PIPE == 0) ? (label_n == label) : (!lfirst && !lchg)) begin
             state   <= S_PAR;
             idx     <= {IB{1'b0}};
             par_acc <= {V{1'b0}};
             bnd_acc <= {V{1'b0}};
+            lfirst  <= 1'b1;
           end
         end
         S_PAR: begin
@@ -287,16 +304,20 @@ module qsx_uf_core #(
         end
         S_GROW: begin
           support <= support_n;
+          grown_r <= grown_n;
           rounds  <= rounds + 1'b1;
           state   <= S_LABEL;
         end
         S_DINIT: begin
-          dst  <= dst_init;
+          dst    <= dst_init;
+          lfirst <= 1'b1;
           state <= S_DIST;
         end
         S_DIST: begin
-          dst <= dst_n;
-          if (dst_n == dst) state <= S_PEH;
+          dst    <= dst_n;
+          lchg   <= (dst_n != dst);
+          lfirst <= 1'b0;
+          if ((PIPE == 0) ? (dst_n == dst) : (!lfirst && !lchg)) state <= S_PEH;
         end
         S_PEH: begin
           peh   <= peh_n;

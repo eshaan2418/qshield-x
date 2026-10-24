@@ -47,15 +47,16 @@ def prepare_graph(d: int, weights: str = "q5") -> tuple[Path, Path, int]:
     return gp, inc, tb
 
 
-def build_sim(kind: str, d: int, lanes: int, inc: Path, tbits: int) -> Path:
-    mdir = B / "sim" / f"{kind}_d{d}_L{lanes}"
+def build_sim(kind: str, d: int, lanes: int, inc: Path, tbits: int, pipe: int = 0) -> Path:
+    mdir = B / "sim" / (f"{kind}_d{d}_L{lanes}" + ("" if pipe == 0 else f"_P{pipe}"))
     exe = mdir / f"{kind}_tb"
     srcs = RTL if kind == "top" else RTL[:2]
     stamp = max(os.path.getmtime(ROOT / s) for s in srcs + [f"tb/{kind}_tb.cpp", "decoders/src/decoder.cpp"])
     if exe.exists() and os.path.getmtime(exe) > max(stamp, os.path.getmtime(inc / "qsx_graph_tables.svh")):
         return exe
     sh(["verilator", "--cc", "--exe", "--build", "-j", "8", "-O3", "--x-assign", "fast", "--x-initial", "fast",
-        f"-I{inc}", "--Mdir", str(mdir), f"-GLANES={lanes}", *srcs, "--top-module", f"qsx_{'top' if kind == 'top' else 'uf_core'}",
+        f"-I{inc}", "--Mdir", str(mdir), f"-GLANES={lanes}", f"-GPIPE={pipe}", *srcs,
+        "--top-module", f"qsx_{'top' if kind == 'top' else 'uf_core'}",
         f"tb/{kind}_tb.cpp", str(ROOT / "decoders/src/decoder.cpp"),
         "-CFLAGS", f"-std=c++17 -O2 -I{ROOT}/decoders/include -DQSX_TB={tbits}", "-o", f"{kind}_tb"])
     return exe
@@ -86,6 +87,7 @@ def main() -> None:
     ap.add_argument("--stim", type=int, default=100_000)
     ap.add_argument("--chunks", type=int, default=16)
     ap.add_argument("--lanes", type=int, default=8)
+    ap.add_argument("--pipe", type=int, default=0)
     ap.add_argument("--lanes-sweep", default="1,4,16,32")
     ap.add_argument("--sweep-random", type=int, default=20_000)
     ap.add_argument("--top-random", type=int, default=50_000)
@@ -99,32 +101,33 @@ def main() -> None:
     summary = []
     for d in map(int, a.distances.split(",")):
         gp, inc, tbits = prepare_graph(d)
-        core = build_sim("core", d, a.lanes, inc, tbits)
-        top = build_sim("top", d, a.lanes, inc, tbits)
-        sweep_exes = {L: build_sim("core", d, L, inc, tbits) for L in map(int, a.lanes_sweep.split(",")) if L}
+        core = build_sim("core", d, a.lanes, inc, tbits, a.pipe)
+        top = build_sim("top", d, a.lanes, inc, tbits, a.pipe)
+        sweep_exes = {L: build_sim("core", d, L, inc, tbits, a.pipe) for L in map(int, a.lanes_sweep.split(",")) if L}
         tasks = []
         per = a.random // a.chunks
         for c in range(a.chunks):
-            tasks.append(("core-random", [str(core), "--graph", str(gp), "--lanes", str(a.lanes),
+            tasks.append(("core-random", [str(core), "--graph", str(gp), "--lanes", str(a.lanes), "--pipe", str(a.pipe),
                                           "--random", str(per if c < a.chunks - 1 else a.random - per * c),
                                           "--seed", str(a.seed + 100 * d + c)]))
         sper = a.stim // a.chunks
         for c in range(a.chunks):
             n = sper if c < a.chunks - 1 else a.stim - sper * c
             f = stim_file(d, n, a.seed + 7000 + 100 * d + 10 * c, f"core{c}")
-            tasks.append(("core-stim", [str(core), "--graph", str(gp), "--lanes", str(a.lanes), "--stim", str(f)]))
+            tasks.append(("core-stim", [str(core), "--graph", str(gp), "--lanes", str(a.lanes), "--pipe", str(a.pipe),
+                                        "--stim", str(f)]))
         for L, exe in sweep_exes.items():
-            tasks.append((f"core-random-L{L}", [str(exe), "--graph", str(gp), "--lanes", str(L), "--random",
-                                                str(a.sweep_random), "--seed", str(a.seed + 31 * L + d)]))
+            tasks.append((f"core-random-L{L}", [str(exe), "--graph", str(gp), "--lanes", str(L), "--pipe", str(a.pipe),
+                                                "--random", str(a.sweep_random), "--seed", str(a.seed + 31 * L + d)]))
         tchunks = max(1, a.chunks // 4)
         for c in range(tchunks):
-            tasks.append(("top-random-stress", [str(top), "--graph", str(gp), "--lanes", str(a.lanes), "--random",
-                                                str(a.top_random // tchunks), "--seed", str(a.seed + 9000 + c),
-                                                "--gap", "0.2", "--bp", "0.3", "--malformed", "0.02",
-                                                "--reconfig", "1"]))
+            base = [str(top), "--graph", str(gp), "--lanes", str(a.lanes), "--pipe", str(a.pipe)]
+            tasks.append(("top-random-stress", base + [
+                "--random", str(a.top_random // tchunks), "--seed", str(a.seed + 9000 + c),
+                "--gap", "0.2", "--bp", "0.3", "--malformed", "0.02", "--reconfig", "1"]))
             f = stim_file(d, a.top_stim // tchunks, a.seed + 11000 + 100 * d + c, f"top{c}")
-            tasks.append(("top-stim-stress", [str(top), "--graph", str(gp), "--lanes", str(a.lanes), "--stim", str(f),
-                                              "--gap", "0.1", "--bp", "0.2", "--seed", str(a.seed + 12000 + c)]))
+            tasks.append(("top-stim-stress", base + [
+                "--stim", str(f), "--gap", "0.1", "--bp", "0.2", "--seed", str(a.seed + 12000 + c)]))
 
         def run(t):
             kind, cmd = t
@@ -149,7 +152,8 @@ def main() -> None:
         for g in agg.values():
             print(json.dumps(g))
             summary.append(g)
-        write_result(out / f"cosim_d{d}.json", {"chunks": rs, "aggregate": list(agg.values())},
+        name = f"cosim_d{d}.json" if a.pipe == 0 else f"cosim_d{d}_pipe{a.pipe}.json"
+        write_result(out / name, {"chunks": rs, "aggregate": list(agg.values())},
                      {**vars(a), "d": d, "graph": str(gp.relative_to(ROOT))}, a.seed,
                      extra_tools={"verilator": sh(["verilator", "--version"]).strip()})
     total_mm = sum(g["mismatches"] for g in summary)

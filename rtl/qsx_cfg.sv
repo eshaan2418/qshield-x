@@ -8,6 +8,8 @@
 // raises cfg_open (the dispatcher starts no decode while open). COMMIT sets cfg_valid only if *every*
 // THR word was written during the session; otherwise cfg_valid=0 and frames are answered CFG_INVALID.
 // Writes are accepted (cfg_ready) only while the core is idle, so thresholds never change mid-decode.
+// A threshold of 0 is outside the decoder semantics (DECISIONS D1: thr in [1, 2^TB-1]); a session that
+// writes any zero threshold (or a value that does not fit in TB bits) commits as invalid.
 `default_nettype none
 `include "qsx_graph_defs.svh"
 module qsx_cfg #(
@@ -28,15 +30,25 @@ module qsx_cfg #(
   output reg                       cfg_open,
   output reg                       cfg_ok,
   output reg                       cfg_err      // sticky: write outside a session or bad address
+`ifdef FORMAL
+  , output wire [(`QSX_E+7)/8-1:0] f_written
+  , output wire f_bad_thr
+`endif
 );
   localparam int E  = `QSX_E;
   localparam int TB = `QSX_TB;
+  localparam [3:0] TMAX = 4'((1 << TB) - 1);
   localparam int NW = (E + 7) / 8;
+  reg [NW-1:0] written;
+  reg          bad_thr;
   /* verilator lint_off UNUSEDPARAM */
   `include "qsx_graph_tables.svh"
   /* verilator lint_on UNUSEDPARAM */
 
-  reg [NW-1:0] written;
+`ifdef FORMAL
+  assign f_written = written;
+  assign f_bad_thr = bad_thr;
+`endif
   assign cfg_ready = !core_busy;
   wire wr = cfg_valid && cfg_ready;
   wire is_thr = (cfg_addr[11:8] == 4'h1) && ({24'd0, cfg_addr[7:0]} < NW);
@@ -51,15 +63,17 @@ module qsx_cfg #(
       cfg_ok       <= 1'b1;
       cfg_err      <= 1'b0;
       written      <= {NW{1'b0}};
+      bad_thr      <= 1'b0;
     end else if (wr) begin
       if (cfg_addr == 12'h000) begin
         if (cfg_wdata[1:0] == 2'd1) begin
           cfg_open <= 1'b1;
           cfg_ok   <= 1'b0;
           written  <= {NW{1'b0}};
+          bad_thr  <= 1'b0;
         end else if (cfg_wdata[1:0] == 2'd2 && cfg_open) begin
           cfg_open <= 1'b0;
-          cfg_ok   <= &written;
+          cfg_ok   <= (&written) && !bad_thr;
         end else cfg_err <= 1'b1;
       end else if (!cfg_open) begin
         cfg_err <= 1'b1;
@@ -72,6 +86,10 @@ module qsx_cfg #(
           if ({24'd0, cfg_addr[7:0]} == i / 8) thr[i*TB +: TB] <= cfg_wdata[(i % 8)*4 +: TB];
         for (i = 0; i < NW; i = i + 1)
           if ({24'd0, cfg_addr[7:0]} == i) written[i] <= 1'b1;
+        for (i = 0; i < 8; i = i + 1)
+          if ({24'd0, cfg_addr[7:0]} * 8 + i < E &&
+              (cfg_wdata[i*4 +: 4] == 4'd0 || cfg_wdata[i*4 +: 4] > TMAX))
+            bad_thr <= 1'b1;
       end else cfg_err <= 1'b1;
     end
   end

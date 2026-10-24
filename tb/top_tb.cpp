@@ -41,7 +41,7 @@ struct Expect {
 int main(int argc, char** argv) {
   Verilated::commandArgs(argc, argv);
   std::string graph, stim, json;
-  int lanes = 8, reconfig = 0, latency_mode = 0;
+  int lanes = 8, reconfig = 0, latency_mode = 0, pipe = 0;
   long nrand = 0;
   double gap = 0.0, bp = 0.0, malformed = 0.0;
   unsigned long long seed = 1;
@@ -49,6 +49,7 @@ int main(int argc, char** argv) {
     std::string k = argv[i], v = argv[i + 1];
     if (k == "--graph") graph = v;
     else if (k == "--lanes") lanes = std::atoi(v.c_str());
+    else if (k == "--pipe") pipe = std::atoi(v.c_str());
     else if (k == "--random") nrand = std::atol(v.c_str());
     else if (k == "--stim") stim = v;
     else if (k == "--seed") seed = std::strtoull(v.c_str(), nullptr, 10);
@@ -63,7 +64,7 @@ int main(int argc, char** argv) {
   Graph gu = gq;  // unweighted variant for reconfiguration
   std::fill(gu.thr.begin(), gu.thr.end(), 2);
   const int W = (gq.V + 31) / 32, CW = (gq.E + 31) / 32;
-  HwModel mq(gq, HwParams{lanes, 255, 0}), mu(gu, HwParams{lanes, 255, 0});
+  HwModel mq(gq, HwParams{lanes, 255, 0, pipe}), mu(gu, HwParams{lanes, 255, 0, pipe});
   HwModel* model = &mq;
   bool cfg_valid_state = true;
 
@@ -296,11 +297,11 @@ int main(int argc, char** argv) {
   mean /= std::max<size_t>(1, lat.size());
   char buf[1024];
   std::snprintf(buf, sizeof buf,
-                "{\"graph\":\"%s\",\"lanes\":%d,\"frames\":%zu,\"random\":%ld,\"stim\":%ld,\"seed\":%llu,"
+                "{\"graph\":\"%s\",\"pipe\":%d,\"lanes\":%d,\"frames\":%zu,\"random\":%ld,\"stim\":%ld,\"seed\":%llu,"
                 "\"checked\":%ld,\"mismatches\":%ld,\"malformed\":%ld,\"cfg_invalid\":%ld,\"reconf_frames\":%ld,"
                 "\"status_counts\":[%ld,%ld,%ld,%ld,%ld,%ld],\"cycles\":%llu,\"gap\":%.3f,\"bp\":%.3f,"
                 "\"latency_cycles\":{\"n\":%zu,\"mean\":%.2f,\"p50\":%.0f,\"p99\":%.0f,\"p999\":%.0f,\"max\":%.0f}}",
-                graph.c_str(), lanes, N, nrand, nstim, seed, checked, mism, n_mal, n_cfg_invalid, n_reconf_frames,
+                graph.c_str(), pipe, lanes, N, nrand, nstim, seed, checked, mism, n_mal, n_cfg_invalid, n_reconf_frames,
                 counts[0], counts[1], counts[2], counts[3], counts[4], counts[5], (unsigned long long)cyc, gap, bp,
                 lat.size(), mean, q(0.5), q(0.99), q(0.999), lat.empty() ? 0.0 : lat.back());
   std::printf("%s\n", buf);

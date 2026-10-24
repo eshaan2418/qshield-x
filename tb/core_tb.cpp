@@ -45,7 +45,7 @@ struct Stats {
 int main(int argc, char** argv) {
   Verilated::commandArgs(argc, argv);
   std::string graph, stim, json;
-  int lanes = 8, max_rounds = 255;
+  int lanes = 8, max_rounds = 255, pipe = 0;
   long nrand = 0;
   unsigned long budget = 0;
   unsigned long long seed = 1;
@@ -53,6 +53,7 @@ int main(int argc, char** argv) {
     std::string k = argv[i], v = argv[i + 1];
     if (k == "--graph") graph = v;
     else if (k == "--lanes") lanes = std::atoi(v.c_str());
+    else if (k == "--pipe") pipe = std::atoi(v.c_str());
     else if (k == "--random") nrand = std::atol(v.c_str());
     else if (k == "--seed") seed = std::strtoull(v.c_str(), nullptr, 10);
     else if (k == "--stim") stim = v;
@@ -61,7 +62,7 @@ int main(int argc, char** argv) {
     else if (k == "--json") json = v;
   }
   Graph g = Graph::load(graph);
-  HwModel model(g, HwParams{lanes, max_rounds, static_cast<uint32_t>(budget)});
+  HwModel model(g, HwParams{lanes, max_rounds, static_cast<uint32_t>(budget), pipe});
   auto* top = new Vqsx_uf_core;
   for (int e = 0; e < g.E; e++)
     for (int b = 0; b < QSX_TB; b++) set_bit(top->thr_in, e * QSX_TB + b, (g.thr[e] >> b) & 1);
@@ -139,9 +140,9 @@ int main(int argc, char** argv) {
   }
   char buf[512];
   std::snprintf(buf, sizeof buf,
-                "{\"graph\":\"%s\",\"lanes\":%d,\"random\":%ld,\"stim\":%ld,\"seed\":%llu,\"mismatches\":%ld,"
+                "{\"graph\":\"%s\",\"pipe\":%d,\"lanes\":%d,\"random\":%ld,\"stim\":%ld,\"seed\":%llu,\"mismatches\":%ld,"
                 "\"ok\":%ld,\"timeout\":%ld,\"watchdog\":%ld,\"parity\":%ld,\"mean_cycles\":%.3f,\"max_cycles\":%llu}",
-                graph.c_str(), lanes, nrand, nstim, seed, st.mismatches, st.ok, st.timeout, st.watchdog, st.parity,
+                graph.c_str(), pipe, lanes, nrand, nstim, seed, st.mismatches, st.ok, st.timeout, st.watchdog, st.parity,
                 st.n ? (double)st.cycles_sum / st.n : 0.0, st.cycles_max);
   std::printf("%s\n", buf);
   if (!json.empty()) std::ofstream(json) << buf << "\n";

@@ -22,12 +22,18 @@ module qsx_ingress #(
   output reg  [31:0] rd_data,         // registered: data for rd_beat of the head frame, 1 cycle later
   input  wire        rd_pop,          // release head frame slot
   output wire [$clog2(NBUF):0] count
+`ifdef FORMAL
+  , output wire f_partial              // a frame has started but is not yet committed
+  , output wire f_hdr_next             // next accepted beat is a frame header
+  , output wire [NBUF*16-1:0] f_slot_tag  // header tag stored in each slot
+  , output wire [((NBUF <= 1) ? 1 : $clog2(NBUF))-1:0] f_rslot
+`endif
 );
   localparam int BB = $clog2(W+1);          // beat index bits
   localparam int SW = 1 << BB;              // slot stride
   localparam int NB = (NBUF <= 1) ? 1 : $clog2(NBUF);
 
-  reg [31:0] mem [0:NBUF*SW-1];
+  (* ram_style = "block" *) reg [31:0] mem [0:NBUF*SW-1];
   reg [NB-1:0] wslot, rslot;
   reg [NB:0]   cnt;
   reg [BB-1:0] wbeat;
@@ -83,16 +89,24 @@ module qsx_ingress #(
   end
 
 `ifdef FORMAL
+  assign f_partial = (wbeat != {BB{1'b0}}) && !drop;
+  assign f_hdr_next = (wbeat == {BB{1'b0}}) && !drop;
+  assign f_rslot = rslot;
+  genvar fs;
+  generate for (fs = 0; fs < NBUF; fs = fs + 1) begin : g_ftag
+    assign f_slot_tag[fs*16 +: 16] = mem[fs*SW][15:0];
+  end endgenerate
   // ---- properties (see formal/README.md); checked with SymbiYosys
-  reg f_past;
-  initial f_past = 1'b0;
-  always @(posedge clk) f_past <= 1'b1;
-  always @(*) if (f_past && rst_n) assert (cnt <= NBUF[NB:0]);
+  // Checked whenever reset is deasserted; the formal environment applies reset in cycle 0.
+  always @(*) if (rst_n) assert (cnt <= NBUF[NB:0]);
   // No silent overwrite: while the ring is full, no beat is written to memory.
   always @(*) if (rst_n && full && !drop) assert (!acc);
   // Occupancy matches pointer distance.
   always @(*) if (rst_n) assert (cnt[NB-1:0] == NB'(wslot - rslot));
   always @(*) if (rst_n && cnt == {(NB+1){1'b0}}) assert (wslot == rslot);
+  // Framing state: the beat counter is idle while dropping and never exceeds the frame length.
+  always @(*) if (rst_n) assert (!drop || wbeat == {BB{1'b0}});
+  always @(*) if (rst_n) assert (wbeat <= BB'(W));
 `endif
 endmodule
 `default_nettype wire
