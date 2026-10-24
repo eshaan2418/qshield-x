@@ -1,0 +1,11 @@
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = [".tools", ".venv", "v8", "wasm/node_modules", "build", "formal/sva/*_*/"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "UP"]
+ignore = ["E731", "B008", "B905", "E741", "B019"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
