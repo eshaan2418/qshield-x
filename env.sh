@@ -6,3 +6,5 @@ if [ -f "$QSX_ROOT/.tools/emsdk/emsdk_env.sh" ]; then
   EMSDK_QUIET=1 . "$QSX_ROOT/.tools/emsdk/emsdk_env.sh" >/dev/null 2>&1
 fi
 export TLA2TOOLS="$QSX_ROOT/.tools/tla2tools.jar"
+# emsdk's node must win over version-manager shims
+if [ -n "$EMSDK_NODE" ]; then export PATH="$(dirname "$EMSDK_NODE"):$PATH"; fi

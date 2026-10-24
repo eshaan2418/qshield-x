@@ -1,0 +1,15 @@
+cmake==4.4.4
+cocotb==2.1.0
+cryptography==50.0.2
+matplotlib==3.11.2
+ninja==1.13.2
+numpy==2.5.4
+pybind11==3.1.0
+PyMatching==2.4.0
+pytest==9.1.1
+ruff==0.17.1
+scipy==1.18.1
+sinter==1.16.0
+stim==1.16.0
+torch==2.14.1
+z3-solver==5.1.0.0
