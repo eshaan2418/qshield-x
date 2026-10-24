@@ -45,7 +45,9 @@
       print: () => {}, printErr: () => {},
     });
     out.instantiate_ms = instMs;
-    const enc = new TextEncoder().encode(env.graphText + '\0');
+    // Graph files are ASCII; d8 has no TextEncoder.
+    const enc = new Uint8Array(env.graphText.length + 1);
+    for (let i = 0; i < env.graphText.length; i++) enc[i] = env.graphText.charCodeAt(i) & 0x7f;
     const gp = M._qsx_malloc(enc.length);
     M.HEAPU8.set(enc, gp);
     const V = M._qsx_init(gp);
@@ -109,6 +111,9 @@
                          variant: variant === undefined ? 2 : Number(variant)});
     (isD8 ? print : console.log)(JSON.stringify(r));
   }
-  if (isD8 && typeof arguments !== 'undefined' && arguments.length) cli(Array.from(arguments));
-  else if (isNode && require.main === module) cli(process.argv.slice(2));
+  // d8 exposes script arguments as the global `arguments` (inside this function `arguments` would be its own).
+  const fail = (e) => { (isD8 ? print : console.error)(String(e && e.stack || e)); if (isD8) quit(1); else process.exit(1); };
+  const d8args = isD8 ? globalThis.arguments : undefined;
+  if (isD8 && d8args && d8args.length) cli(Array.from(d8args)).catch(fail);
+  else if (isNode && require.main === module) cli(process.argv.slice(2)).catch(fail);
 })();
