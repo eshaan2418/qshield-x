@@ -389,3 +389,164 @@ const DecodeResult& FastDecoder::decode(const int* defects, int n) {
 }
 
 }  // namespace qsx
+
+// ---------------------------------------------------------------------------------------------
+// Cycle-exact transaction model of the RTL core.
+// ---------------------------------------------------------------------------------------------
+namespace qsx {
+
+HwModel::HwModel(const Graph& g, HwParams p) : g_(g), p_(p) {
+  nch_ = (g.V + p.lanes - 1) / p.lanes;
+}
+
+HwResult HwModel::decode(const uint8_t* defect) {
+  const Graph& g = g_;
+  const int V = g.V, E = g.E;
+  const int INF = 1 << 30;
+  HwResult r;
+  support_.assign(E, 0);
+  label_.resize(V);
+  for (int v = 0; v < V; v++) label_[v] = v;
+  active_.assign(V, 0);
+  vbnd_.assign(V, 0);
+  auto grown = [&](int e) { return support_[e] == g.thr[e]; };
+  auto bgrown = [&](int v) { return g.bedge[v] >= 0 && grown(g.bedge[v]); };
+  uint64_t cyc = 0;
+  for (;;) {
+    // S_LABEL: synchronous min-label propagation until a no-change cycle
+    for (;;) {
+      label_n_ = label_;
+      for (int v = 0; v < V; v++)
+        for (int k = g.adj_off[v]; k < g.adj_off[v + 1]; k++) {
+          int e = g.adj_e[k], w = g.adj_w[k];
+          if (w < V && grown(e)) label_n_[v] = std::min(label_n_[v], label_[w]);
+        }
+      cyc++;
+      r.label_iters++;
+      bool ch = label_n_ != label_;
+      label_.swap(label_n_);
+      if (!ch) break;
+    }
+    // S_PAR, S_ACT: NCH cycles each
+    par_.assign(V, 0);
+    bnd_.assign(V, 0);
+    for (int v = 0; v < V; v++) {
+      par_[label_[v]] ^= defect[v];
+      if (bgrown(v)) bnd_[label_[v]] = 1;
+    }
+    bool any = false;
+    for (int v = 0; v < V; v++) {
+      active_[v] = par_[label_[v]] && !bnd_[label_[v]];
+      vbnd_[v] = bnd_[label_[v]];
+      any |= active_[v];
+    }
+    cyc += 2 * nch_;
+    cyc += 1;  // S_CHK
+    if (!any) break;
+    if (r.rounds == p_.max_rounds) {
+      r.status = TIMEOUT;
+      break;
+    }
+    for (int e = 0; e < E; e++) {  // S_GROW
+      int inc = active_[g.eu[e]] + (g.ev[e] < V ? active_[g.ev[e]] : 0);
+      support_[e] = static_cast<uint8_t>(std::min<int>(g.thr[e], support_[e] + inc));
+    }
+    cyc += 1;
+    r.rounds++;
+  }
+  if (r.status == OK) {
+    // S_DINIT
+    dist_.assign(V, INF);
+    for (int v = 0; v < V; v++) {
+      if (vbnd_[v]) {
+        if (bgrown(v)) dist_[v] = 1;
+      } else if (label_[v] == v) {
+        dist_[v] = 0;
+      }
+    }
+    cyc += 1;
+    // S_DIST
+    for (;;) {
+      dist_n_ = dist_;
+      for (int v = 0; v < V; v++)
+        for (int k = g.adj_off[v]; k < g.adj_off[v + 1]; k++) {
+          int e = g.adj_e[k], w = g.adj_w[k];
+          if (w < V && grown(e) && dist_[w] != INF) dist_n_[v] = std::min(dist_n_[v], dist_[w] + 1);
+        }
+      cyc++;
+      r.dist_iters++;
+      bool ch = dist_n_ != dist_;
+      dist_.swap(dist_n_);
+      if (!ch) break;
+    }
+    // S_PEH
+    pe_.assign(V, -1);
+    for (int v = 0; v < V; v++) {
+      if (dist_[v] == 0 || dist_[v] == INF) continue;
+      if (bgrown(v)) {
+        pe_[v] = g.bedge[v];
+        continue;
+      }
+      for (int k = g.adj_off[v]; k < g.adj_off[v + 1]; k++) {
+        int e = g.adj_e[k], w = g.adj_w[k];
+        if (w < V && grown(e) && dist_[w] == dist_[v] - 1) {
+          pe_[v] = e;
+          break;
+        }
+      }
+    }
+    cyc += 1;
+    // S_PEEL: self-timed; a vertex fires once all its children are done.
+    done_.assign(V, 0);
+    corr_.assign(E, 0);
+    int ndone = 0;
+    std::vector<int> fire;
+    while (ndone < V) {
+      fire.clear();
+      for (int v = 0; v < V; v++) {
+        if (done_[v]) continue;
+        bool ready = true;
+        for (int k = g.adj_off[v]; k < g.adj_off[v + 1] && ready; k++) {
+          int e = g.adj_e[k], w = g.adj_w[k];
+          if (w < V && pe_[w] == e && !done_[w]) ready = false;
+        }
+        if (ready) fire.push_back(v);
+      }
+      cyc++;
+      r.peel_iters++;
+      if (fire.empty()) {  // unreachable for well-formed state; watchdog will catch it in RTL
+        r.status = WATCHDOG;
+        break;
+      }
+      for (int v : fire) {
+        uint8_t acc = defect[v];
+        for (int k = g.adj_off[v]; k < g.adj_off[v + 1]; k++) {
+          int e = g.adj_e[k], w = g.adj_w[k];
+          if (w < V && pe_[w] == e) acc ^= corr_[e];
+        }
+        if (pe_[v] >= 0) corr_[pe_[v]] = acc;
+        else if (acc) r.status = PARITY_ERROR;
+      }
+      for (int v : fire) done_[v] = 1;
+      ndone += static_cast<int>(fire.size());
+    }
+    if (r.status == OK)
+      for (int e = 0; e < E; e++)
+        if (corr_[e]) {
+          r.corr.push_back(e);
+          r.obs ^= g.obs[e];
+        }
+  }
+  r.cycles = cyc;
+  if (p_.cycle_budget && cyc > p_.cycle_budget) {
+    r.status = WATCHDOG;
+    r.cycles = p_.cycle_budget;
+  }
+  if (r.status != OK) {
+    r.corr.clear();
+    r.obs = 0;
+  }
+  return r;
+}
+
+}  // namespace qsx

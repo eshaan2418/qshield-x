@@ -35,6 +35,8 @@ static void run_graph(const std::string& path, int shots, uint64_t seed) {
   const double dens[] = {0.0, 0.002, 0.01, 0.03, 0.1, 0.3, 0.5, 0.9};
   std::vector<uint8_t> defect(g.V);
   int ok = 0;
+  HwModel hw1(g, HwParams{1, 255, 0}), hw8(g, HwParams{8, 255, 0});
+  uint64_t cyc_sum = 0;
   for (int i = 0; i < shots; i++) {
     double p = dens[i % 8];
     std::bernoulli_distribution b(p);
@@ -48,6 +50,21 @@ static void run_graph(const std::string& path, int shots, uint64_t seed) {
     if (a.status == OK) {
       CHECK(valid_correction(g, defect, a));
       ok++;
+    }
+    HwResult h = hw8.decode(defect.data());
+    CHECK(h.status == a.status);
+    CHECK(h.rounds == a.rounds);
+    if (a.status == OK) CHECK(h.corr == a.corr && h.obs == a.obs);
+    HwResult h1 = hw1.decode(defect.data());
+    CHECK(h1.corr == h.corr);
+    CHECK(h1.cycles - h.cycles == static_cast<uint64_t>(2 * (h.rounds + 1) * (hw1.nch() - hw8.nch())));
+    cyc_sum += h.cycles;
+    // watchdog: a budget one below the need must abort, an exact budget must not
+    if (i % 97 == 0 && h.cycles > 1) {
+      HwModel tight(g, HwParams{8, 255, static_cast<uint32_t>(h.cycles - 1)});
+      CHECK(tight.decode(defect.data()).status == WATCHDOG);
+      HwModel exact(g, HwParams{8, 255, static_cast<uint32_t>(h.cycles)});
+      CHECK(exact.decode(defect.data()).status == h.status);
     }
   }
   // directed: empty, single defect at every vertex, all defects
@@ -68,7 +85,8 @@ static void run_graph(const std::string& path, int shots, uint64_t seed) {
   defect[0] = 1;
   CHECK(ref0.decode(defect.data()).status == TIMEOUT);
   CHECK(fast0.decode_dense(defect.data()).status == TIMEOUT);
-  std::printf("%s: V=%d E=%d shots=%d ok=%d failures=%d\n", path.c_str(), g.V, g.E, shots, ok, failures);
+  std::printf("%s: V=%d E=%d shots=%d ok=%d mean_hw_cycles(P=8)=%.1f failures=%d\n", path.c_str(), g.V, g.E, shots, ok,
+              static_cast<double>(cyc_sum) / shots, failures);
 }
 
 int main(int argc, char** argv) {

@@ -12,7 +12,7 @@
 
 namespace qsx {
 
-enum Status : uint8_t { OK = 0, TIMEOUT = 1, PARITY_ERROR = 2 };
+enum Status : uint8_t { OK = 0, TIMEOUT = 1, PARITY_ERROR = 2, WATCHDOG = 3, FRAME_ERROR = 4, CFG_INVALID = 5 };
 
 struct Graph {
   int V = 0;  // detectors; vertex index V is the virtual boundary
@@ -73,6 +73,37 @@ class FastDecoder {
   // scratch
   std::vector<int> act_, act2_, grown_, order_, dense_scratch_;
   DecodeResult res_;
+};
+
+// Transaction-level, cycle-exact model of rtl/qsx_uf_core.sv (see rtl/README.md for the FSM).
+// Produces the same correction as ReferenceDecoder (tested) plus the exact number of busy cycles.
+struct HwParams {
+  int lanes = 8;              // P: vertices processed per cycle in the parity/activity scans
+  int max_rounds = 255;
+  uint32_t cycle_budget = 0;  // watchdog; 0 = disabled
+};
+
+struct HwResult {
+  Status status = OK;
+  uint64_t obs = 0;
+  int rounds = 0;
+  std::vector<int> corr;      // empty unless status == OK
+  uint64_t cycles = 0;        // busy cycles from start to DONE (exclusive)
+  int label_iters = 0, dist_iters = 0, peel_iters = 0;
+};
+
+class HwModel {
+ public:
+  HwModel(const Graph& g, HwParams p);
+  HwResult decode(const uint8_t* defect);
+  int nch() const { return nch_; }
+
+ private:
+  const Graph& g_;
+  HwParams p_;
+  int nch_;
+  std::vector<uint8_t> support_, active_, vbnd_, par_, bnd_, done_, corr_;
+  std::vector<int> label_, label_n_, dist_, dist_n_, pe_;
 };
 
 // Pack/unpack a correction list into an E-bit little-endian bitmap of 32-bit words.
