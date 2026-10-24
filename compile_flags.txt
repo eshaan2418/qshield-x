@@ -1,0 +1,7 @@
+-std=c++17
+-Idecoders/include
+-I../decoders/include
+-I../../decoders/include
+-I/Users/eshaan.kapooswalla/.local/share/mise/installs/python/3.12.14/include/python3.12
+-I/Users/eshaan.kapooswalla/.local/share/mise/installs/python/3.12/include/python3.12
+-I/Users/eshaan.kapooswalla/QShield-X/.venv/lib/python3.12/site-packages/pybind11/include
