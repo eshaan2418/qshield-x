@@ -26,7 +26,7 @@ def _write(path: Path, key, cert) -> None:
 
 def make_ca(path: Path, cn: str = "qsx-ca"):
     key = ec.generate_private_key(ec.SECP256R1())
-    now = dt.datetime.now(dt.timezone.utc)
+    now = dt.datetime.now(dt.UTC)
     cert = (x509.CertificateBuilder().subject_name(_name(cn)).issuer_name(_name(cn)).public_key(key.public_key())
             .serial_number(x509.random_serial_number()).not_valid_before(now - dt.timedelta(minutes=1))
             .not_valid_after(now + dt.timedelta(days=30))
@@ -41,7 +41,7 @@ def make_ca(path: Path, cn: str = "qsx-ca"):
 
 def make_leaf(path: Path, ca_key, ca_cert, cn: str, server: bool):
     key = ec.generate_private_key(ec.SECP256R1())
-    now = dt.datetime.now(dt.timezone.utc)
+    now = dt.datetime.now(dt.UTC)
     b = (x509.CertificateBuilder().subject_name(_name(cn)).issuer_name(ca_cert.subject).public_key(key.public_key())
          .serial_number(x509.random_serial_number()).not_valid_before(now - dt.timedelta(minutes=1))
          .not_valid_after(now + dt.timedelta(days=7))
