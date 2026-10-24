@@ -1,0 +1,4 @@
+step {"fixed-UF": [0.00877, 0], "fixed-PM": [0.00773, 0], "adaptive-UF": [0.00924, 64], "adaptive-hybrid": [0.00784, 64], "oracle-UF": [0.00924, 0], "oracle-PM": [0.00774, 0]} recovery {'windows': 1, 'shots': 2000}
+readout {"fixed-UF": [0.00658, 0], "fixed-PM": [0.0058, 0], "adaptive-UF": [0.00649, 35], "adaptive-hybrid": [0.00565, 35], "oracle-UF": [0.00649, 0], "oracle-PM": [0.00544, 0]} recovery {'windows': 1, 'shots': 2000}
+drift {"fixed-UF": [0.01065, 0], "fixed-PM": [0.00933, 0], "adaptive-UF": [0.011, 86], "adaptive-hybrid": [0.00987, 86], "oracle-UF": [0.01103, 0], "oracle-PM": [0.00941, 0]} recovery None
+burst {"fixed-UF": [0.00419, 0], "fixed-PM": [0.00356, 0], "adaptive-UF": [0.0043, 69], "adaptive-hybrid": [0.00416, 69], "oracle-UF": [0.00419, 0], "oracle-PM": [0.00351, 0]} recovery None

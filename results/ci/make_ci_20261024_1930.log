@@ -1,0 +1,283 @@
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && ruff check .
+All checks passed!
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && for d in 3 5; do \
+	  /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python sim/qsx_graph.py --d $d --p 0.001 --weights q5 --out build/graphs/d${d}_q5.qsxg >/dev/null && \
+	  /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python rtl/gen_graph.py --graph build/graphs/d${d}_q5.qsxg --out build/rtl/d${d}_q5 >/dev/null && \
+	  verilator --lint-only -Wall -Ibuild/rtl/d${d}_q5 rtl/qsx_min_tree.sv rtl/qsx_uf_core.sv rtl/qsx_ingress.sv rtl/qsx_cfg.sv rtl/qsx_top.sv --top-module qsx_top || exit 1; done
+- V e r i l a t i o n   R e p o r t: Verilator 5.053 devel rev v5.052-567-g0041d207c (mod)
+- Verilator: Built from 0.181 MB sources in 7 modules, into 1.605 MB in 6 C++ files needing 0.000 MB
+- Verilator: Walltime 0.086 s (elab=0.020, cvt=0.055, bld=0.000); cpu 0.086 s on 1 threads; allocated 46.797 MB
+- V e r i l a t i o n   R e p o r t: Verilator 5.053 devel rev v5.052-567-g0041d207c (mod)
+- Verilator: Built from 0.239 MB sources in 7 modules, into 10.400 MB in 14 C++ files needing 0.000 MB
+- Verilator: Walltime 0.819 s (elab=0.154, cvt=0.610, bld=0.000); cpu 0.818 s on 1 threads; allocated 238.344 MB
+QSX_SHOTS=2000 build/test_decoder build/graphs/d3.qsxg build/graphs/d5.qsxg build/graphs/d7.qsxg build/graphs/d9.qsxg
+build/graphs/d3.qsxg: V=24 E=78 shots=2000 ok=2000 mean_hw_cycles(P=8)=27.3 failures=0
+build/graphs/d5.qsxg: V=120 E=502 shots=2000 ok=2000 mean_hw_cycles(P=8)=111.2 failures=0
+build/graphs/d7.qsxg: V=336 E=1558 shots=2000 ok=2000 mean_hw_cycles(P=8)=337.4 failures=0
+build/graphs/d9.qsxg: V=720 E=3534 shots=2000 ok=2000 mean_hw_cycles(P=8)=813.1 failures=0
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && PYTHONPATH=/Users/eshaan.kapooswalla/QShield-X pytest -q tests
+............                                                             [100%]
+12 passed in 1.80s
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python tb/run_cosim.py --distances 3,5 --random 20000 --stim 4000 --chunks 4 --sweep-random 2000 \
+	  --top-random 2000 --top-stim 2000 --out build/cosim_quick
+{"d": 3, "kind": "core-random", "syndromes": 20000, "mismatches": 0, "chunks": 4, "ok": 20000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 80}
+{"d": 3, "kind": "core-stim", "syndromes": 4000, "mismatches": 0, "chunks": 4, "ok": 4000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 68}
+{"d": 3, "kind": "core-random-L1", "syndromes": 2000, "mismatches": 0, "chunks": 1, "ok": 2000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 328}
+{"d": 3, "kind": "core-random-L4", "syndromes": 2000, "mismatches": 0, "chunks": 1, "ok": 2000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 113}
+{"d": 3, "kind": "core-random-L16", "syndromes": 2000, "mismatches": 0, "chunks": 1, "ok": 2000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 65}
+{"d": 3, "kind": "core-random-L32", "syndromes": 2000, "mismatches": 0, "chunks": 1, "ok": 2000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 58}
+{"d": 3, "kind": "top-random-stress", "syndromes": 2000, "mismatches": 0, "chunks": 1, "malformed": 37, "cfg_invalid": 48, "reconf_frames": 437}
+{"d": 3, "kind": "top-stim-stress", "syndromes": 2000, "mismatches": 0, "chunks": 1, "malformed": 0, "cfg_invalid": 0, "reconf_frames": 0}
+{"d": 5, "kind": "core-random", "syndromes": 20000, "mismatches": 0, "chunks": 4, "ok": 20000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 384}
+{"d": 5, "kind": "core-stim", "syndromes": 4000, "mismatches": 0, "chunks": 4, "ok": 4000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 364}
+{"d": 5, "kind": "core-random-L1", "syndromes": 2000, "mismatches": 0, "chunks": 1, "ok": 2000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 2477}
+{"d": 5, "kind": "core-random-L4", "syndromes": 2000, "mismatches": 0, "chunks": 1, "ok": 2000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 670}
+{"d": 5, "kind": "core-random-L16", "syndromes": 2000, "mismatches": 0, "chunks": 1, "ok": 2000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 236}
+{"d": 5, "kind": "core-random-L32", "syndromes": 2000, "mismatches": 0, "chunks": 1, "ok": 2000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 158}
+{"d": 5, "kind": "top-random-stress", "syndromes": 2000, "mismatches": 0, "chunks": 1, "malformed": 29, "cfg_invalid": 48, "reconf_frames": 446}
+{"d": 5, "kind": "top-stim-stress", "syndromes": 2000, "mismatches": 0, "chunks": 1, "malformed": 0, "cfg_invalid": 0, "reconf_frames": 0}
+TOTAL MISMATCHES 0
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && cd formal/sva && sby -f ingress.sby && sby -f top.sby stub_prove
+SBY 19:31:18 [ingress_prove_w2_n4] Removing directory '/Users/eshaan.kapooswalla/QShield-X/formal/sva/ingress_prove_w2_n4'.
+SBY 19:31:18 [ingress_prove_w2_n4] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_ingress.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/ingress_prove_w2_n4/src/qsx_ingress.sv'.
+SBY 19:31:18 [ingress_prove_w2_n4] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/ingress_formal.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/ingress_prove_w2_n4/src/ingress_formal.sv'.
+SBY 19:31:18 [ingress_prove_w2_n4] engine_0: smtbmc bitwuzla
+SBY 19:31:18 [ingress_prove_w4_n2] Removing directory '/Users/eshaan.kapooswalla/QShield-X/formal/sva/ingress_prove_w4_n2'.
+SBY 19:31:18 [ingress_prove_w4_n2] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_ingress.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/ingress_prove_w4_n2/src/qsx_ingress.sv'.
+SBY 19:31:18 [ingress_prove_w4_n2] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/ingress_formal.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/ingress_prove_w4_n2/src/ingress_formal.sv'.
+SBY 19:31:18 [ingress_prove_w4_n2] engine_0: smtbmc bitwuzla
+SBY 19:31:18 [ingress_prove_w2_n4] base: starting process "cd ingress_prove_w2_n4/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 19:31:18 [ingress_prove_w4_n2] base: starting process "cd ingress_prove_w4_n2/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 19:31:19 [ingress_prove_w2_n4] base: finished (returncode=0)
+SBY 19:31:19 [ingress_prove_w2_n4] prep: starting process "cd ingress_prove_w2_n4/model; yosys -ql design_prep.log design_prep.ys"
+SBY 19:31:19 [ingress_prove_w2_n4] prep: finished (returncode=0)
+SBY 19:31:19 [ingress_prove_w2_n4] smt2: starting process "cd ingress_prove_w2_n4/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 19:31:19 [ingress_prove_w4_n2] base: finished (returncode=0)
+SBY 19:31:19 [ingress_prove_w4_n2] prep: starting process "cd ingress_prove_w4_n2/model; yosys -ql design_prep.log design_prep.ys"
+SBY 19:31:19 [ingress_prove_w2_n4] smt2: finished (returncode=0)
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: starting process "cd ingress_prove_w2_n4; yosys-smtbmc -s bitwuzla --presat --unroll --noprogress -t 24  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 19:31:19 [ingress_prove_w4_n2] prep: finished (returncode=0)
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.induction: starting process "cd ingress_prove_w2_n4; yosys-smtbmc -s bitwuzla --presat --unroll -i --noprogress -t 24  --append 0 --dump-vcd engine_0/trace_induct.vcd --dump-yw engine_0/trace_induct.yw --dump-vlogtb engine_0/trace_induct_tb.v --dump-smtc engine_0/trace_induct.smtc model/design_smt2.smt2"
+SBY 19:31:19 [ingress_prove_w4_n2] smt2: starting process "cd ingress_prove_w4_n2/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 19:31:19 [ingress_prove_w4_n2] smt2: finished (returncode=0)
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: starting process "cd ingress_prove_w4_n2; yosys-smtbmc -s bitwuzla --presat --unroll --noprogress -t 24  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Solver: bitwuzla
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.induction: ##   0:00:00  Solver: bitwuzla
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.induction: starting process "cd ingress_prove_w4_n2; yosys-smtbmc -s bitwuzla --presat --unroll -i --noprogress -t 24  --append 0 --dump-vcd engine_0/trace_induct.vcd --dump-yw engine_0/trace_induct.yw --dump-vlogtb engine_0/trace_induct_tb.v --dump-smtc engine_0/trace_induct.smtc model/design_smt2.smt2"
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Solver: bitwuzla
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.induction: ##   0:00:00  Solver: bitwuzla
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 0..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 0..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.induction: ##   0:00:00  Trying induction in step 24..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.induction: ##   0:00:00  Trying induction in step 24..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.induction: ##   0:00:00  Trying induction in step 23..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 0..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.induction: ##   0:00:00  Temporal induction successful.
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.induction: ##   0:00:00  Status: passed
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 1..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 0..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 1..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 2..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 1..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 1..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 2..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.induction: finished (returncode=0)
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.induction: Status returned by engine for induction: pass
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 2..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 3..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 2..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 3..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 3..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 4..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 3..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 4..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 4..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 5..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.induction: ##   0:00:00  Trying induction in step 23..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 4..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.induction: ##   0:00:00  Temporal induction successful.
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 5..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.induction: ##   0:00:00  Status: passed
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 5..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 6..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 5..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 6..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.induction: finished (returncode=0)
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.induction: Status returned by engine for induction: pass
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 6..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 7..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 6..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 7..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 8..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 7..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 8..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 7..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 9..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 8..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 9..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 8..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 10..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 9..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 10..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 9..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 11..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 10..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 11..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 10..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 12..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 11..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 12..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 11..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 13..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 12..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 13..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 12..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 14..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 13..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 14..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 13..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 15..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 14..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 15..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 14..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 16..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 15..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 16..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 15..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 17..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 16..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 17..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 16..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 18..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 17..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 18..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 17..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 19..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 18..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 19..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 18..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 20..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 20..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 19..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 21..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 19..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 21..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 22..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 22..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assumptions in step 23..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 20..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Checking assertions in step 23..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 20..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: ##   0:00:00  Status: passed
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 21..
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: finished (returncode=0)
+SBY 19:31:19 [ingress_prove_w4_n2] engine_0.basecase: Status returned by engine for basecase: pass
+SBY 19:31:19 [ingress_prove_w4_n2] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 19:31:19 [ingress_prove_w4_n2] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 19:31:19 [ingress_prove_w4_n2] summary: engine_0 (smtbmc bitwuzla) returned pass for basecase
+SBY 19:31:19 [ingress_prove_w4_n2] summary: engine_0 (smtbmc bitwuzla) returned pass for induction
+SBY 19:31:19 [ingress_prove_w4_n2] summary: engine_0 did not produce any traces
+SBY 19:31:19 [ingress_prove_w4_n2] summary: successful proof by k-induction.
+SBY 19:31:19 [ingress_prove_w4_n2] DONE (PASS, rc=0)
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 21..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 22..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 22..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assumptions in step 23..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Checking assertions in step 23..
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: ##   0:00:00  Status: passed
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: finished (returncode=0)
+SBY 19:31:19 [ingress_prove_w2_n4] engine_0.basecase: Status returned by engine for basecase: pass
+SBY 19:31:19 [ingress_prove_w2_n4] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 19:31:19 [ingress_prove_w2_n4] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 19:31:19 [ingress_prove_w2_n4] summary: engine_0 (smtbmc bitwuzla) returned pass for basecase
+SBY 19:31:19 [ingress_prove_w2_n4] summary: engine_0 (smtbmc bitwuzla) returned pass for induction
+SBY 19:31:19 [ingress_prove_w2_n4] summary: engine_0 did not produce any traces
+SBY 19:31:19 [ingress_prove_w2_n4] summary: successful proof by k-induction.
+SBY 19:31:19 [ingress_prove_w2_n4] DONE (PASS, rc=0)
+SBY 19:31:19 [top_stub_prove] Removing directory '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_stub_prove'.
+SBY 19:31:19 [top_stub_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_stub.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_stub_prove/src/core_stub.sv'.
+SBY 19:31:19 [top_stub_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_formal.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_stub_prove/src/top_formal.sv'.
+SBY 19:31:19 [top_stub_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_uf_core.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_stub_prove/src/qsx_uf_core.sv'.
+SBY 19:31:19 [top_stub_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_min_tree.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_stub_prove/src/qsx_min_tree.sv'.
+SBY 19:31:19 [top_stub_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_ingress.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_stub_prove/src/qsx_ingress.sv'.
+SBY 19:31:19 [top_stub_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_cfg.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_stub_prove/src/qsx_cfg.sv'.
+SBY 19:31:19 [top_stub_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_top.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_stub_prove/src/qsx_top.sv'.
+SBY 19:31:19 [top_stub_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../build/rtl/d3_q5/qsx_graph_defs.svh' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_stub_prove/src/qsx_graph_defs.svh'.
+SBY 19:31:19 [top_stub_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../build/rtl/d3_q5/qsx_graph_tables.svh' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_stub_prove/src/qsx_graph_tables.svh'.
+SBY 19:31:19 [top_stub_prove] engine_0: smtbmc bitwuzla
+SBY 19:31:19 [top_stub_prove] base: starting process "cd top_stub_prove/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 19:31:20 [top_stub_prove] base: finished (returncode=0)
+SBY 19:31:20 [top_stub_prove] prep: starting process "cd top_stub_prove/model; yosys -ql design_prep.log design_prep.ys"
+SBY 19:31:20 [top_stub_prove] prep: finished (returncode=0)
+SBY 19:31:20 [top_stub_prove] smt2: starting process "cd top_stub_prove/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 19:31:20 [top_stub_prove] smt2: finished (returncode=0)
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: starting process "cd top_stub_prove; yosys-smtbmc -s bitwuzla --presat --unroll --noprogress -t 20  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 19:31:20 [top_stub_prove] engine_0.induction: starting process "cd top_stub_prove; yosys-smtbmc -s bitwuzla --presat --unroll -i --noprogress -t 20  --append 0 --dump-vcd engine_0/trace_induct.vcd --dump-yw engine_0/trace_induct.yw --dump-vlogtb engine_0/trace_induct_tb.v --dump-smtc engine_0/trace_induct.smtc model/design_smt2.smt2"
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Solver: bitwuzla
+SBY 19:31:20 [top_stub_prove] engine_0.induction: ##   0:00:00  Solver: bitwuzla
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 0..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 0..
+SBY 19:31:20 [top_stub_prove] engine_0.induction: ##   0:00:00  Trying induction in step 20..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 1..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 1..
+SBY 19:31:20 [top_stub_prove] engine_0.induction: ##   0:00:00  Trying induction in step 19..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 2..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 2..
+SBY 19:31:20 [top_stub_prove] engine_0.induction: ##   0:00:00  Trying induction in step 18..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 3..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 3..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 4..
+SBY 19:31:20 [top_stub_prove] engine_0.induction: ##   0:00:00  Trying induction in step 17..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 4..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 5..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 5..
+SBY 19:31:20 [top_stub_prove] engine_0.induction: ##   0:00:00  Trying induction in step 16..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 6..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 6..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 7..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 7..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 8..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 8..
+SBY 19:31:20 [top_stub_prove] engine_0.induction: ##   0:00:00  Trying induction in step 15..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 9..
+SBY 19:31:20 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 9..
+SBY 19:31:21 [top_stub_prove] engine_0.induction: ##   0:00:00  Temporal induction successful.
+SBY 19:31:21 [top_stub_prove] engine_0.induction: ##   0:00:00  Status: passed
+SBY 19:31:21 [top_stub_prove] engine_0.induction: finished (returncode=0)
+SBY 19:31:21 [top_stub_prove] engine_0.induction: Status returned by engine for induction: pass
+SBY 19:31:21 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 10..
+SBY 19:31:21 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 10..
+SBY 19:31:21 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 11..
+SBY 19:31:21 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 11..
+SBY 19:31:21 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 12..
+SBY 19:31:21 [top_stub_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 12..
+SBY 19:31:21 [top_stub_prove] engine_0.basecase: ##   0:00:01  Checking assumptions in step 13..
+SBY 19:31:21 [top_stub_prove] engine_0.basecase: ##   0:00:01  Checking assertions in step 13..
+SBY 19:31:21 [top_stub_prove] engine_0.basecase: ##   0:00:01  Checking assumptions in step 14..
+SBY 19:31:21 [top_stub_prove] engine_0.basecase: ##   0:00:01  Checking assertions in step 14..
+SBY 19:31:22 [top_stub_prove] engine_0.basecase: ##   0:00:01  Checking assumptions in step 15..
+SBY 19:31:22 [top_stub_prove] engine_0.basecase: ##   0:00:01  Checking assertions in step 15..
+SBY 19:31:22 [top_stub_prove] engine_0.basecase: ##   0:00:02  Checking assumptions in step 16..
+SBY 19:31:22 [top_stub_prove] engine_0.basecase: ##   0:00:02  Checking assertions in step 16..
+SBY 19:31:22 [top_stub_prove] engine_0.basecase: ##   0:00:02  Checking assumptions in step 17..
+SBY 19:31:22 [top_stub_prove] engine_0.basecase: ##   0:00:02  Checking assertions in step 17..
+SBY 19:31:23 [top_stub_prove] engine_0.basecase: ##   0:00:02  Checking assumptions in step 18..
+SBY 19:31:23 [top_stub_prove] engine_0.basecase: ##   0:00:02  Checking assertions in step 18..
+SBY 19:31:23 [top_stub_prove] engine_0.basecase: ##   0:00:03  Checking assumptions in step 19..
+SBY 19:31:23 [top_stub_prove] engine_0.basecase: ##   0:00:03  Checking assertions in step 19..
+SBY 19:31:23 [top_stub_prove] engine_0.basecase: ##   0:00:03  Status: passed
+SBY 19:31:23 [top_stub_prove] engine_0.basecase: finished (returncode=0)
+SBY 19:31:23 [top_stub_prove] engine_0.basecase: Status returned by engine for basecase: pass
+SBY 19:31:23 [top_stub_prove] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:03 (3)
+SBY 19:31:23 [top_stub_prove] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:04 (4)
+SBY 19:31:23 [top_stub_prove] summary: engine_0 (smtbmc bitwuzla) returned pass for basecase
+SBY 19:31:23 [top_stub_prove] summary: engine_0 (smtbmc bitwuzla) returned pass for induction
+SBY 19:31:23 [top_stub_prove] summary: engine_0 did not produce any traces
+SBY 19:31:23 [top_stub_prove] summary: successful proof by k-induction.
+SBY 19:31:23 [top_stub_prove] DONE (PASS, rc=0)
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && cd formal/tla && java -XX:+UseParallelGC -cp $TLA2TOOLS tlc2.TLC -workers 8 -deadlock \
+	  -metadir /Users/eshaan.kapooswalla/QShield-X/build/tlc/quick -config MC_main.cfg QSXProtocol.tla | tail -3
+The depth of the complete state graph search is 25.
+The average outdegree of the complete state graph is 1 (minimum is 0, the maximum 7 and the 95th percentile is 2).
+Finished in 09s at (2026-10-24 19:31:34)
+make ci  297.15s user 39.08s system 363% cpu 1:32.55 total
