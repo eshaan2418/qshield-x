@@ -1,0 +1,89 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "199cd90bd6873d1545a09275d870aed6c6e9cd7b",
+   "dirty": false
+  },
+  "timestamp_utc": "2026-10-24T16:56:24+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)"
+  },
+  "seed": 20264031,
+  "config": {
+   "d": 3,
+   "p": 0.008,
+   "weights": [
+    "unweighted",
+    "q5"
+   ],
+   "max_shots": 4000000,
+   "target_errors": 300,
+   "chunk": 100000,
+   "noise": "stim rotated_memory_z uniform circuit-level depolarizing (DECISIONS D2)"
+  }
+ },
+ "data": {
+  "d": 3,
+  "p": 0.008,
+  "rounds": 3,
+  "shots": 100000,
+  "decoders": {
+   "pymatching": {
+    "errors": 3930,
+    "pl": 0.0393,
+    "ci95": [
+     0.038104068050403596,
+     0.040522746314001275
+    ],
+    "pl_per_round": 0.013459040828796565,
+    "ci95_per_round": [
+     0.013038400419002838,
+     0.01388986585250046
+    ]
+   },
+   "qsxuf-unweighted": {
+    "errors": 4853,
+    "pl": 0.04853,
+    "ci95": [
+     0.04720627370577361,
+     0.04987998971225863
+    ],
+    "pl_per_round": 0.0167302237093091,
+    "ci95_per_round": [
+     0.016258363118948294,
+     0.01721239719345763
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 1.2652
+   },
+   "qsxuf-q5": {
+    "errors": 4244,
+    "pl": 0.04244,
+    "ci95": [
+     0.041198836970884216,
+     0.04370778938575785
+    ],
+    "pl_per_round": 0.014566936560958477,
+    "ci95_per_round": [
+     0.014128409289299815,
+     0.015015690940822335
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 2.6859
+   }
+  }
+ }
+}

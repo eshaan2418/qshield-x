@@ -1,0 +1,225 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "199cd90bd6873d1545a09275d870aed6c6e9cd7b",
+   "dirty": false
+  },
+  "timestamp_utc": "2026-10-24T16:56:18+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)"
+  },
+  "seed": 20266025,
+  "config": {
+   "d": 5,
+   "p": 0.006,
+   "weights": [
+    "unweighted",
+    "q1",
+    "q2",
+    "q3",
+    "q4",
+    "q5",
+    "q6",
+    "q5m15",
+    "q6m15",
+    "q8m15"
+   ],
+   "max_shots": 200000,
+   "target_errors": 300,
+   "chunk": 100000,
+   "noise": "stim rotated_memory_z uniform circuit-level depolarizing (DECISIONS D2)"
+  }
+ },
+ "data": {
+  "d": 5,
+  "p": 0.006,
+  "rounds": 5,
+  "shots": 100000,
+  "decoders": {
+   "pymatching": {
+    "errors": 2291,
+    "pl": 0.02291,
+    "ci95": [
+     0.021991540584252536,
+     0.023856272947907924
+    ],
+    "pl_per_round": 0.00466836437152951,
+    "ci95_per_round": [
+     0.004477795682142405,
+     0.00486501122558769
+    ]
+   },
+   "qsxuf-unweighted": {
+    "errors": 3274,
+    "pl": 0.03274,
+    "ci95": [
+     0.03164561087468323,
+     0.03386159893370792
+    ],
+    "pl_per_round": 0.006726568381454245,
+    "ci95_per_round": [
+     0.0064957212973034695,
+     0.006963604262498702
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 1.8844
+   },
+   "qsxuf-q1": {
+    "errors": 7304,
+    "pl": 0.07304,
+    "ci95": [
+     0.07143467960246153,
+     0.07467013662613226
+    ],
+    "pl_per_round": 0.015545001268021441,
+    "ci95_per_round": [
+     0.015181248930738855,
+     0.015915498121245097
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 1.0049
+   },
+   "qsxuf-q2": {
+    "errors": 4264,
+    "pl": 0.04264,
+    "ci95": [
+     0.041396021377764956,
+     0.04391059302637338
+    ],
+    "pl_per_round": 0.008834742675486396,
+    "ci95_per_round": [
+     0.008567847705419684,
+     0.009107947941556838
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 1.3309
+   },
+   "qsxuf-q3": {
+    "errors": 3619,
+    "pl": 0.03619,
+    "ci95": [
+     0.035040922916673954,
+     0.03736607840908515
+    ],
+    "pl_per_round": 0.00745714312630591,
+    "ci95_per_round": [
+     0.007213332224583369,
+     0.007707184071381101
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 2.2664
+   },
+   "qsxuf-q4": {
+    "errors": 2849,
+    "pl": 0.02849,
+    "ci95": [
+     0.02746755245149092,
+     0.029539916223025035
+    ],
+    "pl_per_round": 0.0058324938989915975,
+    "ci95_per_round": [
+     0.005618363691339501,
+     0.006052763762862123
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 3.0051
+   },
+   "qsxuf-q5": {
+    "errors": 2840,
+    "pl": 0.0284,
+    "ci95": [
+     0.027379137376283037,
+     0.02944833680988152
+    ],
+    "pl_per_round": 0.005813630383797452,
+    "ci95_per_round": [
+     0.005599864424812195,
+     0.006033534979042299
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 3.6065
+   },
+   "qsxuf-q6": {
+    "errors": 2845,
+    "pl": 0.02845,
+    "ci95": [
+     0.02742825652524345,
+     0.029499214598722793
+    ],
+    "pl_per_round": 0.00582410975887826,
+    "ci95_per_round": [
+     0.005610141382702882,
+     0.006044217337848434
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 4.2866
+   },
+   "qsxuf-q5m15": {
+    "errors": 2840,
+    "pl": 0.0284,
+    "ci95": [
+     0.027379137376283037,
+     0.02944833680988152
+    ],
+    "pl_per_round": 0.005813630383797452,
+    "ci95_per_round": [
+     0.005599864424812195,
+     0.006033534979042299
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 3.6065
+   },
+   "qsxuf-q6m15": {
+    "errors": 2848,
+    "pl": 0.02848,
+    "ci95": [
+     0.027457728419408144,
+     0.029529740867444774
+    ],
+    "pl_per_round": 0.005830397810620447,
+    "ci95_per_round": [
+     0.005616308052327934,
+     0.006050627111759188
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 4.2942
+   },
+   "qsxuf-q8m15": {
+    "errors": 2781,
+    "pl": 0.02781,
+    "ci95": [
+     0.026799595843683705,
+     0.028847914509433182
+    ],
+    "pl_per_round": 0.005690040833809529,
+    "ci95_per_round": [
+     0.005478674270119832,
+     0.005907539369250092
+    ],
+    "timeouts": 0,
+    "parity_errors": 0,
+    "mean_growth_rounds": 5.8765
+   }
+  }
+ }
+}
