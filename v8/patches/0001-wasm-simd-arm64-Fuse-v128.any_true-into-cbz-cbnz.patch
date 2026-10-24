@@ -1,0 +1,356 @@
+From 3937cf41cd38ef080e57497a4704ad1ea5c5987d Mon Sep 17 00:00:00 2001
+From: Eshaan Kapooswalla <eshaank@my.yorku.ca>
+Date: Sat, 24 Oct 2026 19:43:14 -0400
+Subject: [PATCH] [wasm-simd][arm64] Fuse v128.any_true into cbz/cbnz
+
+When the result of v128.any_true is only consumed by a branch, a
+deoptimization check or a select, the instruction selector used to emit
+kArm64V128AnyTrue, which materializes a boolean:
+
+  umaxp v30.4s, v0.4s, v0.4s
+  fmov  x1, d30
+  cmp   x1, #0x0
+  cset  w1, ne
+  cbnz  w1, <target>
+
+The pairwise maximum moved to x1 is already non-zero iff any bit of the
+input is set, so the compare/set pair is redundant. This CL adds
+kArm64V128AnyTrueRaw (umaxp + fmov only) and matches a covered
+Simd128TestOp::kV128AnyTrue in VisitWordCompareZero, emitting
+
+  umaxp v30.4s, v0.4s, v0.4s
+  fmov  x1, d30
+  cbnz  x1, <target>
+
+for branches and deopts, and tst x1, x1 + the flags consumer otherwise.
+i32.eqz(v128.any_true(x)) is covered by the existing ConsumeEqualZero
+inversion. Values with other uses keep the materializing lowering.
+
+This pattern is the inner test of zero-block skipping loops (e.g. sparse
+bitmap scanning, as in a quantum error-correction syndrome unpacker):
+on an Apple M5 Pro, a 64 KiB scan with mostly zero blocks runs faster;
+see the measurements in the review thread.
+
+Tests: unittests TurboshaftInstructionSelectorTest.V128AnyTrue*,
+mjsunit/wasm/simd-any-true-branch.js (all 128 single-bit inputs, zero
+vector; br_if, br_if(eqz), if/else, select, multi-use; before and after
+tier-up).
+
+Bug: none
+Change-Id: Ib92d2c5f75e674388ba495ae4bd25ed265d1daa8
+---
+ .../backend/arm64/code-generator-arm64.cc     |  10 ++
+ .../backend/arm64/instruction-codes-arm64.h   |   1 +
+ .../arm64/instruction-scheduler-arm64.cc      |   6 +
+ .../arm64/instruction-selector-arm64.cc       |  14 ++
+ test/mjsunit/wasm/simd-any-true-branch.js     | 137 ++++++++++++++++++
+ ...aft-instruction-selector-arm64-unittest.cc |  60 ++++++++
+ 6 files changed, 228 insertions(+)
+ create mode 100644 test/mjsunit/wasm/simd-any-true-branch.js
+
+diff --git a/src/compiler/backend/arm64/code-generator-arm64.cc b/src/compiler/backend/arm64/code-generator-arm64.cc
+index 45bad40d..7134e430 100644
+--- a/src/compiler/backend/arm64/code-generator-arm64.cc
++++ b/src/compiler/backend/arm64/code-generator-arm64.cc
+@@ -3824,6 +3824,16 @@ CodeGenerator::CodeGenResult CodeGenerator::AssembleArchInstruction(
+       __ Cset(i.OutputRegister32(), ne);
+       break;
+     }
++    case kArm64V128AnyTrueRaw: {
++      // Like kArm64V128AnyTrue, but leaves the 64-bit pairwise maximum in the
++      // output (non-zero iff any input bit is set) for a fused cbz/cbnz.
++      UseScratchRegisterScope scope(masm());
++      VRegister temp = scope.AcquireV(kFormat4S);
++      __ Umaxp(temp, i.InputSimd128Register(0).V4S(),
++               i.InputSimd128Register(0).V4S());
++      __ Fmov(i.OutputRegister64(), temp.D());
++      break;
++    }
+     case kArm64S128MoveReg: {
+       Simd128Register dst = i.OutputSimd128Register().V16B(),
+                       src = i.InputSimd128Register(0).V16B();
+diff --git a/src/compiler/backend/arm64/instruction-codes-arm64.h b/src/compiler/backend/arm64/instruction-codes-arm64.h
+index e965b629..35aacc6c 100644
+--- a/src/compiler/backend/arm64/instruction-codes-arm64.h
++++ b/src/compiler/backend/arm64/instruction-codes-arm64.h
+@@ -101,6 +101,7 @@ namespace compiler {
+   V(Arm64S128MoveLane)                  \
+   V(Arm64S128MoveReg)                   \
+   V(Arm64V128AnyTrue)                   \
++  V(Arm64V128AnyTrueRaw)                \
+   V(Arm64AllTrue)                       \
+   V(Arm64Sqxtn)                         \
+   V(Arm64Sqxtn2)                        \
+diff --git a/src/compiler/backend/arm64/instruction-scheduler-arm64.cc b/src/compiler/backend/arm64/instruction-scheduler-arm64.cc
+index d446e2b8..8d0f8495 100644
+--- a/src/compiler/backend/arm64/instruction-scheduler-arm64.cc
++++ b/src/compiler/backend/arm64/instruction-scheduler-arm64.cc
+@@ -145,6 +145,7 @@ ArchInstResource InstructionScheduler::GetInstructionResource(
+     case kArm64S128MoveLane:
+     case kArm64S128MoveReg:
+     case kArm64V128AnyTrue:
++    case kArm64V128AnyTrueRaw:
+     case kArm64AllTrue:
+     case kArm64Sqxtn:
+     case kArm64Sqxtn2:
+@@ -736,6 +737,7 @@ int InstructionScheduler::GetTargetInstructionFlags(
+     case kArm64S128Extract:
+     case kArm64S128ExtractNarrow:
+     case kArm64V128AnyTrue:
++    case kArm64V128AnyTrueRaw:
+     case kArm64AllTrue:
+     case kArm64RoundingAverageU:
+     case kArm64IAdd:
+@@ -1149,6 +1151,10 @@ int InstructionScheduler::GetInstructionLatency(const Instruction* instr) {
+     case kArm64AllTrue:
+       return kSimdBooleanReductionLatency;
+ 
++    // Reduction and scalar move only; the consumer compares and branches.
++    case kArm64V128AnyTrueRaw:
++      return kSimdReductionLatency;
++
+     case kArm64F16x8SConvertI16x8:
+     case kArm64F16x8UConvertI16x8:
+     case kArm64I16x8UConvertF16x8:
+diff --git a/src/compiler/backend/arm64/instruction-selector-arm64.cc b/src/compiler/backend/arm64/instruction-selector-arm64.cc
+index ad354c3f..05601cb6 100644
+--- a/src/compiler/backend/arm64/instruction-selector-arm64.cc
++++ b/src/compiler/backend/arm64/instruction-selector-arm64.cc
+@@ -4411,6 +4411,20 @@ void InstructionSelector::VisitWordCompareZero(OpIndex user, OpIndex value,
+     } else if (value_op.Is<StackPointerGreaterThanOp>()) {
+       cont->OverwriteAndNegateIfEqual(kStackPointerGreaterThanCondition);
+       return VisitStackPointerGreaterThan(value, cont);
++#if V8_ENABLE_WEBASSEMBLY
++    } else if (const Simd128TestOp* test = value_op.TryCast<Simd128TestOp>();
++               test && test->kind == Simd128TestOp::Kind::kV128AnyTrue) {
++      // Branch on the raw horizontal maximum instead of materializing the
++      // boolean with cmp + cset and then testing it again.
++      InstructionOperand raw = g.TempRegister();
++      Emit(kArm64V128AnyTrueRaw, raw, g.UseRegister(test->input()));
++      if (cont->IsBranch() || cont->IsDeoptimize()) {
++        EmitWithContinuation(kArm64CompareAndBranch, raw, cont);
++      } else {
++        VisitCompare(this, cont->Encode(kArm64Tst), raw, raw, cont);
++      }
++      return;
++#endif  // V8_ENABLE_WEBASSEMBLY
+     }
+   }
+ 
+diff --git a/test/mjsunit/wasm/simd-any-true-branch.js b/test/mjsunit/wasm/simd-any-true-branch.js
+new file mode 100644
+index 00000000..44840223
+--- /dev/null
++++ b/test/mjsunit/wasm/simd-any-true-branch.js
+@@ -0,0 +1,137 @@
++// Copyright 2026 the V8 project authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++// Flags: --allow-natives-syntax
++
++// v128.any_true consumed directly by br_if / if / select / i32.eqz must give
++// the same result as the materialized boolean, for every single set bit (so a
++// fused test that only inspected part of the reduced value would fail) and for
++// the all-zero vector. Each function is checked before and after tier-up.
++
++d8.file.execute('test/mjsunit/wasm/wasm-module-builder.js');
++
++const builder = new WasmModuleBuilder();
++builder.addMemory(1, 1);
++builder.exportMemoryAs('mem');
++
++const kLoad = [kExprLocalGet, 0, kSimdPrefix, kExprS128LoadMem, 0, 0];
++const kAnyTrue = [kSimdPrefix, kExprV128AnyTrue];
++
++// br_if on any_true: 1 if any bit is set, else 0.
++builder.addFunction('br_if', kSig_i_i).addBody([
++  kExprBlock, kWasmVoid,
++    ...kLoad, ...kAnyTrue,
++    kExprBrIf, 0,
++    kExprI32Const, 0,
++    kExprReturn,
++  kExprEnd,
++  kExprI32Const, 1,
++]).exportFunc();
++
++// br_if on i32.eqz(any_true): inverted condition.
++builder.addFunction('br_if_eqz', kSig_i_i).addBody([
++  kExprBlock, kWasmVoid,
++    ...kLoad, ...kAnyTrue, kExprI32Eqz,
++    kExprBrIf, 0,
++    kExprI32Const, 1,
++    kExprReturn,
++  kExprEnd,
++  kExprI32Const, 0,
++]).exportFunc();
++
++// if/else on any_true.
++builder.addFunction('if_else', kSig_i_i).addBody([
++  ...kLoad, ...kAnyTrue,
++  kExprIf, kWasmI32,
++    kExprI32Const, 1,
++  kExprElse,
++    kExprI32Const, 0,
++  kExprEnd,
++]).exportFunc();
++
++// select on any_true.
++builder.addFunction('select', kSig_i_i).addBody([
++  kExprI32Const, 1,
++  kExprI32Const, 0,
++  ...kLoad, ...kAnyTrue,
++  kExprSelect,
++]).exportFunc();
++
++// any_true used by both a branch and the return value (must not be fused
++// away from its second use).
++builder.addFunction('multi_use', kSig_i_i).addLocals(kWasmI32, 1).addBody([
++  ...kLoad, ...kAnyTrue, kExprLocalTee, 1,
++  kExprIf, kWasmI32,
++    kExprLocalGet, 1, kExprI32Const, 10, kExprI32Add,
++  kExprElse,
++    kExprLocalGet, 1, kExprI32Const, 20, kExprI32Add,
++  kExprEnd,
++]).exportFunc();
++
++// Zero-block skipping loop, the shape that motivated the fusion: count the
++// 16-byte blocks in [0, n*16) that contain a set bit.
++builder.addFunction('count_nonzero_blocks', kSig_i_i)
++    .addLocals(kWasmI32, 2)  // i, count
++    .addBody([
++      kExprBlock, kWasmVoid,
++        kExprLoop, kWasmVoid,
++          kExprLocalGet, 1, kExprLocalGet, 0, kExprI32GeU, kExprBrIf, 1,
++          kExprBlock, kWasmVoid,
++            kExprLocalGet, 1, kExprI32Const, 4, kExprI32Shl,
++            kSimdPrefix, kExprS128LoadMem, 0, 0,
++            ...kAnyTrue, kExprI32Eqz, kExprBrIf, 0,
++            kExprLocalGet, 2, kExprI32Const, 1, kExprI32Add, kExprLocalSet, 2,
++          kExprEnd,
++          kExprLocalGet, 1, kExprI32Const, 1, kExprI32Add, kExprLocalSet, 1,
++          kExprBr, 0,
++        kExprEnd,
++      kExprEnd,
++      kExprLocalGet, 2,
++    ]).exportFunc();
++
++const instance = builder.instantiate();
++const exports = instance.exports;
++const mem = new Uint8Array(exports.mem.buffer);
++
++function check(expected_any) {
++  assertEquals(expected_any, exports.br_if(0));
++  assertEquals(expected_any, exports.br_if_eqz(0));
++  assertEquals(expected_any, exports.if_else(0));
++  assertEquals(expected_any, exports.select(0));
++  assertEquals(expected_any ? 11 : 20, exports.multi_use(0));
++}
++
++function checkAllBits() {
++  mem.fill(0, 0, 16);
++  check(0);
++  for (let bit = 0; bit < 128; bit++) {
++    mem.fill(0, 0, 16);
++    mem[bit >> 3] = 1 << (bit & 7);
++    check(1);
++  }
++  mem.fill(0xff, 0, 16);
++  check(1);
++}
++
++function checkLoop() {
++  mem.fill(0, 0, 16 * 64);
++  assertEquals(0, exports.count_nonzero_blocks(64));
++  let expected = 0;
++  for (let blk = 0; blk < 64; blk += 3) {
++    // Rotate through all 128 bit positions, including the upper 64-bit half.
++    const bit = (blk * 37) & 127;
++    mem[blk * 16 + (bit >> 3)] |= 1 << (bit & 7);
++    expected++;
++  }
++  assertEquals(expected, exports.count_nonzero_blocks(64));
++}
++
++checkAllBits();
++checkLoop();
++for (const name of ['br_if', 'br_if_eqz', 'if_else', 'select', 'multi_use',
++                    'count_nonzero_blocks']) {
++  %WasmTierUpFunction(exports[name]);
++}
++checkAllBits();
++checkLoop();
+diff --git a/test/unittests/compiler/arm64/turboshaft-instruction-selector-arm64-unittest.cc b/test/unittests/compiler/arm64/turboshaft-instruction-selector-arm64-unittest.cc
+index d838f0eb..f951f348 100644
+--- a/test/unittests/compiler/arm64/turboshaft-instruction-selector-arm64-unittest.cc
++++ b/test/unittests/compiler/arm64/turboshaft-instruction-selector-arm64-unittest.cc
+@@ -3236,6 +3236,66 @@ INSTANTIATE_TEST_SUITE_P(TurboshaftInstructionSelectorTest,
+                                            kSIMDShiftTests[6],
+                                            kSIMDShiftTests[7]));
+ 
++TEST_F(TurboshaftInstructionSelectorTest, V128AnyTrueAndBranch) {
++  StreamBuilder m(this, MachineType::Int32(), MachineType::Simd128());
++  Block *a = m.NewBlock(), *b = m.NewBlock();
++  V<Simd128> input = m.Parameter(0);
++  m.Branch(m.Simd128Test(input, Simd128TestOp::Kind::kV128AnyTrue), a, b);
++  m.Bind(a);
++  m.Return(m.Int32Constant(1));
++  m.Bind(b);
++  m.Return(m.Int32Constant(0));
++  Stream s = m.Build();
++  ASSERT_EQ(2U, s.size());
++  EXPECT_EQ(kArm64V128AnyTrueRaw, s[0]->arch_opcode());
++  ASSERT_EQ(1U, s[0]->InputCount());
++  ASSERT_EQ(1U, s[0]->OutputCount());
++  EXPECT_EQ(s.ToVreg(input), s.ToVreg(s[0]->InputAt(0)));
++  EXPECT_EQ(kArm64CompareAndBranch, s[1]->arch_opcode());
++  EXPECT_EQ(kFlags_branch, s[1]->flags_mode());
++  EXPECT_EQ(kNotEqual, s[1]->flags_condition());
++  EXPECT_EQ(s.ToVreg(s[0]->Output()), s.ToVreg(s[1]->InputAt(0)));
++}
++
++TEST_F(TurboshaftInstructionSelectorTest, V128AnyTrueEqualZeroAndBranch) {
++  StreamBuilder m(this, MachineType::Int32(), MachineType::Simd128());
++  Block *a = m.NewBlock(), *b = m.NewBlock();
++  V<Simd128> input = m.Parameter(0);
++  m.Branch(
++      m.Word32Equal(m.Simd128Test(input, Simd128TestOp::Kind::kV128AnyTrue),
++                    m.Int32Constant(0)),
++      a, b);
++  m.Bind(a);
++  m.Return(m.Int32Constant(1));
++  m.Bind(b);
++  m.Return(m.Int32Constant(0));
++  Stream s = m.Build();
++  ASSERT_EQ(2U, s.size());
++  EXPECT_EQ(kArm64V128AnyTrueRaw, s[0]->arch_opcode());
++  EXPECT_EQ(kArm64CompareAndBranch, s[1]->arch_opcode());
++  EXPECT_EQ(kEqual, s[1]->flags_condition());
++  EXPECT_EQ(s.ToVreg(s[0]->Output()), s.ToVreg(s[1]->InputAt(0)));
++}
++
++TEST_F(TurboshaftInstructionSelectorTest, V128AnyTrueWithOtherUseNotFused) {
++  // The boolean is also returned, so it must be materialized once and the
++  // branch tests that value (no second reduction).
++  StreamBuilder m(this, MachineType::Int32(), MachineType::Simd128());
++  Block *a = m.NewBlock(), *b = m.NewBlock();
++  V<Simd128> input = m.Parameter(0);
++  V<Word32> any = m.Simd128Test(input, Simd128TestOp::Kind::kV128AnyTrue);
++  m.Branch(any, a, b);
++  m.Bind(a);
++  m.Return(any);
++  m.Bind(b);
++  m.Return(m.Int32Constant(7));
++  Stream s = m.Build();
++  ASSERT_EQ(2U, s.size());
++  EXPECT_EQ(kArm64V128AnyTrue, s[0]->arch_opcode());
++  EXPECT_EQ(kArm64CompareAndBranch32, s[1]->arch_opcode());
++  EXPECT_EQ(s.ToVreg(any), s.ToVreg(s[1]->InputAt(0)));
++}
++
+ TEST_F(TurboshaftInstructionSelectorTest, I32x4DotI8x16I7x16AddS) {
+   StreamBuilder m(this, MachineType::Simd128(), MachineType::Simd128(),
+                   MachineType::Simd128(), MachineType::Simd128());
+-- 
+2.54.0 (Apple Git-157)
+

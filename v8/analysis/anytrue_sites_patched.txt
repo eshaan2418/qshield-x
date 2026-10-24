@@ -1,0 +1,29 @@
+0x2e18fc364ab8  2a38  0b0c02b6       add w22, w21, w12
+0x2e18fc364abc  2a3c  3cf669a1       ldr q1, [x13, x22]
+0x2e18fc364ac0  2a40  6ea1a43e       umaxp v30.4s, v1.4s, v1.4s
+0x2e18fc364ac4  2a44  9e6603d7       fmov x23, d30
+0x2e18fc364ac8  2a48  b4000bf7       cbz x23, #+0x17c (addr 0x2e18fc364c44)
+0x2e18fc364acc  2a4c  4e083c37       mov x23, v1.d[0]
+0x2e18fc364ad0  2a50  b40005f7       cbz x23, #+0xbc (addr 0x2e18fc364b8c)
+0x2e18fc364ad4  2a54  531d72b8       lsl w24, w21, #3
+0x2e18fc364ad8  2a58  dac01af9       ctz x25, x23
+--
+0x2e18fc3765d8   2f8  0b0c0295       add w21, w20, w12
+0x2e18fc3765dc   2fc  3cf568c1       ldr q1, [x6, x21]
+0x2e18fc3765e0   300  6ea1a43e       umaxp v30.4s, v1.4s, v1.4s
+0x2e18fc3765e4   304  9e6603d6       fmov x22, d30
+0x2e18fc3765e8   308  b4000bf6       cbz x22, #+0x17c (addr 0x2e18fc376764)
+0x2e18fc3765ec   30c  4e083c36       mov x22, v1.d[0]
+0x2e18fc3765f0   310  b40005f6       cbz x22, #+0xbc (addr 0x2e18fc3766ac)
+0x2e18fc3765f4   314  531d7297       lsl w23, w20, #3
+0x2e18fc3765f8   318  dac01ad8       ctz x24, x22
+--
+0x2e18fc380324   324  0b0b0295       add w21, w20, w11
+0x2e18fc380328   328  3cf56881       ldr q1, [x4, x21]
+0x2e18fc38032c   32c  6ea1a43e       umaxp v30.4s, v1.4s, v1.4s
+0x2e18fc380330   330  9e6603d6       fmov x22, d30
+0x2e18fc380334   334  b4000bf6       cbz x22, #+0x17c (addr 0x2e18fc3804b0)
+0x2e18fc380338   338  4e083c36       mov x22, v1.d[0]
+0x2e18fc38033c   33c  b40005f6       cbz x22, #+0xbc (addr 0x2e18fc3803f8)
+0x2e18fc380340   340  531d7297       lsl w23, w20, #3
+0x2e18fc380344   344  dac01ad8       ctz x24, x22
