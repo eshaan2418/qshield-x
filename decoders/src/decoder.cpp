@@ -412,6 +412,7 @@ HwResult HwModel::decode(const uint8_t* defect) {
   auto grown = [&](int e) { return support_[e] == g.thr[e]; };
   auto bgrown = [&](int v) { return g.bedge[v] >= 0 && grown(g.bedge[v]); };
   uint64_t cyc = 0;
+  std::vector<uint64_t> grow_at;  // work-cycle index (1-based) of each GROW, for watchdog accounting
   for (;;) {
     // S_LABEL: synchronous min-label propagation until a no-change cycle
     for (;;) {
@@ -452,6 +453,7 @@ HwResult HwModel::decode(const uint8_t* defect) {
       support_[e] = static_cast<uint8_t>(std::min<int>(g.thr[e], support_[e] + inc));
     }
     cyc += 1;
+    grow_at.push_back(cyc);
     r.rounds++;
   }
   if (r.status == OK) {
@@ -541,6 +543,8 @@ HwResult HwModel::decode(const uint8_t* defect) {
   if (p_.cycle_budget && cyc > p_.cycle_budget) {
     r.status = WATCHDOG;
     r.cycles = p_.cycle_budget;
+    r.rounds = 0;  // rounds completed before the abort
+    for (uint64_t c : grow_at) r.rounds += c <= p_.cycle_budget;
   }
   if (r.status != OK) {
     r.corr.clear();
