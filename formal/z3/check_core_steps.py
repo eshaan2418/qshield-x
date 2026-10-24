@@ -44,7 +44,7 @@ def smin(a: str, b: str) -> str:
 
 
 def build_query(g: Graph, smt: str, step: str, tb: int, mutate: bool = False) -> str:
-    V, E = g.V, g.E
+    V = g.V
     vb, db = clog2(V + 1), clog2(V + 2)
     n = lambda name, s: f"(|qsx_uf_core_n {name}| {s})"  # noqa: E731
     lab = lambda v, s: ext(n("label", s), v * vb, vb)  # noqa: E731

@@ -1,0 +1,24 @@
+# Real QSX-UF core (d=3 graph, LANES=8): watchdog bound, invalid-result masking, done protocol.
+[tasks]
+prove
+cover
+
+[options]
+prove: mode prove
+prove: depth 12
+cover: mode cover
+cover: depth 48
+
+[engines]
+smtbmc bitwuzla
+
+[script]
+read_verilog -sv -formal -I. qsx_min_tree.sv qsx_uf_core.sv core_formal.sv
+prep -top core_formal
+
+[files]
+core_formal.sv
+../../rtl/qsx_uf_core.sv
+../../rtl/qsx_min_tree.sv
+../../build/rtl/d3_q5/qsx_graph_defs.svh
+../../build/rtl/d3_q5/qsx_graph_tables.svh

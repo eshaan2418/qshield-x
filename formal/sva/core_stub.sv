@@ -6,7 +6,7 @@
 // The stub additionally ASSERTS that thr_in never changes while busy (no reconfiguration mid-decode).
 `default_nettype none
 `include "qsx_graph_defs.svh"
-module qsx_uf_core #(parameter int LANES = 8, parameter int RB = 8, parameter int CB = 20) (
+module qsx_uf_core #(parameter int LANES = 8, parameter int PIPE = 0, parameter int RB = 8, parameter int CB = 20) (
   input  wire clk, input wire rst_n, input wire start,
   input  wire [`QSX_V-1:0] defect_in,
   input  wire [`QSX_E*`QSX_TB-1:0] thr_in,
@@ -43,6 +43,6 @@ module qsx_uf_core #(parameter int LANES = 8, parameter int RB = 8, parameter in
     endcase
   end
   always @(*) if (rst_n && st == 2'd1) assert (thr_in == thr_at_start);
-  wire unused = &{1'b0, defect_in, max_rounds, cycle_budget, LANES[0]};
+  wire unused = &{1'b0, defect_in, max_rounds, cycle_budget, LANES[0], PIPE[0]};
 endmodule
 `default_nettype wire
