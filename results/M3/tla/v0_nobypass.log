@@ -1,0 +1,144 @@
+TLC2 Version 2.19 of 08 August 2024 (rev: 5a47802)
+Running breadth-first search Model-Checking with fp 33 and seed 5354111908307979245 with 8 workers on 18 cores with 10923MB heap and 64MB offheap memory [pid: 61799] (Mac OS X 27.0.1 aarch64, Eclipse Adoptium 21.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
+Parsing file /Users/eshaan.kapooswalla/QShield-X/formal/tla/QSXProtocol.tla
+Parsing file /private/var/folders/cy/q3bj1h6x6_sbt_vkq2pc7psr0000gn/T/Naturals.tla
+Parsing file /private/var/folders/cy/q3bj1h6x6_sbt_vkq2pc7psr0000gn/T/Sequences.tla
+Parsing file /private/var/folders/cy/q3bj1h6x6_sbt_vkq2pc7psr0000gn/T/FiniteSets.tla
+Semantic processing of module Naturals
+Semantic processing of module Sequences
+Semantic processing of module FiniteSets
+Semantic processing of module QSXProtocol
+Starting... (2026-10-24 13:13:08)
+Implied-temporal checking--satisfiability problem has 5 branches.
+Computing initial states...
+Finished computing initial states: 1 distinct state generated at 2026-10-24 13:13:08.
+Checking 5 branches of temporal properties for the current state space with 101649 total distinct states at (2026-10-24 13:13:11)
+Error: Temporal properties were violated.
+
+Error: The following behavior constitutes a counter-example:
+
+State 1: <Initial predicate>
+/\ hwq = <<>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"new", "new", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 2: <HostSend line 58, col 3 to line 64, col 63 of module QSXProtocol>
+/\ hwq = <<1>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"hw", "new", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 3: <HostTimeout line 78, col 3 to line 80, col 68 of module QSXProtocol>
+/\ hwq = <<1>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"sw", "new", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 4: <HostSend line 58, col 3 to line 64, col 63 of module QSXProtocol>
+/\ hwq = <<1, 2>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"sw", "hw", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 5: <HWLose line 130, col 3 to line 132, col 70 of module QSXProtocol>
+/\ hwq = <<2>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"sw", "hw", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 6: <HWLose line 130, col 3 to line 132, col 70 of module QSXProtocol>
+/\ hwq = <<>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"sw", "hw", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 7: <SWDecode line 96, col 3 to line 98, col 68 of module QSXProtocol>
+/\ hwq = <<>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"ready_sw", "hw", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 8: <HostTimeout line 78, col 3 to line 80, col 68 of module QSXProtocol>
+/\ hwq = <<>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"ready_sw", "sw", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 9: <SWDecode line 96, col 3 to line 98, col 68 of module QSXProtocol>
+/\ hwq = <<>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"ready_sw", "ready_sw", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 10: <HostCommit line 101, col 3 to line 107, col 47 of module QSXProtocol>
+/\ hwq = <<>>
+/\ nextc = 2
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<1, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"committed", "ready_sw", "new", "new">>
+/\ src = <<"sw", "none", "none", "none">>
+/\ badok = FALSE
+
+State 11: <HostCommit line 101, col 3 to line 107, col 47 of module QSXProtocol>
+/\ hwq = <<>>
+/\ nextc = 3
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<1, 1, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"committed", "committed", "new", "new">>
+/\ src = <<"sw", "sw", "none", "none">>
+/\ badok = FALSE
+
+State 12: Stuttering
+Finished checking temporal properties in 00s at 2026-10-24 13:13:11
+68766 states generated, 20645 distinct states found, 9431 states left on queue.
+Finished in 04s at (2026-10-24 13:13:11)

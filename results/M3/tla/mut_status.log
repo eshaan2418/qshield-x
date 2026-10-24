@@ -1,0 +1,64 @@
+TLC2 Version 2.19 of 08 August 2024 (rev: 5a47802)
+Running breadth-first search Model-Checking with fp 37 and seed -1893327776561474093 with 8 workers on 18 cores with 10923MB heap and 64MB offheap memory [pid: 61763] (Mac OS X 27.0.1 aarch64, Eclipse Adoptium 21.0.13 x86_64, MSBDiskFPSet, DiskStateQueue).
+Parsing file /Users/eshaan.kapooswalla/QShield-X/formal/tla/QSXProtocol.tla
+Parsing file /private/var/folders/cy/q3bj1h6x6_sbt_vkq2pc7psr0000gn/T/Naturals.tla
+Parsing file /private/var/folders/cy/q3bj1h6x6_sbt_vkq2pc7psr0000gn/T/Sequences.tla
+Parsing file /private/var/folders/cy/q3bj1h6x6_sbt_vkq2pc7psr0000gn/T/FiniteSets.tla
+Semantic processing of module Naturals
+Semantic processing of module Sequences
+Semantic processing of module FiniteSets
+Semantic processing of module QSXProtocol
+Starting... (2026-10-24 13:13:07)
+Implied-temporal checking--satisfiability problem has 5 branches.
+Computing initial states...
+Finished computing initial states: 1 distinct state generated at 2026-10-24 13:13:07.
+Error: Invariant Safety is violated.
+Error: The behavior up to this point is:
+State 1: <Initial predicate>
+/\ hwq = <<>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"new", "new", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 2: <HostSend line 58, col 3 to line 64, col 63 of module QSXProtocol>
+/\ hwq = <<1>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"hw", "new", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 3: <HWProcess line 122, col 3 to line 127, col 63 of module QSXProtocol>
+/\ hwq = <<>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<[tag |-> 1, ok |-> FALSE]>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"hw", "new", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = FALSE
+
+State 4: <HostRecv line 83, col 3 to line 93, col 54 of module QSXProtocol>
+/\ hwq = <<>>
+/\ nextc = 1
+/\ cfg = "valid"
+/\ respq = <<>>
+/\ ncommit = <<0, 0, 0, 0>>
+/\ ncfg = 0
+/\ phase = <<"ready_hw", "new", "new", "new">>
+/\ src = <<"none", "none", "none", "none">>
+/\ badok = TRUE
+
+136 states generated, 100 distinct states found, 73 states left on queue.
+The depth of the complete state graph search is 6.
+The average outdegree of the complete state graph is 4 (minimum is 0, the maximum 7 and the 95th percentile is 6).
+Finished in 00s at (2026-10-24 13:13:07)
