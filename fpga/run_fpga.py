@@ -40,17 +40,19 @@ def prepare(d: int, weights: str) -> Path:
     return inc
 
 
-def run_cfg(d: int, weights: str, lanes: int, params: dict, pnr: bool, freq: float, seed: int) -> dict:
-    tag = f"d{d}_{weights}_L{lanes}" + "".join(f"_{k}{v}" for k, v in sorted(params.items()))
+def run_cfg(d: int, weights: str, lanes: int, params: dict, pnr: bool, freq: float, seed: int,
+            top_mod: str = "qsx_pnr_shell") -> dict:
+    tag = (f"d{d}_{weights}_L{lanes}" + "".join(f"_{k}{v}" for k, v in sorted(params.items()))
+           + ("" if top_mod == "qsx_pnr_shell" else f"_{top_mod}"))
     wd = B / "fpga" / tag
     wd.mkdir(parents=True, exist_ok=True)
     inc = B / "rtl" / f"d{d}_{weights}"
     chp = " ".join(f"-set {k} {v}" for k, v in {"LANES": lanes, **params}.items())
     srcs = " ".join(str(ROOT / s) for s in RTL)
-    ys = (f"read_verilog -sv -I{inc} {srcs}; chparam {chp} qsx_pnr_shell; "
-          f"synth_ecp5 -top qsx_pnr_shell -json {wd}/synth.json; tee -q -o {wd}/stat.json stat -json; "
+    ys = (f"read_verilog -sv -I{inc} {srcs}; chparam {chp} {top_mod}; "
+          f"synth_ecp5 -top {top_mod} -json {wd}/synth.json; tee -q -o {wd}/stat.json stat -json; "
           f"tee -q -o {wd}/stat.txt stat")
-    res: dict = {"d": d, "weights": weights, "lanes": lanes, "params": params, "tag": tag}
+    res: dict = {"d": d, "weights": weights, "lanes": lanes, "params": params, "tag": tag, "top": top_mod}
     t0 = time.time()
     r = subprocess.run(["yosys", "-q", "-l", str(wd / "yosys.log"), "-p", ys], capture_output=True, text=True)
     res["synth_s"] = round(time.time() - t0, 1)
@@ -58,7 +60,8 @@ def run_cfg(d: int, weights: str, lanes: int, params: dict, pnr: bool, freq: flo
         res["synth_error"] = (r.stderr or r.stdout)[-2000:]
         return res
     st = json.loads((wd / "stat.json").read_text())
-    cells = st["design"]["num_cells_by_type"] if "design" in st else st["modules"]["\\qsx_pnr_shell"]["num_cells_by_type"]
+    top = st["design"] if "design" in st else st["modules"][f"\\{top_mod}"]
+    cells = top["num_cells_by_type"]
     res["synth"] = {"stage": "synth", "cells": {k: v for k, v in cells.items() if not k.startswith("$scope")}}
     if pnr:
         t0 = time.time()
@@ -82,26 +85,37 @@ def run_cfg(d: int, weights: str, lanes: int, params: dict, pnr: bool, freq: flo
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--configs", default="3:q5:1,4,8,16,32;5:q5:1,4,8,16,32;7:q5:1,4,8,16,32;5:unweighted:8")
-    ap.add_argument("--synth-only", default="9:q5:8")
+    # spec: d:weights:lanes[:pipes]   (lists comma separated)
+    ap.add_argument("--configs", default="3:q5:1,8,32:0,1;5:q5:1,4,8,16,32:0;5:q5:8,16:1;7:q5:4,8,16:0;7:q5:8,16:1;"
+                                         "5:unweighted:8:0")
+    ap.add_argument("--synth-only", default="9:q5:8:0,1")
+    ap.add_argument("--core-only", default="3:q5:8:0;5:q5:8:0;7:q5:8:0",
+                    help="synth of qsx_uf_core alone (M3 overhead)")
     ap.add_argument("--params", default="", help="extra chparams k=v,k=v applied to all configs")
     ap.add_argument("--freq", type=float, default=100.0)
     ap.add_argument("--seed", type=int, default=1)
-    ap.add_argument("--jobs", type=int, default=6)
+    ap.add_argument("--jobs", type=int, default=3)
     ap.add_argument("--out", default=str(ROOT / "results/M2/fpga"))
     a = ap.parse_args()
     params = dict(kv.split("=") for kv in a.params.split(",") if kv)
     jobs = []
-    for spec, pnr in [(a.configs, True), (a.synth_only, False)]:
+    prepared = set()
+    for spec, pnr, top_mod in [(a.configs, True, "qsx_pnr_shell"), (a.synth_only, False, "qsx_pnr_shell"),
+                               (a.core_only, False, "qsx_uf_core")]:
         for item in filter(None, spec.split(";")):
-            d, w, ls = item.split(":")
-            prepare(int(d), w)
+            parts = item.split(":")
+            d, w, ls = parts[:3]
+            pipes = parts[3] if len(parts) > 3 else "0"
+            if (d, w) not in prepared:
+                prepare(int(d), w)
+                prepared.add((d, w))
             for L in map(int, ls.split(",")):
-                jobs.append((int(d), w, L, params, pnr))
+                for P in map(int, pipes.split(",")):
+                    jobs.append((int(d), w, L, {**params, "PIPE": P}, pnr, top_mod))
     # biggest first for better packing
     jobs.sort(key=lambda j: -(j[0] * 100 + j[2]))
     with ThreadPoolExecutor(a.jobs) as ex:
-        res = list(ex.map(lambda j: run_cfg(*j, a.freq, a.seed), jobs))
+        res = list(ex.map(lambda j: run_cfg(*j[:5], a.freq, a.seed, j[5]), jobs))
     for r in sorted(res, key=lambda r: (r["d"], r["weights"], r["lanes"])):
         s = r.get("synth", {}).get("cells", {})
         p = r.get("pnr", {})

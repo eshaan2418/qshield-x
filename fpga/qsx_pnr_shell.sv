@@ -4,6 +4,7 @@
 `default_nettype none
 module qsx_pnr_shell #(
   parameter int LANES = 8,
+  parameter int PIPE = 0,
   parameter int NBUF = 4,
   parameter int OUT_CORR = 1
 ) (
@@ -26,7 +27,7 @@ module qsx_pnr_shell #(
   output wire        cfg_err
 );
   /* verilator lint_off PINCONNECTEMPTY */
-  qsx_top #(.LANES(LANES), .NBUF(NBUF), .OUT_CORR(OUT_CORR)) u_top (
+  qsx_top #(.LANES(LANES), .PIPE(PIPE), .NBUF(NBUF), .OUT_CORR(OUT_CORR)) u_top (
     .clk(clk), .rst_n(rst_n),
     .s_axis_tdata(s_axis_tdata), .s_axis_tvalid(s_axis_tvalid), .s_axis_tready(s_axis_tready),
     .s_axis_tlast(s_axis_tlast), .m_axis_tdata(m_axis_tdata), .m_axis_tvalid(m_axis_tvalid),
