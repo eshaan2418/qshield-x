@@ -58,7 +58,7 @@ def provenance(config: dict, seed: int | None, extra_tools: dict | None = None) 
         tv.update(extra_tools)
     return {
         "git": git_state(),
-        "timestamp_utc": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
+        "timestamp_utc": _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds"),
         "host": {"machine": platform.machine(), "system": platform.system(), "release": platform.release(),
                  "cpu": _run(["sysctl", "-n", "machdep.cpu.brand_string"]), "ncpu": os.cpu_count()},
         "tools": tv,

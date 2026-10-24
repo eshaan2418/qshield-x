@@ -37,13 +37,13 @@ def main() -> None:
     for mb in (1, 16, 64):
         f = tmp / f"t{mb}.b8"
         f.write_bytes(os.urandom(mb << 20))
-        ts = timeit(lambda: sign_manifest([f], {"mb": mb}, k, tmp / "m.json"))
+        ts = timeit(lambda f=f, mb=mb: sign_manifest([f], {"mb": mb}, k, tmp / "m.json"))
         tv = timeit(lambda: verify_manifest(tmp / "m.json", trusted))
         out["sign_verify"].append({"mb": mb, "sign_s": ts, "verify_s": tv, "verify_mb_per_s": mb / tv})
         s = EncryptedStore(tmp / "store", EncryptedStore.new_key())
         data = f.read_bytes()
-        te = timeit(lambda: s.put("x", data))
-        td = timeit(lambda: s.get("x"))
+        te = timeit(lambda s=s, data=data: s.put("x", data))
+        td = timeit(lambda s=s: s.get("x"))
         out["aes_gcm"].append({"mb": mb, "encrypt_s": te, "decrypt_s": td, "encrypt_mb_per_s": mb / te,
                                "decrypt_mb_per_s": mb / td})
     certs = make_test_pki(tmp / "pki")
@@ -53,7 +53,7 @@ def main() -> None:
         threading.Thread(target=srv.serve_forever, daemon=True).start()
         port = srv.server_address[1]
         lat = []
-        for i in range(300):
+        for _ in range(300):
             t0 = time.perf_counter()
             conn = (http.client.HTTPSConnection("127.0.0.1", port, context=client_context(certs["ca"], certs["client"]))
                     if tls else http.client.HTTPConnection("127.0.0.1", port))
