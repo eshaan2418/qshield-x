@@ -1,10 +1,10 @@
 {
  "provenance": {
   "git": {
-   "commit": "b95c6f9f5d1f8c18b2aa7c3d071bad88f8ce43cb",
+   "commit": "c07947133ec8606d8c937d271f0b4ce7e72d9197",
    "dirty": false
   },
-  "timestamp_utc": "2026-10-24T17:08:00+00:00",
+  "timestamp_utc": "2026-10-24T23:32:30+00:00",
   "host": {
    "machine": "arm64",
    "system": "Darwin",
@@ -27,11 +27,12 @@
    "stim": 100000,
    "chunks": 16,
    "lanes": 8,
+   "pipe": 0,
    "lanes_sweep": "1,4,16,32",
    "sweep_random": 20000,
    "top_random": 50000,
    "top_stim": 50000,
-   "jobs": 16,
+   "jobs": 10,
    "seed": 424242,
    "out": "/Users/eshaan.kapooswalla/QShield-X/results/M2/cosim",
    "d": 3,
@@ -42,6 +43,7 @@
   "chunks": [
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -57,6 +59,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -72,6 +75,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -87,6 +91,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -102,6 +107,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -117,6 +123,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -132,6 +139,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -147,6 +155,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -162,6 +171,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -177,6 +187,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -192,6 +203,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -207,6 +219,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -222,6 +235,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -237,6 +251,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -252,6 +267,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -267,6 +283,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 62500,
     "stim": 0,
@@ -282,6 +299,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -297,6 +315,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -312,6 +331,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -327,6 +347,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -342,6 +363,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -357,6 +379,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -372,6 +395,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -387,6 +411,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -402,6 +427,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -417,6 +443,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -432,6 +459,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -447,6 +475,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -462,6 +491,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -477,6 +507,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -492,6 +523,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -507,6 +539,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "random": 0,
     "stim": 6250,
@@ -522,6 +555,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 1,
     "random": 20000,
     "stim": 0,
@@ -537,6 +571,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 4,
     "random": 20000,
     "stim": 0,
@@ -552,6 +587,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 16,
     "random": 20000,
     "stim": 0,
@@ -567,6 +603,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 32,
     "random": 20000,
     "stim": 0,
@@ -582,6 +619,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "frames": 12500,
     "random": 12500,
@@ -615,6 +653,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "frames": 12500,
     "random": 0,
@@ -648,6 +687,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "frames": 12500,
     "random": 12500,
@@ -681,6 +721,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "frames": 12500,
     "random": 0,
@@ -714,6 +755,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "frames": 12500,
     "random": 12500,
@@ -747,6 +789,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "frames": 12500,
     "random": 0,
@@ -780,6 +823,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "frames": 12500,
     "random": 12500,
@@ -813,6 +857,7 @@
    },
    {
     "graph": "/Users/eshaan.kapooswalla/QShield-X/build/graphs/d3_q5.qsxg",
+    "pipe": 0,
     "lanes": 8,
     "frames": 12500,
     "random": 0,

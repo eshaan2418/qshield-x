@@ -1,0 +1,117 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "c07947133ec8606d8c937d271f0b4ce7e72d9197",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-24T23:52:45+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+   "v8_rev": "69b8e7f26c67882ee9db0d5e7211609a68545daf"
+  },
+  "seed": null,
+  "config": {
+   "mutation": true,
+   "skip_suites": false,
+   "out": "/Users/eshaan.kapooswalla/QShield-X/results/M5/v8_tests.json"
+  }
+ },
+ "data": {
+  "upstream_rev": "69b8e7f26c67882ee9db0d5e7211609a68545daf",
+  "patch": "v8/patches/0001-wasm-simd-arm64-Fuse-v128.any_true-into-cbz-cbnz.patch",
+  "branch_head": "3937cf41cd38ef080e57497a4704ad1ea5c5987d",
+  "applies_cleanly_to_upstream_rev": true,
+  "suites": [
+   {
+    "patterns": [
+     "unittests/*InstructionSelector*",
+     "unittests/*InstructionScheduler*"
+    ],
+    "ran": 792,
+    "failed": 0,
+    "rc": 0
+   },
+   {
+    "patterns": [
+     "unittests/*RunWasmSimd*",
+     "unittests/*WasmSimd*",
+     "unittests/*RunWasmRelaxedSimd*"
+    ],
+    "ran": 795,
+    "failed": 0,
+    "rc": 0
+   },
+   {
+    "patterns": [
+     "mjsunit/wasm/*",
+     "mjsunit/regress/wasm/*"
+    ],
+    "ran": 1368,
+    "failed": 0,
+    "rc": 0
+   }
+  ],
+  "new_test": {
+   "base": {
+    "default": "PASS",
+    "--no-liftoff": "PASS",
+    "--liftoff-only": "PASS",
+    "--no-wasm-tier-up": "PASS"
+   },
+   "patched": {
+    "default": "PASS",
+    "--no-liftoff": "PASS",
+    "--liftoff-only": "PASS",
+    "--no-wasm-tier-up": "PASS"
+   }
+  },
+  "codegen_qsx_simd": {
+   "base": {
+    "any_true_sites": 3,
+    "materialized_cmp_cset": 3,
+    "fused_cbz_cbnz": 0,
+    "excerpt": [
+     "umaxp v30.4s, v1.4s, v1.4s",
+     "fmov x23, d30",
+     "cmp x23, #0x0 (0)"
+    ]
+   },
+   "patched": {
+    "any_true_sites": 3,
+    "materialized_cmp_cset": 0,
+    "fused_cbz_cbnz": 3,
+    "excerpt": [
+     "umaxp v30.4s, v1.4s, v1.4s",
+     "fmov x23, d30",
+     "cbz x23, #+0x17c (addr 0xe9ea6198c44)"
+    ]
+   }
+  },
+  "mutation": {
+   "description": "move only the low 32 bits of the umaxp result",
+   "new_test": {
+    "default": "FAIL",
+    "--no-liftoff": "FAIL",
+    "--liftoff-only": "FAIL",
+    "--no-wasm-tier-up": "FAIL"
+   },
+   "restored_new_test": {
+    "default": "PASS",
+    "--no-liftoff": "PASS",
+    "--liftoff-only": "PASS",
+    "--no-wasm-tier-up": "PASS"
+   }
+  }
+ }
+}
