@@ -181,15 +181,16 @@ def run(a) -> None:
     results = {"pymatching_reference": ref}
     total_steps = a.rounds * a.local_steps
 
-    # local only
-    loc = {}
-    for n in names:
-        m = local_train(new(), *train[n], total_steps, a.batch, a.lr, None, gen)
-        loc[n] = evaluate(m, {n: tests[n]})[n]
-    results["local-only"] = loc
-    # centralized
-    m = local_train(new(), Xall, Yall, total_steps, a.batch, a.lr, None, gen)
-    results["centralized"] = evaluate(m, tests)
+    if not a.only_dp:
+        # local only
+        loc = {}
+        for n in names:
+            m = local_train(new(), *train[n], total_steps, a.batch, a.lr, None, gen)
+            loc[n] = evaluate(m, {n: tests[n]})[n]
+        results["local-only"] = loc
+        # centralized
+        m = local_train(new(), Xall, Yall, total_steps, a.batch, a.lr, None, gen)
+        results["centralized"] = evaluate(m, tests)
 
     def fedavg(split: dict, dp: dict | None, tag: str):
         glob = new()
@@ -213,10 +214,13 @@ def run(a) -> None:
                 "bytes_up_per_site_per_round": nparam * 4, "bytes_up_total": bytes_up,
                 "keyexchange_bytes_per_site": agg.pub_bytes * (len(names) - 1), "wall_s": time.time() - t0}
         if dp:
-            acc = RDPAccountant()
-            acc.history = [(dp["sigma"], dp["q"], a.rounds * a.local_steps)]
+            eps = float("inf")
+            if dp["sigma"] > 0:  # sigma = 0: clipping-only ablation, no privacy guarantee
+                acc = RDPAccountant()
+                acc.history = [(dp["sigma"], dp["q"], a.rounds * a.local_steps)]
+                eps = acc.get_epsilon(delta=a.delta)
             info["dp"] = {"sigma": dp["sigma"], "clip": dp["clip"], "q": dp["q"], "steps": a.rounds * a.local_steps,
-                          "delta": a.delta, "epsilon": acc.get_epsilon(delta=a.delta), "accountant": "opacus RDP"}
+                          "delta": a.delta, "epsilon": eps, "accountant": "opacus RDP"}
         results[tag] = info
         print(tag, json.dumps({k: round(v["pl"], 5) for k, v in ev.items()}), info.get("dp", {}).get("epsilon"),
               flush=True)
@@ -228,8 +232,9 @@ def run(a) -> None:
     results["secagg_check"] = {"max_abs_err": float(np.abs(agg.unmask_sum(ms) - sum(vs)).max()),
                                "quantum": 1 / SCALE,
                                "masked_corr_with_plain": float(np.corrcoef(ms[0].astype(np.float64), vs[0])[0, 1])}
-    fedavg(train, None, "fedavg")
-    fedavg(iid, None, "fedavg-iid")
+    if not a.only_dp:
+        fedavg(train, None, "fedavg")
+        fedavg(iid, None, "fedavg-iid")
     for sigma in [float(s) for s in a.sigmas.split(",")]:
         dp = {"sigma": sigma, "clip": a.clip, "q": a.batch / a.n_site, "expected_batch": a.batch}
         fedavg(train, dp, f"fedavg-dp-sigma{sigma}")
@@ -252,6 +257,7 @@ def main() -> None:
     ap.add_argument("--sigmas", default="0.6,1.0,2.0")
     ap.add_argument("--delta", type=float, default=1e-5)
     ap.add_argument("--seed", type=int, default=77)
+    ap.add_argument("--only-dp", action="store_true", help="run only the FedAvg+DP regimes (ablations)")
     ap.add_argument("--out", default=str(ROOT / "results/M7/federated_d3.json"))
     run(ap.parse_args())
 
