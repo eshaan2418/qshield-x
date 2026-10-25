@@ -1,10 +1,10 @@
 {
  "provenance": {
   "git": {
-   "commit": "278db074a42351d7f1b576e78446c31b9c544561",
+   "commit": "3215e38bbb5573c50d61d3255afdabe99b2940f9",
    "dirty": true
   },
-  "timestamp_utc": "2026-10-25T00:07:10+00:00",
+  "timestamp_utc": "2026-10-25T07:37:03+00:00",
   "host": {
    "machine": "arm64",
    "system": "Darwin",
@@ -22,7 +22,7 @@
   },
   "seed": null,
   "config": {
-   "distances": "3,5",
+   "distances": "3,5,7",
    "lanes": 8,
    "out": "/Users/eshaan.kapooswalla/QShield-X/results/M3/overhead.json"
   }
@@ -114,12 +114,6 @@
      "PFUMX": 230,
      "TRELLIS_FF": 746
     },
-    "$paramod$b041da9710c425b9b56c347df9c049889346920f\\qsx_min_tree": {
-     "CCU2C": 36,
-     "L6MUX21": 23,
-     "LUT4": 192,
-     "PFUMX": 84
-    },
     "$paramod$595a2bd4b2d567c7db36268273745377fe31ca47\\qsx_ingress": {
      "DP16KD": 1,
      "L6MUX21": 4,
@@ -140,6 +134,12 @@
      "LUT4": 38840,
      "PFUMX": 3253,
      "TRELLIS_FF": 5380
+    },
+    "$paramod$b041da9710c425b9b56c347df9c049889346920f\\qsx_min_tree": {
+     "CCU2C": 36,
+     "L6MUX21": 23,
+     "LUT4": 192,
+     "PFUMX": 84
     }
    },
    "core": {
@@ -175,6 +175,80 @@
     "core_mean": 150.4942,
     "overhead_cycles_mean": 15.995800000000003,
     "overhead_fraction": 0.09607664123971411
+   }
+  },
+  {
+   "d": 7,
+   "lanes": 8,
+   "stage": "synth (Yosys synth_ecp5 -noflatten)",
+   "modules": {
+    "qsx_top": {
+     "CCU2C": 35,
+     "L6MUX21": 17,
+     "LUT4": 1457,
+     "PFUMX": 148,
+     "TRELLIS_FF": 2021
+    },
+    "$paramod$b4c491e80999b2b2617d6b35810daf390769854f\\qsx_ingress": {
+     "DP16KD": 1,
+     "L6MUX21": 5,
+     "LUT4": 95,
+     "PFUMX": 16,
+     "TRELLIS_FF": 89
+    },
+    "$paramod$7178cbaa20c2cb30440aade225812c34b6029c40\\qsx_cfg": {
+     "CCU2C": 8,
+     "LUT4": 517,
+     "PFUMX": 1,
+     "TRELLIS_FF": 4901
+    },
+    "$paramod$92984e644bf1032ad219acde35cc3e7f92cf39ad\\qsx_uf_core": {
+     "CCU2C": 4865,
+     "L6MUX21": 701,
+     "LUT4": 139858,
+     "PFUMX": 6631,
+     "TRELLIS_FF": 17310
+    },
+    "$paramod$455f0d89d59a5a4204addb93374d81a61caf0a14\\qsx_min_tree": {
+     "CCU2C": 48,
+     "L6MUX21": 21,
+     "LUT4": 235,
+     "PFUMX": 106
+    }
+   },
+   "core": {
+    "LUT4": 140093,
+    "TRELLIS_FF": 17310,
+    "CCU2C": 4913,
+    "DP16KD": 0,
+    "TRELLIS_DPR16X4": 0,
+    "PFUMX": 6737,
+    "L6MUX21": 722
+   },
+   "shell": {
+    "LUT4": 2069,
+    "TRELLIS_FF": 7011,
+    "CCU2C": 43,
+    "DP16KD": 1,
+    "TRELLIS_DPR16X4": 0,
+    "PFUMX": 165,
+    "L6MUX21": 22
+   },
+   "core_module_only": {
+    "CCU2C": 4865,
+    "L6MUX21": 701,
+    "LUT4": 139858,
+    "PFUMX": 6631,
+    "TRELLIS_FF": 17310
+   },
+   "shell_lut_fraction": 0.014553818882683136,
+   "shell_ff_fraction": 0.2882693968175651,
+   "latency": {
+    "stage": "sim (Verilator, qsx_top)",
+    "e2e_mean": 484.76,
+    "core_mean": 454.7562,
+    "overhead_cycles_mean": 30.003800000000012,
+    "overhead_fraction": 0.06189413317930525
    }
   }
  ]

@@ -1,10 +1,10 @@
 {
  "provenance": {
   "git": {
-   "commit": "85e496f10ff211aa9918697d2c6ab3a3526e405e",
-   "dirty": false
+   "commit": "3215e38bbb5573c50d61d3255afdabe99b2940f9",
+   "dirty": true
   },
-  "timestamp_utc": "2026-10-25T05:12:30+00:00",
+  "timestamp_utc": "2026-10-25T07:31:56+00:00",
   "host": {
    "machine": "arm64",
    "system": "Darwin",
@@ -750,9 +750,22 @@
    "params": {
     "PIPE": 0
    },
-   "top": "qsx_pnr_shell",
    "tag": "d7_q5_L16_PIPE0",
-   "synth_error": "no result (not run)"
+   "top": "qsx_pnr_shell",
+   "synth_s": 10521.4,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 27532,
+     "DP16KD": 1,
+     "L6MUX21": 10323,
+     "LUT4": 272505,
+     "PFUMX": 66861,
+     "TRELLIS_FF": 24256
+    }
+   },
+   "pnr_error": "does not fit: 272505 LUT4 after synthesis > 83640 on LFE5U-85F",
+   "fits": false
   },
   {
    "d": 7,
@@ -761,9 +774,22 @@
    "params": {
     "PIPE": 1
    },
-   "top": "qsx_pnr_shell",
    "tag": "d7_q5_L16_PIPE1",
-   "synth_error": "no result (not run)"
+   "top": "qsx_pnr_shell",
+   "synth_s": 8306.4,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 27527,
+     "DP16KD": 1,
+     "L6MUX21": 5403,
+     "LUT4": 253896,
+     "PFUMX": 55763,
+     "TRELLIS_FF": 25816
+    }
+   },
+   "pnr_error": "does not fit: 253896 LUT4 after synthesis > 83640 on LFE5U-85F",
+   "fits": false
   },
   {
    "d": 9,

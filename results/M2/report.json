@@ -1,10 +1,10 @@
 {
  "provenance": {
   "git": {
-   "commit": "85e496f10ff211aa9918697d2c6ab3a3526e405e",
+   "commit": "3215e38bbb5573c50d61d3255afdabe99b2940f9",
    "dirty": true
   },
-  "timestamp_utc": "2026-10-25T05:16:19+00:00",
+  "timestamp_utc": "2026-10-25T07:37:06+00:00",
   "host": {
    "machine": "arm64",
    "system": "Darwin",
@@ -703,12 +703,13 @@
     "pipe": 0,
     "synth": {
      "stage": "synth",
-     "LUT4": null,
-     "FF": null,
-     "CCU2C": null,
-     "DP16KD": 0,
+     "LUT4": 272505,
+     "FF": 24256,
+     "CCU2C": 27532,
+     "DP16KD": 1,
      "MULT18X18D": 0
     },
+    "pnr_error": "does not fit: 272505 LUT4 after synthesis > 83640 on LFE5U-85F",
     "core_cycles": {
      "stage": "sim (cycle-exact HwModel)",
      "p": 0.003,
@@ -728,12 +729,13 @@
     "pipe": 1,
     "synth": {
      "stage": "synth",
-     "LUT4": null,
-     "FF": null,
-     "CCU2C": null,
-     "DP16KD": 0,
+     "LUT4": 253896,
+     "FF": 25816,
+     "CCU2C": 27527,
+     "DP16KD": 1,
      "MULT18X18D": 0
     },
+    "pnr_error": "does not fit: 253896 LUT4 after synthesis > 83640 on LFE5U-85F",
     "core_cycles": {
      "stage": "sim (cycle-exact HwModel)",
      "p": 0.003,

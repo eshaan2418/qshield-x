@@ -1,10 +1,10 @@
 {
  "provenance": {
   "git": {
-   "commit": "b15857ef070661386cca27ce8bb84cb666940128",
+   "commit": "3215e38bbb5573c50d61d3255afdabe99b2940f9",
    "dirty": true
   },
-  "timestamp_utc": "2026-10-24T23:56:01+00:00",
+  "timestamp_utc": "2026-10-25T07:37:06+00:00",
   "host": {
    "machine": "arm64",
    "system": "Darwin",
@@ -50,7 +50,7 @@
     "decoder": "pymatching",
     "lat_ns_p50": 0.0,
     "lat_ns_p99": 209.0,
-    "throughput_shots_per_s": 19716088.32807571
+    "throughput_shots_per_s": 19355463.079454176
    },
    {
     "d": 3,
@@ -58,7 +58,7 @@
     "decoder": "qsxuf-unweighted",
     "lat_ns_p50": 0.0,
     "lat_ns_p99": 250.0,
-    "throughput_shots_per_s": 17917935.853789642
+    "throughput_shots_per_s": 18348623.853211008
    },
    {
     "d": 3,
@@ -66,271 +66,271 @@
     "decoder": "qsxuf-q5",
     "lat_ns_p50": 0.0,
     "lat_ns_p99": 250.0,
-    "throughput_shots_per_s": 19671486.18078096
+    "throughput_shots_per_s": 18859028.76001886
    },
    {
     "d": 3,
     "p": 0.003,
     "decoder": "pymatching",
+    "lat_ns_p50": 42.0,
+    "lat_ns_p99": 542.0,
+    "throughput_shots_per_s": 11291142.099023316
+   },
+   {
+    "d": 3,
+    "p": 0.003,
+    "decoder": "qsxuf-unweighted",
     "lat_ns_p50": 42.0,
     "lat_ns_p99": 583.0,
-    "throughput_shots_per_s": 11033265.294864014
-   },
-   {
-    "d": 3,
-    "p": 0.003,
-    "decoder": "qsxuf-unweighted",
-    "lat_ns_p50": 42.0,
-    "lat_ns_p99": 542.0,
-    "throughput_shots_per_s": 9734728.644439036
+    "throughput_shots_per_s": 9287638.153617535
    },
    {
     "d": 3,
     "p": 0.003,
     "decoder": "qsxuf-q5",
     "lat_ns_p50": 42.0,
-    "lat_ns_p99": 542.0,
-    "throughput_shots_per_s": 10573618.8210415
+    "lat_ns_p99": 583.0,
+    "throughput_shots_per_s": 10002000.400080016
    },
    {
     "d": 3,
     "p": 0.005,
     "decoder": "pymatching",
     "lat_ns_p50": 42.0,
-    "lat_ns_p99": 833.0,
-    "throughput_shots_per_s": 7101011.894194923
+    "lat_ns_p99": 750.0,
+    "throughput_shots_per_s": 7611798.287345385
    },
    {
     "d": 3,
     "p": 0.005,
     "decoder": "qsxuf-unweighted",
     "lat_ns_p50": 83.0,
-    "lat_ns_p99": 792.0,
-    "throughput_shots_per_s": 5960541.217142517
+    "lat_ns_p99": 666.0,
+    "throughput_shots_per_s": 6691424.938940748
    },
    {
     "d": 3,
     "p": 0.005,
     "decoder": "qsxuf-q5",
     "lat_ns_p50": 83.0,
-    "lat_ns_p99": 750.0,
-    "throughput_shots_per_s": 6651810.955532644
+    "lat_ns_p99": 792.0,
+    "throughput_shots_per_s": 6235774.639104543
    },
    {
     "d": 5,
     "p": 0.001,
     "decoder": "pymatching",
     "lat_ns_p50": 84.0,
-    "lat_ns_p99": 1416.0,
-    "throughput_shots_per_s": 4005447.408475527
+    "lat_ns_p99": 1125.0,
+    "throughput_shots_per_s": 4815911.772496328
    },
    {
     "d": 5,
     "p": 0.001,
     "decoder": "qsxuf-unweighted",
-    "lat_ns_p50": 125.0,
-    "lat_ns_p99": 1417.0,
-    "throughput_shots_per_s": 3804813.0885570245
+    "lat_ns_p50": 84.0,
+    "lat_ns_p99": 1291.0,
+    "throughput_shots_per_s": 4222438.035721826
    },
    {
     "d": 5,
     "p": 0.001,
     "decoder": "qsxuf-q5",
     "lat_ns_p50": 125.0,
-    "lat_ns_p99": 1375.0,
-    "throughput_shots_per_s": 3495647.9183416646
+    "lat_ns_p99": 1208.0,
+    "throughput_shots_per_s": 4049074.786411305
    },
    {
     "d": 5,
     "p": 0.003,
     "decoder": "pymatching",
     "lat_ns_p50": 375.0,
-    "lat_ns_p99": 3250.0,
-    "throughput_shots_per_s": 1510117.7891875566
+    "lat_ns_p99": 3125.0,
+    "throughput_shots_per_s": 1519445.098649973
    },
    {
     "d": 5,
     "p": 0.003,
     "decoder": "qsxuf-unweighted",
-    "lat_ns_p50": 458.0,
-    "lat_ns_p99": 3333.0,
-    "throughput_shots_per_s": 1327131.206826763
+    "lat_ns_p50": 459.0,
+    "lat_ns_p99": 3208.0,
+    "throughput_shots_per_s": 1342462.0754463687
    },
    {
     "d": 5,
     "p": 0.003,
     "decoder": "qsxuf-q5",
     "lat_ns_p50": 500.0,
-    "lat_ns_p99": 2917.0,
-    "throughput_shots_per_s": 1376102.6022100209
+    "lat_ns_p99": 2792.0,
+    "throughput_shots_per_s": 1382475.737550806
    },
    {
     "d": 5,
     "p": 0.005,
     "decoder": "pymatching",
-    "lat_ns_p50": 791.0,
-    "lat_ns_p99": 5000.0,
-    "throughput_shots_per_s": 834975.4517217195
+    "lat_ns_p50": 792.0,
+    "lat_ns_p99": 4750.0,
+    "throughput_shots_per_s": 842971.3052567691
    },
    {
     "d": 5,
     "p": 0.005,
     "decoder": "qsxuf-unweighted",
-    "lat_ns_p50": 958.0,
-    "lat_ns_p99": 4708.0,
-    "throughput_shots_per_s": 746694.9415151187
+    "lat_ns_p50": 1000.0,
+    "lat_ns_p99": 4834.0,
+    "throughput_shots_per_s": 711812.1670053707
    },
    {
     "d": 5,
     "p": 0.005,
     "decoder": "qsxuf-q5",
-    "lat_ns_p50": 916.0,
-    "lat_ns_p99": 3792.0,
-    "throughput_shots_per_s": 839412.0757821222
+    "lat_ns_p50": 958.0,
+    "lat_ns_p99": 3958.0,
+    "throughput_shots_per_s": 794473.6413507641
    },
    {
     "d": 7,
     "p": 0.001,
     "decoder": "pymatching",
     "lat_ns_p50": 375.0,
-    "lat_ns_p99": 2375.0,
-    "throughput_shots_per_s": 1543602.9235839373
+    "lat_ns_p99": 2250.0,
+    "throughput_shots_per_s": 1603617.7616703282
    },
    {
     "d": 7,
     "p": 0.001,
     "decoder": "qsxuf-unweighted",
     "lat_ns_p50": 417.0,
-    "lat_ns_p99": 2459.0,
-    "throughput_shots_per_s": 1452053.2032293663
+    "lat_ns_p99": 2416.0,
+    "throughput_shots_per_s": 1441482.997708042
    },
    {
     "d": 7,
     "p": 0.001,
     "decoder": "qsxuf-q5",
     "lat_ns_p50": 500.0,
-    "lat_ns_p99": 2500.0,
-    "throughput_shots_per_s": 1319879.3630262194
+    "lat_ns_p99": 2375.0,
+    "throughput_shots_per_s": 1333475.5707275441
    },
    {
     "d": 7,
     "p": 0.003,
     "decoder": "pymatching",
-    "lat_ns_p50": 1500.0,
-    "lat_ns_p99": 7541.0,
-    "throughput_shots_per_s": 475454.65351242124
+    "lat_ns_p50": 1541.0,
+    "lat_ns_p99": 7083.0,
+    "throughput_shots_per_s": 472158.0218467517
    },
    {
     "d": 7,
     "p": 0.003,
     "decoder": "qsxuf-unweighted",
     "lat_ns_p50": 1667.0,
-    "lat_ns_p99": 7584.0,
-    "throughput_shots_per_s": 437712.42731238
+    "lat_ns_p99": 6834.0,
+    "throughput_shots_per_s": 446711.7547731151
    },
    {
     "d": 7,
     "p": 0.003,
     "decoder": "qsxuf-q5",
     "lat_ns_p50": 1750.0,
-    "lat_ns_p99": 7208.0,
-    "throughput_shots_per_s": 439250.550710378
+    "lat_ns_p99": 6292.0,
+    "throughput_shots_per_s": 446522.26136734046
    },
    {
     "d": 7,
     "p": 0.005,
     "decoder": "pymatching",
-    "lat_ns_p50": 3292.0,
-    "lat_ns_p99": 17791.0,
-    "throughput_shots_per_s": 224543.75515748936
+    "lat_ns_p50": 3167.0,
+    "lat_ns_p99": 12292.0,
+    "throughput_shots_per_s": 246390.3809195289
    },
    {
     "d": 7,
     "p": 0.005,
     "decoder": "qsxuf-unweighted",
-    "lat_ns_p50": 3625.0,
-    "lat_ns_p99": 13542.0,
-    "throughput_shots_per_s": 220569.90852965892
+    "lat_ns_p50": 3584.0,
+    "lat_ns_p99": 11625.0,
+    "throughput_shots_per_s": 227343.51377588022
    },
    {
     "d": 7,
     "p": 0.005,
     "decoder": "qsxuf-q5",
-    "lat_ns_p50": 3208.0,
-    "lat_ns_p99": 11417.0,
-    "throughput_shots_per_s": 254442.89092923814
+    "lat_ns_p50": 3167.0,
+    "lat_ns_p99": 9333.0,
+    "throughput_shots_per_s": 264642.67945420096
    },
    {
     "d": 9,
     "p": 0.001,
     "decoder": "pymatching",
-    "lat_ns_p50": 917.0,
-    "lat_ns_p99": 4042.0,
-    "throughput_shots_per_s": 684099.8101623027
+    "lat_ns_p50": 958.0,
+    "lat_ns_p99": 3750.0,
+    "throughput_shots_per_s": 699726.4069748728
    },
    {
     "d": 9,
     "p": 0.001,
     "decoder": "qsxuf-unweighted",
     "lat_ns_p50": 1000.0,
-    "lat_ns_p99": 4708.0,
-    "throughput_shots_per_s": 637991.0936443327
+    "lat_ns_p99": 3916.0,
+    "throughput_shots_per_s": 665889.795238888
    },
    {
     "d": 9,
     "p": 0.001,
     "decoder": "qsxuf-q5",
-    "lat_ns_p50": 1250.0,
-    "lat_ns_p99": 5542.0,
-    "throughput_shots_per_s": 552800.7650762588
+    "lat_ns_p50": 1167.0,
+    "lat_ns_p99": 3917.0,
+    "throughput_shots_per_s": 611635.758672995
    },
    {
     "d": 9,
     "p": 0.003,
     "decoder": "pymatching",
     "lat_ns_p50": 3750.0,
-    "lat_ns_p99": 13083.0,
-    "throughput_shots_per_s": 208109.6154966744
+    "lat_ns_p99": 12459.0,
+    "throughput_shots_per_s": 208724.90996129197
    },
    {
     "d": 9,
     "p": 0.003,
     "decoder": "qsxuf-unweighted",
-    "lat_ns_p50": 4084.0,
-    "lat_ns_p99": 13250.0,
-    "throughput_shots_per_s": 196005.21765889408
+    "lat_ns_p50": 4042.0,
+    "lat_ns_p99": 12500.0,
+    "throughput_shots_per_s": 198907.5994637451
    },
    {
     "d": 9,
     "p": 0.003,
     "decoder": "qsxuf-q5",
-    "lat_ns_p50": 4250.0,
-    "lat_ns_p99": 12333.0,
-    "throughput_shots_per_s": 194547.2302310832
+    "lat_ns_p50": 4208.0,
+    "lat_ns_p99": 11709.0,
+    "throughput_shots_per_s": 195381.9521783134
    },
    {
     "d": 9,
     "p": 0.005,
     "decoder": "pymatching",
-    "lat_ns_p50": 8292.0,
-    "lat_ns_p99": 27417.0,
-    "throughput_shots_per_s": 99435.94957602998
+    "lat_ns_p50": 8166.0,
+    "lat_ns_p99": 24583.0,
+    "throughput_shots_per_s": 102391.61207913847
    },
    {
     "d": 9,
     "p": 0.005,
     "decoder": "qsxuf-unweighted",
-    "lat_ns_p50": 8750.0,
-    "lat_ns_p99": 22708.0,
-    "throughput_shots_per_s": 98888.39554567111
+    "lat_ns_p50": 8875.0,
+    "lat_ns_p99": 22875.0,
+    "throughput_shots_per_s": 97579.30147857036
    },
    {
     "d": 9,
     "p": 0.005,
     "decoder": "qsxuf-q5",
-    "lat_ns_p50": 7833.0,
-    "lat_ns_p99": 19250.0,
-    "throughput_shots_per_s": 111202.29699464672
+    "lat_ns_p50": 7750.0,
+    "lat_ns_p99": 18750.0,
+    "throughput_shots_per_s": 112320.36463683176
    }
   ]
  }
