@@ -14,12 +14,12 @@ PYEXT   := $(shell $(PY) -c "import sysconfig;print(sysconfig.get_config_var('EX
 PM_SRC  := .tools/src/pymatching
 PM_BLD  := .tools/src/pm-build
 RTL     := rtl/qsx_min_tree.sv rtl/qsx_uf_core.sv rtl/qsx_ingress.sv rtl/qsx_cfg.sv rtl/qsx_top.sv
-WASM_EXP := _qsx_init,_qsx_num_detectors,_qsx_num_edges,_qsx_has_simd,_qsx_malloc,_qsx_free,_qsx_hash_lo,_qsx_hash_hi,_qsx_decode_batch,_qsx_bench,_qsx_bench_unpack
+WASM_EXP := _qsx_init,_qsx_num_detectors,_qsx_num_edges,_qsx_has_simd,_qsx_malloc,_qsx_free,_qsx_hash_lo,_qsx_hash_hi,_qsx_decode_batch,_qsx_bench,_qsx_bench_unpack,_qsx_edge_u,_qsx_edge_v,_qsx_decode_one,_qsx_hw_cycles
 EMFLAGS := -O3 -std=c++17 -Idecoders/include -sMODULARIZE=1 -sEXPORT_NAME=QSXModule -sENVIRONMENT=web,shell,node \
            -sALLOW_MEMORY_GROWTH=1 -sEXPORTED_FUNCTIONS=$(WASM_EXP) -sEXPORTED_RUNTIME_METHODS=HEAPU8,HEAPF64
 
 .PHONY: all graphs decoders pymatching test test-cpp test-py lint cosim cosim-quick formal formal-quick \
-        synth wasm native m1 m2hw m4 m5 m6 m7 m8 e2e env figures check-numbers reproduce-quick reproduce-full paper ci clean
+        synth wasm native m1 m2hw m4 m5 m6 m7 m8 e2e env viz viz-test figures check-numbers reproduce-quick reproduce-full paper ci clean
 
 all: decoders graphs wasm native
 
@@ -118,6 +118,11 @@ e2e: decoders wasm
 	$(ENV) $(PY) bench/e2e_demo.py --max-rounds 6
 env:
 	$(ENV) $(PY) bench/env_probe.py
+viz: wasm
+	$(ENV) $(PY) bench/viz_data.py && echo "open http://127.0.0.1:8765/viz/" && $(PY) -m http.server 8765 --bind 127.0.0.1
+viz-test: wasm
+	$(ENV) $(PY) bench/viz_data.py > /dev/null && ($(PY) -m http.server 8766 --bind 127.0.0.1 > /dev/null 2>&1 & echo $$! > $(B)/viz_srv.pid) \
+	  && sleep 1 && mkdir -p $(B)/viz && node viz/smoke.mjs 8766 $(B)/viz; rc=$$?; kill $$(cat $(B)/viz_srv.pid); exit $$rc
 
 figures:
 	$(ENV) $(PY) bench/make_figures.py
