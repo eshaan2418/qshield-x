@@ -72,6 +72,21 @@ for d in (3, 5, 7):
         claim(f"M2_cosim_d{d}_{fld}", lambda d=d, fld=fld: _find(_agg(d), kind="top-random-stress")[fld], "{:,}",
               "sim (Verilator)", src)
 
+# supplementary campaigns: PIPE=1 (d=3,5) and LANES=V (d=3: 24, d=5: 120; PIPE 0/1)
+EXTRA = ["M2/cosim_pipe1", "M2/cosim_lanesV_d3_P0", "M2/cosim_lanesV_d3_P1", "M2/cosim_lanesV_d5_P0",
+         "M2/cosim_lanesV_d5_P1"]
+
+
+def _extra(fld):
+    return sum(g[fld] for e in EXTRA for g in J(f"{e}/summary.json")["aggregate"])
+
+
+claim("M2_cosim_extra_total", lambda: _extra("syndromes"), "{:,}", "sim (Verilator RTL vs C++ golden model)",
+      "results/M2/cosim_pipe1/, results/M2/cosim_lanesV_*/")
+claim("M2_cosim_extra_mm", lambda: _extra("mismatches"), "{}", "sim (Verilator RTL vs C++ golden model)",
+      "results/M2/cosim_pipe1/, results/M2/cosim_lanesV_*/")
+
+
 # ---------------------------------------------------------------- M2 cycles (cycle-exact model)
 CYC = "results/M2/hw_cycles.json"
 for d in (3, 5, 7, 9):
