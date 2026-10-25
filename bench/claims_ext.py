@@ -26,6 +26,20 @@ def _exists(p: str) -> bool:
     return (R / p).exists()
 
 
+def _tex(s) -> str:
+    return str(s).replace("\\", "\\textbackslash{}").replace("_", "\\_").replace("%", "\\%").replace("&", "\\&")
+
+
+TABLES: dict[str, callable] = {}
+
+
+def table(name):
+    def deco(fn):
+        TABLES[name] = fn
+        return fn
+    return deco
+
+
 # ---------------------------------------------------------------- ENV
 claim("ENV_host", lambda: "{cpu}, {ncpu} cores, {ram_gb:.0f} GB RAM, {os}".format(**J("ENV/host.json")), "{}",
       "host probe", "results/ENV/host.json")
@@ -225,6 +239,9 @@ if _exists("M5/anytrue_fusion.json"):
     claim("M5_micro_ratio_0", lambda: _find(J("M5/anytrue_fusion.json"), workload="micro zero_block_scan",
                                             nonzero_block_fraction=0.0)["ratio"], "{:.2f}",
           "d8 measurement (interleaved A/B, median)", AF)
+    claim("M5_steady_ratio_d9", lambda: _find(J("M5/anytrue_fusion.json"), workload="qsx d=9 p=0.001",
+                                              metric="steady_ns_per_shot")["ratio"], "{:.2f}",
+          "d8 measurement (interleaved A/B, median)", "results/M5/anytrue_fusion.json")
     claim("M5_unpack_ratio_d9", lambda: _find(J("M5/anytrue_fusion.json"), workload="qsx d=9 p=0.001",
                                               metric="unpack_simd_ns_per_shot")["ratio"], "{:.2f}",
           "d8 measurement (interleaved A/B, median)", AF)
@@ -237,25 +254,44 @@ if _exists("M4/runtime.json"):
 
     claim("M4_wasm_simd_over_native_d5", lambda: _rt(5, "d8-simd-default") / _rt(5, "native-O3-neon"), "{:.2f}",
           "CPU measurement (d8 vs native)", RT)
+    _M4_LABELS = ["native-O3-neon", "native-novec-word", "node-simd", "node-scalar", "d8-simd-default",
+                  "d8-scalar-default", "d8-simd-liftoff-only", "d8-simd-turbofan-only", "chrome-simd-default",
+                  "chrome-scalar-default"]
+    _M4_ROWS = []
+    for lab in _M4_LABELS:
+        cells = [f"\\texttt{{{lab}}}"]
+        ok = True
+        for d in (3, 5, 7):
+            try:
+                _rt(d, lab)
+            except (KeyError, StopIteration):
+                ok = False
+        if not ok:
+            continue
+        for d in (3, 5, 7):
+            claim(f"M4_t_{lab.replace('-', '')}_d{d}", lambda d=d, lab=lab: _rt(d, lab), "{:,.0f}",
+                  "CPU measurement (steady state, best of 5)", RT)
+            cells.append(f"\\claim{{M4_t_{lab.replace('-', '')}_d{d}}}")
+        claim(f"M4_c_{lab.replace('-', '')}", lambda lab=lab: _rt(5, lab, "compile_ms") if not lab.startswith("native")
+              else 0.0, "{:.1f}", "CPU measurement", RT)
+        cells.append("--" if lab.startswith("native") else f"\\claim{{M4_c_{lab.replace('-', '')}}}")
+        _M4_ROWS.append(" & ".join(cells) + r" \\")
+
+    @table("gen_m4.tex")
+    def _t_m4():
+        return "\n".join([
+            r"\begin{table}[t]\centering\small",
+            r"\caption{Steady-state decode time per $d$-round block (ns, best of 5 passes, $p=0.003$) and Wasm compile"
+            r" time at $d=5$ (ms). All builds are bit-exact.}",
+            r"\label{tab:m4}",
+            r"\begin{tabular}{lrrrr}\toprule build / engine & $d=3$ & $d=5$ & $d=7$ & compile \\ \midrule",
+            *_M4_ROWS, r"\bottomrule\end{tabular}\end{table}"])
+
     claim("M4_bitexact", lambda: "all" if all(r["bit_exact"] for r in J("M4/runtime.json")) else "NOT all", "{}",
           "FNV-1a hash comparison", RT)
 
 
 # ---------------------------------------------------------------- generated paper tables
-def _tex(s) -> str:
-    return str(s).replace("\\", "\\textbackslash{}").replace("_", "\\_").replace("%", "\\%").replace("&", "\\&")
-
-
-TABLES: dict[str, callable] = {}
-
-
-def table(name):
-    def deco(fn):
-        TABLES[name] = fn
-        return fn
-    return deco
-
-
 def _rowclaims(prefix: str, src: str, stage: str, rows: list[dict], cols: list[tuple[str, callable, str]]) -> list:
     """Register one claim per (row, column) and return LaTeX rows made of \\claim references."""
     out = []
