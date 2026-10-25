@@ -2,3 +2,5 @@ W1024 20:42:42.685000 57071 torch/distributed/elastic/multiprocessing/redirects.
 fedavg-dp-sigma0.0 {"site-A": 0.00511, "site-B": 0.02707, "site-C": 0.02685} inf
 fedavg-dp-sigma0.6 {"site-A": 0.00511, "site-B": 0.0271, "site-C": 0.02686} 17.62380995275662
 fedavg-dp-sigma1.0 {"site-A": 0.00511, "site-B": 0.02707, "site-C": 0.02685} 5.245887522058804
+fedavg-dp-sigma1.5 {"site-A": 0.00513, "site-B": 0.02728, "site-C": 0.02704} 2.5597237006450806
+fedavg-dp-sigma2.0 {"site-A": 0.01637, "site-B": 0.05794, "site-C": 0.05192} 1.7031571938064745

@@ -1,0 +1,169 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "863b39105a775b6f0c75aa1cad63f98defa63478",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-25T01:59:05+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+   "torch": "2.14.1",
+   "opacus": "1.6.0"
+  },
+  "seed": 77,
+  "config": {
+   "d": 3,
+   "hidden": 32,
+   "layers": 4,
+   "n_site": 200000,
+   "n_test": 200000,
+   "rounds": 30,
+   "local_steps": 50,
+   "batch": 512,
+   "lr": 0.002,
+   "clip": 1.0,
+   "sigmas": "1.0,2.0",
+   "delta": 1e-05,
+   "seed": 77,
+   "dp_batch": 8192,
+   "dp_rounds": 60,
+   "dp_local_steps": 15,
+   "dp_lr": 0.003,
+   "only_dp": true,
+   "out": "results/M7/federated_d3_dp_b8192_long.json"
+  }
+ },
+ "data": {
+  "pymatching_reference": {
+   "site-A": {
+    "errors": 611,
+    "shots": 200000,
+    "pl": 0.003055
+   },
+   "site-B": {
+    "errors": 3401,
+    "shots": 200000,
+    "pl": 0.017005
+   },
+   "site-C": {
+    "errors": 2783,
+    "shots": 200000,
+    "pl": 0.013915
+   }
+  },
+  "secagg_check": {
+   "max_abs_err": 1.9699168541090564e-05,
+   "quantum": 1.52587890625e-05,
+   "masked_corr_with_plain": 0.03846789643260113
+  },
+  "fedavg-dp-sigma1.0": {
+   "eval": {
+    "site-A": {
+     "errors": 1023,
+     "shots": 200000,
+     "pl": 0.005115,
+     "ci95": [
+      0.00480705203859288,
+      0.005437422676078958
+     ]
+    },
+    "site-B": {
+     "errors": 5415,
+     "shots": 200000,
+     "pl": 0.027075,
+     "ci95": [
+      0.026368053628018993,
+      0.02779569789708054
+     ]
+    },
+    "site-C": {
+     "errors": 5369,
+     "shots": 200000,
+     "pl": 0.026845,
+     "ci95": [
+      0.02614100096367239,
+      0.027562757513727967
+     ]
+    }
+   },
+   "rounds": 60,
+   "local_steps": 15,
+   "batch": 8192,
+   "lr": 0.003,
+   "params": 12033,
+   "bytes_up_per_site_per_round": 48132,
+   "bytes_up_total": 8663760,
+   "keyexchange_bytes_per_site": 64,
+   "wall_s": 1052.5973119735718,
+   "dp": {
+    "sigma": 1.0,
+    "clip": 1.0,
+    "q": 0.04096,
+    "steps": 900,
+    "delta": 1e-05,
+    "epsilon": 9.027159964454507,
+    "accountant": "opacus RDP"
+   }
+  },
+  "fedavg-dp-sigma2.0": {
+   "eval": {
+    "site-A": {
+     "errors": 1024,
+     "shots": 200000,
+     "pl": 0.00512,
+     "ci95": [
+      0.004811899973119994,
+      0.005442574522124233
+     ]
+    },
+    "site-B": {
+     "errors": 5416,
+     "shots": 200000,
+     "pl": 0.02708,
+     "ci95": [
+      0.02637298970668203,
+      0.027800761667321327
+     ]
+    },
+    "site-C": {
+     "errors": 5370,
+     "shots": 200000,
+     "pl": 0.02685,
+     "ci95": [
+      0.026145936745812462,
+      0.027567821580411628
+     ]
+    }
+   },
+   "rounds": 60,
+   "local_steps": 15,
+   "batch": 8192,
+   "lr": 0.003,
+   "params": 12033,
+   "bytes_up_per_site_per_round": 48132,
+   "bytes_up_total": 8663760,
+   "keyexchange_bytes_per_site": 64,
+   "wall_s": 702.0336682796478,
+   "dp": {
+    "sigma": 2.0,
+    "clip": 1.0,
+    "q": 0.04096,
+    "steps": 900,
+    "delta": 1e-05,
+    "epsilon": 3.0386229807199916,
+    "accountant": "opacus RDP"
+   }
+  }
+ }
+}
