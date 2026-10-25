@@ -105,7 +105,7 @@ parallel, and each vertex picks the \emph{lowest-index} grown incident edge towa
 proceeds in decreasing distance. Since every step is a function of the previous state only, a parallel
 implementation and a sequential one produce identical supports, forests and corrections.
 
-Thresholds are quantised log-likelihood weights, $t_e=\mathrm{clamp}(\mathrm{round}(5\,w_e/\mathrm{median}(w)),1,7)$
+Thresholds are quantised log-likelihood weights, $t_e=\mathrm{clamp}(\mathrm{round}(5\,w_e/\mathrm{median}(w)),\,1,\,7)$
 (\texttt{q5}, 3-bit counters, chosen by a pilot study, DECISIONS D5), or $t_e=2$ for the minimal-area
 unweighted variant.
 
@@ -133,7 +133,7 @@ in range; otherwise frames are answered \texttt{CFG\_INVALID} and never decoded.
 \subsection{Co-simulation}
 Verilator models of the core and of the full shell are compared, per syndrome, against the C++ golden
 model \texttt{qsx::HwModel} on status, round count, observable, the full correction bitmap and the cycle
-count. Inputs are random syndromes over densities $0$--$0.9$ and Stim-sampled syndromes at
+count. Inputs are random syndromes over a wide range of defect densities and Stim-sampled syndromes at
 $p\in\{0.001,0.003,0.006,0.01\}$. The shell tests add input gaps, output backpressure, malformed frames and
 mid-stream reconfiguration, including deliberately incomplete sessions (Table~\ref{tab:cosim}).
 
@@ -178,7 +178,7 @@ Dumping V8's arm64 code showed that \texttt{br\_if(v128.any\_true(x))} compiles 
 (\texttt{umaxp; fmov}) and matches a covered \texttt{Simd128TestOp::kV128AnyTrue} in
 \texttt{VisitWordCompareZero}. Branches and deopts become \texttt{umaxp; fmov; cbz/cbnz}, and selects use
 \texttt{tst} plus flags; values with other uses keep the materialising lowering. The CL adds three
-instruction-selector unittests and an mjsunit test that covers all 128 single-bit inputs and the zero vector
+instruction-selector unittests and an mjsunit test that covers every single-bit input and the zero vector
 in \texttt{br\_if}, inverted \texttt{br\_if}, \texttt{if}, \texttt{select} and multi-use shapes, before and
 after tier-up. Results are in \S\ref{sec:eval-wasm}.
 
