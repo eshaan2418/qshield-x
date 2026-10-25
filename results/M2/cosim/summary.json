@@ -1,0 +1,321 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "b8aa491301f5f09a7340f93011028538d8e31ddf",
+   "dirty": false
+  },
+  "timestamp_utc": "2026-10-25T01:14:07+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+   "verilator": "Verilator 5.053 devel rev v5.052-567-g0041d207c (mod)"
+  },
+  "seed": 424242,
+  "config": {
+   "distances": "3,5,7",
+   "random": 1000000,
+   "stim": 100000,
+   "chunks": 16,
+   "lanes": 8,
+   "pipe": 0,
+   "lanes_sweep": "1,4,16,32",
+   "sweep_random": 20000,
+   "top_random": 50000,
+   "top_stim": 50000,
+   "jobs": 10,
+   "seed": 424242,
+   "out": "/Users/eshaan.kapooswalla/QShield-X/results/M2/cosim"
+  }
+ },
+ "data": {
+  "aggregate": [
+   {
+    "d": 3,
+    "kind": "core-random",
+    "syndromes": 1000000,
+    "mismatches": 0,
+    "chunks": 16,
+    "ok": 1000000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 85
+   },
+   {
+    "d": 3,
+    "kind": "core-stim",
+    "syndromes": 100000,
+    "mismatches": 0,
+    "chunks": 16,
+    "ok": 100000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 78
+   },
+   {
+    "d": 3,
+    "kind": "core-random-L1",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 332
+   },
+   {
+    "d": 3,
+    "kind": "core-random-L4",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 114
+   },
+   {
+    "d": 3,
+    "kind": "core-random-L16",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 69
+   },
+   {
+    "d": 3,
+    "kind": "core-random-L32",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 58
+   },
+   {
+    "d": 3,
+    "kind": "top-random-stress",
+    "syndromes": 50000,
+    "mismatches": 0,
+    "chunks": 4,
+    "malformed": 1010,
+    "cfg_invalid": 198,
+    "reconf_frames": 12042
+   },
+   {
+    "d": 3,
+    "kind": "top-stim-stress",
+    "syndromes": 50000,
+    "mismatches": 0,
+    "chunks": 4,
+    "malformed": 0,
+    "cfg_invalid": 0,
+    "reconf_frames": 0
+   },
+   {
+    "d": 5,
+    "kind": "core-random",
+    "syndromes": 1000000,
+    "mismatches": 0,
+    "chunks": 16,
+    "ok": 1000000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 398
+   },
+   {
+    "d": 5,
+    "kind": "core-stim",
+    "syndromes": 100000,
+    "mismatches": 0,
+    "chunks": 16,
+    "ok": 100000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 374
+   },
+   {
+    "d": 5,
+    "kind": "core-random-L1",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 2486
+   },
+   {
+    "d": 5,
+    "kind": "core-random-L4",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 683
+   },
+   {
+    "d": 5,
+    "kind": "core-random-L16",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 244
+   },
+   {
+    "d": 5,
+    "kind": "core-random-L32",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 168
+   },
+   {
+    "d": 5,
+    "kind": "top-random-stress",
+    "syndromes": 50000,
+    "mismatches": 0,
+    "chunks": 4,
+    "malformed": 998,
+    "cfg_invalid": 196,
+    "reconf_frames": 12043
+   },
+   {
+    "d": 5,
+    "kind": "top-stim-stress",
+    "syndromes": 50000,
+    "mismatches": 0,
+    "chunks": 4,
+    "malformed": 0,
+    "cfg_invalid": 0,
+    "reconf_frames": 0
+   },
+   {
+    "d": 7,
+    "kind": "core-random",
+    "syndromes": 1000000,
+    "mismatches": 0,
+    "chunks": 16,
+    "ok": 1000000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 1402
+   },
+   {
+    "d": 7,
+    "kind": "core-stim",
+    "syndromes": 100000,
+    "mismatches": 0,
+    "chunks": 16,
+    "ok": 100000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 1379
+   },
+   {
+    "d": 7,
+    "kind": "core-random-L1",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 10192
+   },
+   {
+    "d": 7,
+    "kind": "core-random-L4",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 2638
+   },
+   {
+    "d": 7,
+    "kind": "core-random-L16",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 753
+   },
+   {
+    "d": 7,
+    "kind": "core-random-L32",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 1,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 469
+   },
+   {
+    "d": 7,
+    "kind": "top-random-stress",
+    "syndromes": 50000,
+    "mismatches": 0,
+    "chunks": 4,
+    "malformed": 1033,
+    "cfg_invalid": 193,
+    "reconf_frames": 12070
+   },
+   {
+    "d": 7,
+    "kind": "top-stim-stress",
+    "syndromes": 50000,
+    "mismatches": 0,
+    "chunks": 4,
+    "malformed": 0,
+    "cfg_invalid": 0,
+    "reconf_frames": 0
+   }
+  ],
+  "total_mismatches": 0
+ }
+}
