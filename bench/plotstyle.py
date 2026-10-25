@@ -35,6 +35,9 @@ def style(i: int) -> dict:
 
 
 def save(fig, path) -> None:
+    from pathlib import Path
+
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
     fig.savefig(str(path) + ".png" if not str(path).endswith(".png") else path, dpi=200)
     fig.savefig(str(path).removesuffix(".png") + ".pdf")
