@@ -1,0 +1,48 @@
+% Evaluation section body (\input from qshieldx.tex). Every number is a \claim backed by results/.
+
+\subsection{Software baselines: accuracy}\label{sec:eval-pl}
+Figure~\ref{fig:pl} shows P\textsubscript{L} per $d$-round block for PyMatching and both QSX-UF variants over
+$p\in[0.001,0.01]$ and $d\in\{3,5,7,9\}$. Each point runs until a target number of failures or a shot cap is reached,
+and carries an exact Clopper--Pearson 95\% interval \stage{Monte Carlo, Stim}. At $p=0.003$, weighted QSX-UF
+has P\textsubscript{L} $=\claim{M1_PL_d7_p003_UF}$ against $\claim{M1_PL_d7_p003_PM}$ for PyMatching at $d=7$
+(ratio \claim{M1_ratio_d7_p003}), and $\claim{M1_PL_d9_p003_UF}$ against $\claim{M1_PL_d9_p003_PM}$ at $d=9$ (ratio
+\claim{M1_ratio_d9_p003}). The $d=7/9$ curve crossings are at $p\approx\claim{M1_thr_UF_7_9}$ (QSX-UF) and
+\claim{M1_thr_PM_7_9} (PyMatching). The 3-bit weights are essential: the unweighted variant is markedly worse at large
+$d$ (Fig.~\ref{fig:pl}, right panel). The accuracy gap is the price of the order-independent, hardware-friendly
+algorithm, and it grows with distance.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\linewidth]{M1/figs/pl_vs_p.pdf}
+\caption{P\textsubscript{L} vs.\ physical error rate (95\% CIs), circuit-level depolarizing noise, $d$ rounds.}
+\label{fig:pl}
+\end{figure}
+
+\subsection{RTL correctness: co-simulation}
+\input{gen_cosim.tex}
+Table~\ref{tab:cosim} summarises the campaign on the final RTL: \claim{M2_cosim_total} syndromes, with
+\claim{M2_cosim_mm} mismatches in status, round count, observable, full correction bitmap or cycle count. The
+shell runs inject malformed frames and incomplete configuration sessions. Every malformed frame was answered with
+\texttt{FRAME\_ERROR} and every frame after an incomplete session with \texttt{CFG\_INVALID}, in order, as the
+model predicts.
+
+\subsection{Hardware: cycles, resources and latency}\label{sec:eval-hw}
+TODO-hw
+
+\subsection{Cost of the verified mechanisms}
+Table~\ref{tab:overhead} separates the decoder core from the verified shell with a hierarchical synthesis
+\stage{synth}. The shell contains the commit-on-last frame FIFO (backpressure, I1/P3), the atomic configuration
+session with its written-word bitmap and range check (P5/P6), and the dispatcher, round-tag path and status gating
+(P1--P4). At $d=5$ it costs \claim{M3_shell_lut_d5} LUT4 against \claim{M3_core_lut_d5} for the core
+(\claim{M3_shell_lut_pct_d5}\%), but \claim{M3_shell_ff_pct_d5}\% of the flip-flops. Most of those FFs hold the
+threshold table, which any configurable decoder needs; the atomicity bookkeeping itself is one bit per configuration
+word plus one range-error bit. In time, framing and the handshakes add \claim{M3_shell_cycles_d3},
+\claim{M3_shell_cycles_d5} and \claim{M3_shell_cycles_d7} cycles per frame at $d=3,5,7$ \stage{sim}: the input
+header and syndrome beats, the dispatcher's load and the output header. Formal-only logic sits under
+\texttt{ifdef FORMAL} and is not synthesised.
+\input{gen_overhead.tex}
+
+\subsection{WebAssembly runtime and the V8 patch}\label{sec:eval-wasm}
+TODO-wasm
+
+\subsection{Extensions}\label{sec:ext}
+TODO-ext
