@@ -1,10 +1,10 @@
 {
  "provenance": {
   "git": {
-   "commit": "c74a9af593de43219395fe019c403607e4b9c79b",
-   "dirty": false
+   "commit": "1fffa9ad92975687e3d182a89b0bc3f78dace199",
+   "dirty": true
   },
-  "timestamp_utc": "2026-10-25T05:01:25+00:00",
+  "timestamp_utc": "2026-10-25T05:08:55+00:00",
   "host": {
    "machine": "arm64",
    "system": "Darwin",
@@ -24,8 +24,9 @@
   "seed": null,
   "config": {
    "timeout": 21600,
-   "z3_d": "3,5",
-   "jobs": 4
+   "z3_d": "3,5,7",
+   "only": "core.sby:prove_d5,core.sby:prove_d7",
+   "jobs": 2
   }
  },
  "data": [
@@ -243,6 +244,24 @@
    ],
    "ok": true,
    "seconds": 0.3
+  },
+  {
+   "tool": "SymbiYosys/smtbmc-bitwuzla",
+   "job": "core.sby:prove_d5",
+   "mode": "prove",
+   "depth": 12,
+   "status": "PASS",
+   "failed": [],
+   "seconds": 51.3
+  },
+  {
+   "tool": "SymbiYosys/smtbmc-bitwuzla",
+   "job": "core.sby:prove_d7",
+   "mode": "prove",
+   "depth": 12,
+   "status": "PASS",
+   "failed": [],
+   "seconds": 421.6
   }
  ]
 }

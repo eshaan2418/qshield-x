@@ -1,0 +1,57 @@
+SBY  1:01:53 [core_prove_d7] Removing directory '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove_d7'.
+SBY  1:01:53 [core_prove_d7] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_formal.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove_d7/src/core_formal.sv'.
+SBY  1:01:53 [core_prove_d7] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_uf_core.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove_d7/src/qsx_uf_core.sv'.
+SBY  1:01:53 [core_prove_d7] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_min_tree.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove_d7/src/qsx_min_tree.sv'.
+SBY  1:01:53 [core_prove_d7] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../build/rtl/d7_q5/qsx_graph_defs.svh' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove_d7/src/qsx_graph_defs.svh'.
+SBY  1:01:53 [core_prove_d7] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../build/rtl/d7_q5/qsx_graph_tables.svh' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove_d7/src/qsx_graph_tables.svh'.
+SBY  1:01:53 [core_prove_d7] engine_0: smtbmc bitwuzla
+SBY  1:01:53 [core_prove_d7] base: starting process "cd core_prove_d7/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY  1:07:32 [core_prove_d7] base: finished (returncode=0)
+SBY  1:07:32 [core_prove_d7] prep: starting process "cd core_prove_d7/model; yosys -ql design_prep.log design_prep.ys"
+SBY  1:07:35 [core_prove_d7] prep: finished (returncode=0)
+SBY  1:07:35 [core_prove_d7] smt2: starting process "cd core_prove_d7/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY  1:07:35 [core_prove_d7] smt2: finished (returncode=0)
+SBY  1:07:35 [core_prove_d7] engine_0.basecase: starting process "cd core_prove_d7; yosys-smtbmc -s bitwuzla --presat --unroll --noprogress -t 12  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY  1:07:35 [core_prove_d7] engine_0.induction: starting process "cd core_prove_d7; yosys-smtbmc -s bitwuzla --presat --unroll -i --noprogress -t 12  --append 0 --dump-vcd engine_0/trace_induct.vcd --dump-yw engine_0/trace_induct.yw --dump-vlogtb engine_0/trace_induct_tb.v --dump-smtc engine_0/trace_induct.smtc model/design_smt2.smt2"
+SBY  1:07:35 [core_prove_d7] engine_0.basecase: ##   0:00:00  Solver: bitwuzla
+SBY  1:07:35 [core_prove_d7] engine_0.induction: ##   0:00:00  Solver: bitwuzla
+SBY  1:07:39 [core_prove_d7] engine_0.induction: ##   0:00:03  Trying induction in step 12..
+SBY  1:07:39 [core_prove_d7] engine_0.basecase: ##   0:00:03  Checking assumptions in step 0..
+SBY  1:07:39 [core_prove_d7] engine_0.basecase: ##   0:00:03  Checking assertions in step 0..
+SBY  1:07:40 [core_prove_d7] engine_0.induction: ##   0:00:04  Trying induction in step 11..
+SBY  1:07:40 [core_prove_d7] engine_0.basecase: ##   0:00:04  Checking assumptions in step 1..
+SBY  1:07:41 [core_prove_d7] engine_0.basecase: ##   0:00:05  Checking assertions in step 1..
+SBY  1:07:41 [core_prove_d7] engine_0.induction: ##   0:00:05  Temporal induction successful.
+SBY  1:07:42 [core_prove_d7] engine_0.induction: ##   0:00:06  Status: passed
+SBY  1:07:42 [core_prove_d7] engine_0.induction: finished (returncode=0)
+SBY  1:07:42 [core_prove_d7] engine_0.induction: Status returned by engine for induction: pass
+SBY  1:07:43 [core_prove_d7] engine_0.basecase: ##   0:00:07  Checking assumptions in step 2..
+SBY  1:07:43 [core_prove_d7] engine_0.basecase: ##   0:00:07  Checking assertions in step 2..
+SBY  1:07:44 [core_prove_d7] engine_0.basecase: ##   0:00:08  Checking assumptions in step 3..
+SBY  1:07:46 [core_prove_d7] engine_0.basecase: ##   0:00:10  Checking assertions in step 3..
+SBY  1:07:48 [core_prove_d7] engine_0.basecase: ##   0:00:12  Checking assumptions in step 4..
+SBY  1:07:51 [core_prove_d7] engine_0.basecase: ##   0:00:15  Checking assertions in step 4..
+SBY  1:07:53 [core_prove_d7] engine_0.basecase: ##   0:00:17  Checking assumptions in step 5..
+SBY  1:07:56 [core_prove_d7] engine_0.basecase: ##   0:00:20  Checking assertions in step 5..
+SBY  1:07:59 [core_prove_d7] engine_0.basecase: ##   0:00:23  Checking assumptions in step 6..
+SBY  1:08:02 [core_prove_d7] engine_0.basecase: ##   0:00:26  Checking assertions in step 6..
+SBY  1:08:05 [core_prove_d7] engine_0.basecase: ##   0:00:29  Checking assumptions in step 7..
+SBY  1:08:08 [core_prove_d7] engine_0.basecase: ##   0:00:32  Checking assertions in step 7..
+SBY  1:08:12 [core_prove_d7] engine_0.basecase: ##   0:00:36  Checking assumptions in step 8..
+SBY  1:08:16 [core_prove_d7] engine_0.basecase: ##   0:00:40  Checking assertions in step 8..
+SBY  1:08:21 [core_prove_d7] engine_0.basecase: ##   0:00:45  Checking assumptions in step 9..
+SBY  1:08:25 [core_prove_d7] engine_0.basecase: ##   0:00:49  Checking assertions in step 9..
+SBY  1:08:29 [core_prove_d7] engine_0.basecase: ##   0:00:53  Checking assumptions in step 10..
+SBY  1:08:34 [core_prove_d7] engine_0.basecase: ##   0:00:59  Checking assertions in step 10..
+SBY  1:08:39 [core_prove_d7] engine_0.basecase: ##   0:01:03  Checking assumptions in step 11..
+SBY  1:08:46 [core_prove_d7] engine_0.basecase: ##   0:01:10  Checking assertions in step 11..
+SBY  1:08:53 [core_prove_d7] engine_0.basecase: ##   0:01:17  Status: passed
+SBY  1:08:55 [core_prove_d7] engine_0.basecase: finished (returncode=0)
+SBY  1:08:55 [core_prove_d7] engine_0.basecase: Status returned by engine for basecase: pass
+SBY  1:08:55 [core_prove_d7] summary: Elapsed clock time [H:MM:SS (secs)]: 0:07:01 (421)
+SBY  1:08:55 [core_prove_d7] summary: Elapsed process time [H:MM:SS (secs)]: 0:07:19 (439)
+SBY  1:08:55 [core_prove_d7] summary: engine_0 (smtbmc bitwuzla) returned pass for basecase
+SBY  1:08:55 [core_prove_d7] summary: engine_0 (smtbmc bitwuzla) returned pass for induction
+SBY  1:08:55 [core_prove_d7] summary: engine_0 did not produce any traces
+SBY  1:08:55 [core_prove_d7] summary: successful proof by k-induction.
+SBY  1:08:55 [core_prove_d7] DONE (PASS, rc=0)
