@@ -1,0 +1,192 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "6ed78cc289293615da6704d81fd482b0bf326115",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-25T01:26:14+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+   "torch": "2.14.1"
+  },
+  "seed": 77,
+  "config": {
+   "seed": 77,
+   "config": "batch 512, 40x100, Adam 2e-3"
+  }
+ },
+ "data": {
+  "base_rate": {
+   "site-A": 0.04458000138401985,
+   "site-B": 0.1020599976181984,
+   "site-C": 0.09719999879598618
+  },
+  "trajectories": [
+   {
+    "sigma": 0.6,
+    "round": 10,
+    "pl": {
+     "site-A": 0.00666,
+     "site-B": 0.03364,
+     "site-C": 0.03304
+    },
+    "positive_predictions": {
+     "site-A": 2008,
+     "site-B": 4061,
+     "site-C": 3880
+    },
+    "param_sha256": "5a6635f1b2a63110"
+   },
+   {
+    "sigma": 0.6,
+    "round": 20,
+    "pl": {
+     "site-A": 0.00516,
+     "site-B": 0.02654,
+     "site-C": 0.027
+    },
+    "positive_predictions": {
+     "site-A": 2103,
+     "site-B": 4612,
+     "site-C": 4362
+    },
+    "param_sha256": "57b5c1969a83e764"
+   },
+   {
+    "sigma": 0.6,
+    "round": 30,
+    "pl": {
+     "site-A": 0.00516,
+     "site-B": 0.02654,
+     "site-C": 0.027
+    },
+    "positive_predictions": {
+     "site-A": 2103,
+     "site-B": 4612,
+     "site-C": 4362
+    },
+    "param_sha256": "57506e7587ad246b"
+   },
+   {
+    "sigma": 0.6,
+    "round": 40,
+    "pl": {
+     "site-A": 0.00516,
+     "site-B": 0.02654,
+     "site-C": 0.027
+    },
+    "positive_predictions": {
+     "site-A": 2103,
+     "site-B": 4612,
+     "site-C": 4362
+    },
+    "param_sha256": "3d876120253d3204"
+   },
+   {
+    "sigma": 2.0,
+    "round": 10,
+    "pl": {
+     "site-A": 0.04458,
+     "site-B": 0.10206,
+     "site-C": 0.0972
+    },
+    "positive_predictions": {
+     "site-A": 0,
+     "site-B": 0,
+     "site-C": 0
+    },
+    "param_sha256": "b25f0c1e11d00527"
+   },
+   {
+    "sigma": 2.0,
+    "round": 20,
+    "pl": {
+     "site-A": 0.03386,
+     "site-B": 0.08662,
+     "site-C": 0.07846
+    },
+    "positive_predictions": {
+     "site-A": 576,
+     "site-B": 992,
+     "site-C": 1159
+    },
+    "param_sha256": "148da3b17d32c90f"
+   },
+   {
+    "sigma": 2.0,
+    "round": 30,
+    "pl": {
+     "site-A": 0.00516,
+     "site-B": 0.02658,
+     "site-C": 0.027
+    },
+    "positive_predictions": {
+     "site-A": 2103,
+     "site-B": 4610,
+     "site-C": 4360
+    },
+    "param_sha256": "9cc81dd618ad1dbc"
+   },
+   {
+    "sigma": 2.0,
+    "round": 40,
+    "pl": {
+     "site-A": 0.00516,
+     "site-B": 0.02658,
+     "site-C": 0.02702
+    },
+    "positive_predictions": {
+     "site-A": 2103,
+     "site-B": 4610,
+     "site-C": 4359
+    },
+    "param_sha256": "d0365ea80d630ce4"
+   }
+  ],
+  "snr": [
+   {
+    "batch": 512,
+    "sigma": 0.6,
+    "median_abs_signal": 0.0004635739896912128,
+    "noise_std": 0.001171875,
+    "median_grad_norm": 5.483841419219971,
+    "fraction_clipped": 1.0
+   },
+   {
+    "batch": 512,
+    "sigma": 2.0,
+    "median_abs_signal": 0.0004635739896912128,
+    "noise_std": 0.00390625,
+    "median_grad_norm": 5.483841419219971,
+    "fraction_clipped": 1.0
+   },
+   {
+    "batch": 8192,
+    "sigma": 0.6,
+    "median_abs_signal": 0.00046420778380706906,
+    "noise_std": 7.32421875e-05,
+    "median_grad_norm": 5.498321056365967,
+    "fraction_clipped": 1.0
+   },
+   {
+    "batch": 8192,
+    "sigma": 2.0,
+    "median_abs_signal": 0.00046420778380706906,
+    "noise_std": 0.000244140625,
+    "median_grad_norm": 5.498321056365967,
+    "fraction_clipped": 1.0
+   }
+  ]
+ }
+}

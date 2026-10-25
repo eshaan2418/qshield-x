@@ -4,3 +4,6 @@ W1024 20:43:19.743000 57215 .venv/lib/python3.12/site-packages/torch/distributed
 {"sigma": 0.6, "round": 30, "pl": {"site-A": 0.00516, "site-B": 0.02654, "site-C": 0.027}, "positive_predictions": {"site-A": 2103, "site-B": 4612, "site-C": 4362}, "param_sha256": "57506e7587ad246b"}
 {"sigma": 0.6, "round": 40, "pl": {"site-A": 0.00516, "site-B": 0.02654, "site-C": 0.027}, "positive_predictions": {"site-A": 2103, "site-B": 4612, "site-C": 4362}, "param_sha256": "3d876120253d3204"}
 {"sigma": 2.0, "round": 10, "pl": {"site-A": 0.04458, "site-B": 0.10206, "site-C": 0.0972}, "positive_predictions": {"site-A": 0, "site-B": 0, "site-C": 0}, "param_sha256": "b25f0c1e11d00527"}
+{"sigma": 2.0, "round": 20, "pl": {"site-A": 0.03386, "site-B": 0.08662, "site-C": 0.07846}, "positive_predictions": {"site-A": 576, "site-B": 992, "site-C": 1159}, "param_sha256": "148da3b17d32c90f"}
+{"sigma": 2.0, "round": 30, "pl": {"site-A": 0.00516, "site-B": 0.02658, "site-C": 0.027}, "positive_predictions": {"site-A": 2103, "site-B": 4610, "site-C": 4360}, "param_sha256": "9cc81dd618ad1dbc"}
+{"sigma": 2.0, "round": 40, "pl": {"site-A": 0.00516, "site-B": 0.02658, "site-C": 0.02702}, "positive_predictions": {"site-A": 2103, "site-B": 4610, "site-C": 4359}, "param_sha256": "d0365ea80d630ce4"}
