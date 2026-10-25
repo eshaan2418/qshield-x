@@ -1,0 +1,30 @@
+# Resume bullets (QShield-X)
+
+Each number is rendered from `results/` and carries its evidence stage; the source file is in parentheses.
+
+- **Designed a union-find surface-code decoder in SystemVerilog.** It is parameterised by LANES and PIPE, has an
+  AXI-Stream shell, commit-on-last frame FIFO, atomic configuration and a watchdog. It is bit- and cycle-exact
+  with a C++ golden model on {{M2_cosim_total}} co-simulated syndromes plus {{M2_cosim_extra_total}} on variant
+  configurations, with {{M2_cosim_mm}} mismatches [{{M2_cosim_total:stage}}] ({{M2_cosim_total:src}}). Took it
+  through synthesis and place-and-route on a Lattice LFE5U-85F with the open Yosys/nextpnr flow
+  [{{M2_hw_p99_ns_d3:stage}}] (`results/M2/report.json`).
+- **Formally verified the accelerator's execution protocol.** k-induction proves AXI-Stream compliance, round-tag
+  integrity, no loss or duplication, that invalid results are never presented as valid, and atomic
+  reconfiguration. It proves the core's watchdog bound for the real d = 3, 5, 7 cores. TLA+/TLC found a liveness
+  bug in the host↔accelerator↔fallback protocol, which was fixed; Z3 proves one-step equivalence of the core
+  against an independent reference (`results/M3/formal_summary.json`).
+- **Measured the hardware/software trade-off honestly.** At d = 3 the RTL decoder's p99 is {{M2_hw_p99_ns_d3}} ns vs
+  {{M2_cpu_pm_p99_us_d3}} µs for PyMatching on one CPU core. Its worst case is a provable bound
+  ({{M2_hw_max_ns_d3}} ns observed max) vs a {{M2_cpu_pm_max_us_d3}} µs CPU tail [{{M2_hw_p99_ns_d3:stage}} vs
+  CPU measurement], at {{M1_ratio_d7_p003}}× PyMatching's logical error rate at d = 7 [{{M1_ratio_d7_p003:stage}}]
+  (`results/M2/report.json`, `results/M1/`).
+- **Found and fixed a V8 code-generation inefficiency.** While profiling the decoder's Wasm SIMD build, found that
+  arm64 lowered `br_if(v128.any_true)` with a redundant compare/set. Wrote an in-tree Turboshaft
+  instruction-selector patch (5 → 3 instructions), 3 unittests and an mjsunit test that catches a mutated
+  lowering. {{M5_tests_ran}} V8 tests pass; zero-block scan time is {{M5_micro_ratio_0}}× the baseline
+  [{{M5_micro_ratio_0:stage}}] (`results/M5/`).
+- **Built the research infrastructure around it.** Native vs Wasm-scalar vs Wasm-SIMD builds, bit-exact across
+  Node, d8 and Chrome. A browser dashboard decodes live and verifies Ed25519-signed results with WebCrypto.
+  AES-GCM experiment storage and an mTLS control API, with negative tests. A federated GNN-decoder study with
+  DP-SGD and secure aggregation: privacy down to ε = {{M7_knee_eps}} costs no utility beyond a plateau
+  [{{M7_knee_eps:stage}}] (`results/M7/`).
