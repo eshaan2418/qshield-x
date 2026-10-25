@@ -1,0 +1,159 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "863b39105a775b6f0c75aa1cad63f98defa63478",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-25T02:24:07+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+   "verilator": "Verilator 5.053 devel rev v5.052-567-g0041d207c (mod)"
+  },
+  "seed": 2002,
+  "config": {
+   "what": "cycles,shell,toggle",
+   "distances": "3,5,7,9",
+   "ps": "0.001,0.003,0.006",
+   "lanes": "1,4,8,16,32",
+   "shots": 100000,
+   "shell_distances": "3,5,7",
+   "shell_p": 0.003,
+   "shell_shots": 20000,
+   "toggle_distances": "3,5,7",
+   "toggle_shots": 5000,
+   "jobs": 4,
+   "seed": 2002,
+   "out": "/Users/eshaan.kapooswalla/QShield-X/results/M2"
+  }
+ },
+ "data": [
+  {
+   "d": 3,
+   "p": 0.001,
+   "lanes": 8,
+   "shots": 5000,
+   "cycles": 98574,
+   "busy_cycles": 88574,
+   "toggle_points": 17148,
+   "toggles": 5334041,
+   "toggles_per_decode": 1066.8082,
+   "toggles_per_cycle": 54.11204780165155,
+   "stage": "estimate (Verilator toggle-count activity proxy, not Watts)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 8,
+   "shots": 5000,
+   "cycles": 143569,
+   "busy_cycles": 133569,
+   "toggle_points": 17148,
+   "toggles": 9521862,
+   "toggles_per_decode": 1904.3724,
+   "toggles_per_cycle": 66.32254873963042,
+   "stage": "estimate (Verilator toggle-count activity proxy, not Watts)"
+  },
+  {
+   "d": 3,
+   "p": 0.006,
+   "lanes": 8,
+   "shots": 5000,
+   "cycles": 191199,
+   "busy_cycles": 181199,
+   "toggle_points": 17148,
+   "toggles": 14670727,
+   "toggles_per_decode": 2934.1454,
+   "toggles_per_cycle": 76.73014503213929,
+   "stage": "estimate (Verilator toggle-count activity proxy, not Watts)"
+  },
+  {
+   "d": 5,
+   "p": 0.001,
+   "lanes": 8,
+   "shots": 5000,
+   "cycles": 499434,
+   "busy_cycles": 489434,
+   "toggle_points": 134822,
+   "toggles": 75471676,
+   "toggles_per_decode": 15094.3352,
+   "toggles_per_cycle": 151.11441351610023,
+   "stage": "estimate (Verilator toggle-count activity proxy, not Watts)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 8,
+   "shots": 5000,
+   "cycles": 761304,
+   "busy_cycles": 751304,
+   "toggle_points": 134822,
+   "toggles": 170440488,
+   "toggles_per_decode": 34088.0976,
+   "toggles_per_cycle": 223.87966961949496,
+   "stage": "estimate (Verilator toggle-count activity proxy, not Watts)"
+  },
+  {
+   "d": 5,
+   "p": 0.006,
+   "lanes": 8,
+   "shots": 5000,
+   "cycles": 897584,
+   "busy_cycles": 887584,
+   "toggle_points": 134822,
+   "toggles": 304214353,
+   "toggles_per_decode": 60842.8706,
+   "toggles_per_cycle": 338.92577519207117,
+   "stage": "estimate (Verilator toggle-count activity proxy, not Watts)"
+  },
+  {
+   "d": 7,
+   "p": 0.001,
+   "lanes": 8,
+   "shots": 5000,
+   "cycles": 1810608,
+   "busy_cycles": 1800608,
+   "toggle_points": 449262,
+   "toggles": 531475091,
+   "toggles_per_decode": 106295.0182,
+   "toggles_per_cycle": 293.53404546980903,
+   "stage": "estimate (Verilator toggle-count activity proxy, not Watts)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 8,
+   "shots": 5000,
+   "cycles": 2296366,
+   "busy_cycles": 2286366,
+   "toggle_points": 449262,
+   "toggles": 1348448023,
+   "toggles_per_decode": 269689.6046,
+   "toggles_per_cycle": 587.2095402039571,
+   "stage": "estimate (Verilator toggle-count activity proxy, not Watts)"
+  },
+  {
+   "d": 7,
+   "p": 0.006,
+   "lanes": 8,
+   "shots": 5000,
+   "cycles": 2600920,
+   "busy_cycles": 2590920,
+   "toggle_points": 449262,
+   "toggles": 2687489296,
+   "toggles_per_decode": 537497.8592,
+   "toggles_per_cycle": 1033.2841056241637,
+   "stage": "estimate (Verilator toggle-count activity proxy, not Watts)"
+  }
+ ]
+}
