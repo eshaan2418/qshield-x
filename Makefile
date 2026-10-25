@@ -19,7 +19,7 @@ EMFLAGS := -O3 -std=c++17 -Idecoders/include -sMODULARIZE=1 -sEXPORT_NAME=QSXMod
            -sALLOW_MEMORY_GROWTH=1 -sEXPORTED_FUNCTIONS=$(WASM_EXP) -sEXPORTED_RUNTIME_METHODS=HEAPU8,HEAPF64
 
 .PHONY: all graphs decoders pymatching test test-cpp test-py lint cosim cosim-quick formal formal-quick \
-        synth wasm native m1 m4 m6 m7 m8 figures check-numbers reproduce-quick reproduce-full paper ci clean
+        synth wasm native m1 m2hw m4 m5 m6 m7 m8 e2e env figures check-numbers reproduce-quick reproduce-full paper ci clean
 
 all: decoders graphs wasm native
 
@@ -95,7 +95,7 @@ formal:
 
 # ---------------------------------------------------------------- FPGA (M2)
 synth:
-	$(ENV) $(PY) fpga/run_fpga.py
+	$(ENV) $(PY) fpga/run_fpga.py && $(PY) bench/m2_critpath.py
 
 # ---------------------------------------------------------------- experiments
 m1: decoders pymatching
@@ -108,7 +108,16 @@ m6: decoders
 m7:
 	$(ENV) $(PY) federated/fed.py --rounds 40 --local-steps 100
 m8: decoders
-	$(ENV) PYTHONPATH=$(ROOT) pytest -q tests/test_infra.py && $(PY) bench/m8_overhead.py
+	$(ENV) PYTHONPATH=$(ROOT) pytest -q tests/test_infra.py --junitxml=results/M8/tests.xml && $(PY) bench/m8_overhead.py
+
+m2hw: decoders
+	$(ENV) $(PY) bench/m2_hw.py && $(PY) bench/m3_overhead.py --distances 3,5,7
+m5:
+	$(ENV) $(PY) v8/run_v8_tests.py --mutation && $(PY) v8/bench_anytrue.py
+e2e: decoders wasm
+	$(ENV) $(PY) bench/e2e_demo.py --max-rounds 6
+env:
+	$(ENV) $(PY) bench/env_probe.py
 
 figures:
 	$(ENV) $(PY) bench/make_figures.py
@@ -125,14 +134,16 @@ reproduce-quick: decoders pymatching native wasm graphs
 	  --target-errors 100 --out $(B)/rq/M1
 	$(MAKE) cosim-quick formal-quick
 	$(ENV) $(PY) bench/m4_runtime.py --distances 5 --shots 20000 --chrome 0 --out $(B)/rq/m4.json
-	$(MAKE) m8 figures check-numbers
+	$(ENV) PYTHONPATH=$(ROOT) pytest -q tests/test_infra.py && $(PY) bench/m8_overhead.py $(B)/rq/m8.json
+	$(ENV) $(PY) bench/e2e_demo.py --shots 1000 --max-rounds 6 --out $(B)/rq/e2e.json
+	$(MAKE) paper check-numbers
 	$(ENV) $(PY) bench/compare_quick.py
 
 reproduce-full: decoders pymatching native wasm graphs
-	$(MAKE) test lint m1 cosim formal synth m4 m6 m7 m8 figures paper check-numbers
+	$(MAKE) test lint m1 cosim formal synth m2hw m4 m5 m6 m7 m8 e2e figures paper check-numbers
 
 paper: figures
-	$(ENV) cd paper && tectonic -X compile qshieldx.tex
+	$(ENV) $(PY) bench/claims.py > /dev/null && cd paper && tectonic -X compile qshieldx.tex
 
 ci: lint test cosim-quick formal-quick
 
