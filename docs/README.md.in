@@ -32,6 +32,11 @@ circuit-level depolarizing noise, d = 3–9)
   accounting points to the next design: at LANES = 8 the serial scans take {{M2_scan_share_d7_L8}} % of all cycles
   at d = 7 [{{M2_scan_share_d7_L8:stage}}].
 
+* **The objective, evaluated.** For J = α·P_L + β·T + γ·A over every measured configuration, an RTL configuration
+  is optimal for {{M10_rtl_win_p99_d3}} % of weightings when T is p99 latency, and for {{M10_rtl_win_worst_d3}} %
+  when T is worst-case latency (d = 3) [{{M10_rtl_win_worst_d3:stage}}]. Co-design pays off exactly when the deadline
+  is what matters.
+
 ## What's here
 
 | Area | What | Evidence |

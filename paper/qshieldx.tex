@@ -183,7 +183,7 @@ in \texttt{br\_if}, inverted \texttt{br\_if}, \texttt{if}, \texttt{select} and m
 after tier-up. Results are in \S\ref{sec:eval-wasm}.
 
 \section{Evaluation}\label{sec:eval}
-\paragraph{Setup.} \claim{ENV_host}; all toolchain versions are pinned in \texttt{ENVIRONMENT.md}.
+\paragraph{Setup.} Host: \claim{ENV_host}. All toolchain versions are pinned in \texttt{ENVIRONMENT.md}.
 The machine was shared with an unrelated workload (BLOCKERS B6), so timing experiments were run last, and
 before/after comparisons interleave their runs.
 
@@ -194,10 +194,11 @@ before/after comparisons interleave their runs.
 \item \textbf{No board.} Latency is cycles from a model that is cycle-exact with the RTL, divided by the
   post-PnR Fmax of one seed. Host--FPGA transport, clock-domain crossings and on-board jitter are not
   included. Energy is a toggle-count proxy, not Watts.
-\item \textbf{Proof scope.} k-induction of the real core is for $d=3$ only. Larger cores are covered by
-  co-simulation and one-step Z3 equivalence, which is not a proof of end-to-end equivalence. The TLA+ model is
-  checked for small constants (stated in Table~\ref{tab:formal}). No proof says anything about
-  P\textsubscript{L}.
+\item \textbf{Proof scope.} k-induction of the real core (C1--C5: masking, watchdog bound, done protocol) covers
+  the $d=3,5,7$ graphs with LANES$=8$. These are control properties. Functional equivalence of the larger cores
+  rests on co-simulation and on one-step Z3 equivalence ($d=3,5$), which is not a proof of end-to-end equivalence.
+  The TLA+ model is checked for small constants (\texttt{formal/tla/*.cfg}; state counts in Table~\ref{tab:formal}).
+  No proof says anything about P\textsubscript{L}.
 \item \textbf{Noise model.} Uniform circuit-level depolarizing noise, memory experiments only, decoder
   graph built for the true $p$ (except in the noise-shift study). Real devices have leakage, crosstalk and
   non-uniform rates.

@@ -22,6 +22,10 @@ latency / resource trade-off than a fixed software-only decoder?*
 * *Resources.* d = 5 fits only with narrow scans ({{M2_util_d5q5L4PIPE0}} % logic, {{M2_fmax_d5q5L4PIPE0}} MHz).
   The smallest d = 7 configuration needs {{M2_min_lut_d7}} LUT4 after synthesis, {{M2_d7_over_device}}× the device's LUT capacity.
 
+* *Objective.* With J = α·P_L + β·T + γ·A, RTL configurations minimise J for {{M10_rtl_win_p99_d3}} % of
+  weightings under p99 latency and {{M10_rtl_win_worst_d3}} % under worst-case latency at d = 3
+  ({{M10_rtl_win_worst_d5}} % at d = 5).
+
 ## Strongest claims
 
 1. **Bit-exact RTL.** The parallel RTL decoder matches the sequential C++ golden model on {{M2_cosim_total}}

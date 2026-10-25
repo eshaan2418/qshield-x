@@ -46,21 +46,23 @@ latency lever of this microarchitecture \stage{sim}.
 fabrics make area grow roughly with the number of graph edges. At $d=3$ every configuration fits comfortably and
 closes at up to \claim{M2_fmax_d3q5L32PIPE1}\,MHz. With PIPE$=1$, a register in the label path, Fmax rises by \claim{M2_pipe_gain_pct_d3}\% (LANES$=32$) for a few extra cycles. At $d=5$ only LANES$\le 4$ places, at \claim{M2_util_d5q5L4PIPE0}\% logic
 utilisation and \claim{M2_fmax_d5q5L4PIPE0}\,MHz. Wider scans fail placement, and every $d\ge 7$ configuration
-exceeds the device after synthesis alone. The critical path always runs through the vertex min-label tree
+exceeds the device after synthesis alone. The clock period is dominated by routing, not logic. At $d=3$ (LANES$=8$) the critical path has
+\claim{M2_cp_routing_d3q5L8PIPE0}\,ns of routing against \claim{M2_cp_logic_d3q5L8PIPE0}\,ns of logic. At $d=5$, near full
+utilisation, routing grows to \claim{M2_cp_routing_d5q5L4PIPE0}\,ns, which is why Fmax drops
 (\texttt{results/M2/fpga/critical\_paths.json}).
 \input{gen_fpga.tex}
 
 \paragraph{Latency vs.\ the CPU.} Figure~\ref{fig:hwcpu} compares the best placed configuration per distance with
 single-thread CPU decoding of the same shots. At $d=3$ the RTL p99 is \claim{M2_hw_p99_ns_d3}\,ns
-(\claim{M2_hw_best_d3}), against \claim{M2_cpu_pm_p99_us_d3}\,\textmu s for PyMatching, a ratio of
-\claim{M2_ratio_p99_d3}. At $d=5$ it is \claim{M2_hw_p99_ns_d5}\,ns against \claim{M2_cpu_pm_p99_us_d5}\,\textmu s
+(\claim{M2_hw_best_d3}), against \claim{M2_cpu_pm_p99_us_d3}\,\textmu s for PyMatching (RTL/CPU ratio
+\claim{M2_ratio_p99_d3}). At $d=5$ it is \claim{M2_hw_p99_ns_d5}\,ns against \claim{M2_cpu_pm_p99_us_d5}\,\textmu s
 (ratio \claim{M2_ratio_p99_d5}). On this device the hardware decoder is \emph{not} faster in typical or p99
 latency. Its advantage lies in the tail. The worst case observed in hardware is \claim{M2_hw_max_ns_d3}\,ns at
 $d=3$, against \claim{M2_cpu_pm_max_us_d3}\,\textmu s for the CPU, which is \claim{M2_ratio_max_d3}$\times$ lower.
 More importantly, the hardware bound is guaranteed rather than observed. Property C2 proves that a decode never
 exceeds its \texttt{cycle\_budget}, and the shell proofs guarantee that a frame over budget comes back as a
 \texttt{WATCHDOG} status, never as a wrong valid result. Against a block deadline of $d\times 1$\,\textmu s
-(an assumed round time), with the budget set to fit, the hardware finishes all but \claim{M2_hw_fallback_d3}\% of
+(an assumed round time), with the budget set to fit, the hardware finishes \claim{M2_hw_within_d3}\% of
 $d=3$ frames itself. At $d=5$ it finishes only \claim{M2_hw_within_d5}\% of them; the rest go to the
 verified software path.
 
@@ -75,6 +77,17 @@ vs.\ QSX-UF and PyMatching on one CPU core \stage{CPU}. Dashed: the $d\times 1$\
 \paragraph{Activity.} The toggle-count proxy grows from \claim{M2_toggles_d3_p3} bit toggles per decode at $d=3$ to
 \claim{M2_toggles_d5_p3} at $d=5$ and \claim{M2_toggles_d7_p3} at $d=7$ ($p=0.003$) \stage{estimate}. It is a relative
 estimate of dynamic energy, not a power number, and it cannot be compared with the CPU.
+
+\subsection{The objective}
+We evaluate the project objective $J=\alpha\,\mathrm{P_L}+\beta\,T+\gamma\,A$ on every measured configuration,
+each metric normalised by its maximum (\texttt{bench/objective.py}). The energy term is omitted because CPU energy
+was not measured. Under $T=$ p99 latency, no RTL configuration minimises $J$ for any weighting at $d=3$
+(\claim{M10_rtl_win_p99_d3}\% of the weight simplex) or at $d=5$ (\claim{M10_rtl_win_p99_d5}\%): a CPU core running
+PyMatching is better or equal in every metric. Under $T=$ worst-case latency, which for the RTL is bounded by proof
+and for the CPU only observed, \claim{M10_pareto_n_worst_d3} configurations form the $d=3$ Pareto set. RTL
+configurations minimise $J$ for \claim{M10_rtl_win_worst_d3}\% of the weightings at $d=3$ and
+\claim{M10_rtl_win_worst_d5}\% at $d=5$, namely those that weight the deadline heavily. Co-design pays off exactly
+when the worst case is what matters.
 
 \subsection{Cost of the verified mechanisms}
 Table~\ref{tab:overhead} separates the decoder core from the verified shell with a hierarchical synthesis
@@ -102,7 +115,7 @@ change from \texttt{umaxp; fmov; cmp; cset; cbnz} to \texttt{umaxp; fmov; cbz/cb
 \claim{M5_sites_total} fused). The patch applies cleanly to the recorded upstream revision. \claim{M5_tests_ran} V8
 tests pass on the patched build (\claim{M5_tests_failed} failures), covering the arm64 instruction-selector and
 scheduler unittests, the Wasm SIMD execution unittests, and \texttt{mjsunit/wasm}. The new mjsunit test passes on
-both builds and fails on a deliberately broken lowering that moves only the low 32 bits of the reduction. In
+both builds and fails on a deliberately broken lowering that moves only the low half of the 64-bit reduction. In
 interleaved A/B runs of the two d8 binaries (medians, bootstrap 95\% CIs) \stage{d8 measurement}, the zero-block scan
 takes \claim{M5_micro_ratio_0}$\times$ the unpatched time on all-zero data (CI \claim{M5_micro_ci_lo_0}--\claim{M5_micro_ci_hi_0})
 and \claim{M5_micro_ratio_5}$\times$ when a small share of blocks is non-zero. The gain disappears once the branch
@@ -156,8 +169,7 @@ configuration (lot \claim{M7_lot_small}) gave P\textsubscript{L} that did not de
 that DP-limited training converges to, rather than to clipping (DECISIONS D9/D10, \texttt{results/M7/dp\_debug.json}).
 With large lots (\claim{M7_lot_large}), privacy from $\varepsilon=\claim{M7_max_eps}$ down to $\varepsilon=\claim{M7_knee_eps}$
 ($\delta=10^{-5}$, RDP accountant) costs nothing beyond that plateau. At $\varepsilon=\claim{M7_below_knee_eps}$
-P\textsubscript{L} rises at least \claim{M7_below_knee_factor}$\times$ at every site. Tripling the step budget lets
-the noisiest run reach the plateau, but only at a higher $\varepsilon$. This is a single-process simulation; the
+P\textsubscript{L} rises at least \claim{M7_below_knee_factor}$\times$ at every site. Tripling the step budget lets the noisiest run reach the plateau, but only at $\varepsilon=\claim{M7_long_eps_s2}$. This is a single-process simulation; the
 masks assume honest-but-curious parties and no dropouts.
 \input{gen_m7.tex}
 
@@ -175,5 +187,5 @@ small growth-round limit, and \claim{E2E_mm} frames mismatch the model. The host
 \texttt{QSXProtocol.tla} and asserts its safety invariants at run time. \claim{E2E_hw} rounds were committed from
 hardware and \claim{E2E_sw} from the software fallback, covering \claim{E2E_timeouts} hardware timeouts and
 \claim{E2E_lost} injected lost responses. The committed predictions are signed and stored encrypted. A browser view
-(M9, \texttt{viz/}) verifies the signature with WebCrypto and replays the trace through the Wasm decoder,
-reproducing the committed predictions (\claim{E2E_replay}).
+(M9, \texttt{viz/}) verifies the signature with WebCrypto and replays the trace through the Wasm decoder. Replay
+reproduces every committed prediction (check passed: \claim{E2E_replay}).
