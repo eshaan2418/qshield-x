@@ -1,0 +1,5 @@
+{"d": 3, "kind": "core-random", "syndromes": 100000, "mismatches": 0, "chunks": 8, "ok": 100000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 58}
+{"d": 3, "kind": "core-stim", "syndromes": 20000, "mismatches": 0, "chunks": 8, "ok": 20000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 48}
+{"d": 3, "kind": "top-random-stress", "syndromes": 10000, "mismatches": 0, "chunks": 2, "malformed": 206, "cfg_invalid": 98, "reconf_frames": 2352}
+{"d": 3, "kind": "top-stim-stress", "syndromes": 10000, "mismatches": 0, "chunks": 2, "malformed": 0, "cfg_invalid": 0, "reconf_frames": 0}
+TOTAL MISMATCHES 0
