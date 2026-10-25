@@ -1,0 +1,14 @@
+d3_q5_L24_PIPE0              LUT4=   8620 FF=  1371 fmax=56.1 
+d3_q5_L24_PIPE1              LUT4=   8981 FF=  1451 fmax=64.2 
+d5_q5_L120_PIPE0             LUT4= 115386 FF=  7747 fmax=nan does not fit: 115386 LUT4 after synthesis > 83640 on LFE5U-85F
+d5_q5_L120_PIPE1             LUT4= 109311 FF=  8251 fmax=nan does not fit: 109311 LUT4 after synthesis > 83640 on LFE5U-85F
+Traceback (most recent call last):
+  File "/Users/eshaan.kapooswalla/QShield-X/fpga/run_fpga.py", line 153, in <module>
+    main()
+  File "/Users/eshaan.kapooswalla/QShield-X/fpga/run_fpga.py", line 148, in main
+    "nextpnr-ecp5": tool_version(["nextpnr-ecp5", "--version"]),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/eshaan.kapooswalla/QShield-X/fpga/run_fpga.py", line 31, in tool_version
+    return subprocess.run(cmd, capture_output=True, text=True).stdout.strip().splitlines()[0]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range

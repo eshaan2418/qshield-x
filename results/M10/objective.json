@@ -1,0 +1,6076 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "85e496f10ff211aa9918697d2c6ab3a3526e405e",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-25T05:13:41+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)"
+  },
+  "seed": null,
+  "config": {
+   "distances": "3,5",
+   "p": 0.003,
+   "steps": 20
+  }
+ },
+ "data": [
+  {
+   "d": 3,
+   "p": 0.003,
+   "latency_metric": "t_p99",
+   "configs": [
+    {
+     "name": "PyMatching (CPU)",
+     "kind": "cpu",
+     "pl": 0.00659,
+     "pl_ci95": [
+      0.0060978720273864315,
+      0.007111064963610744
+     ],
+     "t_p99": 542.0,
+     "t_worst": 4750.0,
+     "lut": 0,
+     "t_stage": "CPU measurement (1 thread); worst = observed max (no bound)"
+    },
+    {
+     "name": "QSX-UF q5 (CPU)",
+     "kind": "cpu",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 583.0,
+     "t_worst": 13833.0,
+     "lut": 0,
+     "t_stage": "CPU measurement (1 thread); worst = observed max (no bound)"
+    },
+    {
+     "name": "QSX-UF RTL L1 P0",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 5791.9540391837,
+     "t_worst": 5917.478031160324,
+     "lut": 6666,
+     "fmax_mhz": 55.766231536865234,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L1 P1",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 5198.418260749693,
+     "t_worst": 5308.689259411183,
+     "lut": 6727,
+     "fmax_mhz": 63.47997283935547,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L8 P0",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 1258.2523015614177,
+     "t_worst": 1382.3132957649887,
+     "lut": 7593,
+     "fmax_mhz": 56.423858642578125,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L8 P1",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 1201.597914397685,
+     "t_worst": 1309.4399154475384,
+     "lut": 7254,
+     "fmax_mhz": 64.90977478027344,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L32 P0",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 854.3772772193389,
+     "t_worst": 981.6372766562072,
+     "lut": 8883,
+     "fmax_mhz": 55.00550079345703,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L32 P1",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 832.9337670640231,
+     "t_worst": 940.9157612773903,
+     "lut": 8947,
+     "fmax_mhz": 64.82562255859375,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L24 P0",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 838.2578309249147,
+     "t_worst": 963.116829327407,
+     "lut": 8620,
+     "fmax_mhz": 56.06324005126953,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L24 P1",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 841.6270622432309,
+     "t_worst": 950.7360600514279,
+     "lut": 8981,
+     "fmax_mhz": 64.1560287475586,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    }
+   ],
+   "pareto": [
+    "PyMatching (CPU)"
+   ],
+   "weight_grid": [
+    {
+     "alpha": 0.0,
+     "beta": 0.0,
+     "gamma": 1.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.05,
+     "gamma": 0.95,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.1,
+     "gamma": 0.9,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.15,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.2,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.25,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.3,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.35,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.4,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.45,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.5,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.55,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.6,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.65,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.7,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.75,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.8,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.85,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.9,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.95,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 1.0,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.0,
+     "gamma": 0.95,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.05,
+     "gamma": 0.9,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.1,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.15,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.2,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.25,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.3,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.35,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.4,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.45,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.5,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.55,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.6,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.65,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.7,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.75,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.8,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.85,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.9,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.95,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.0,
+     "gamma": 0.9,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.05,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.1,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.15,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.2,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.25,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.3,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.35,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.4,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.45,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.5,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.55,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.6,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.65,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.7,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.75,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.8,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.85,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.9,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.0,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.05,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.1,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.15,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.2,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.25,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.3,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.35,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.4,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.45,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.5,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.55,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.6,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.65,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.7,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.75,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.8,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.85,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.0,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.05,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.1,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.15,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.2,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.25,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.3,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.35,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.4,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.45,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.5,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.55,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.6,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.65,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.7,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.75,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.8,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.0,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.05,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.1,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.15,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.2,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.25,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.3,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.35,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.4,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.45,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.5,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.55,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.6,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.65,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.7,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.75,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.0,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.05,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.1,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.15,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.2,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.25,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.3,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.35,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.4,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.45,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.5,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.55,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.6,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.65,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.7,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.0,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.05,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.1,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.15,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.2,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.25,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.3,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.35,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.4,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.45,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.5,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.55,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.6,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.65,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.0,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.05,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.1,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.15,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.2,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.25,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.3,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.35,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.4,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.45,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.5,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.55,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.6,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.0,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.05,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.1,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.15,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.2,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.25,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.3,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.35,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.4,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.45,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.5,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.55,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.0,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.05,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.1,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.15,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.2,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.25,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.3,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.35,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.4,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.45,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.5,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.0,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.05,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.1,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.15,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.2,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.25,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.3,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.35,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.4,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.45,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.0,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.05,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.1,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.15,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.2,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.25,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.3,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.35,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.4,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.0,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.05,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.1,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.15,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.2,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.25,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.3,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.35,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.0,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.05,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.1,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.15,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.2,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.25,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.3,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.0,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.05,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.1,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.15,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.2,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.25,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.0,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.05,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.1,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.15,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.2,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.0,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.05,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.1,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.15,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.0,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.05,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.1,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.95,
+     "beta": 0.0,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.95,
+     "beta": 0.05,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 1.0,
+     "beta": 0.0,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    }
+   ],
+   "win_fraction": {
+    "PyMatching (CPU)": 1.0,
+    "QSX-UF q5 (CPU)": 0.0,
+    "QSX-UF RTL L1 P0": 0.0,
+    "QSX-UF RTL L1 P1": 0.0,
+    "QSX-UF RTL L8 P0": 0.0,
+    "QSX-UF RTL L8 P1": 0.0,
+    "QSX-UF RTL L32 P0": 0.0,
+    "QSX-UF RTL L32 P1": 0.0,
+    "QSX-UF RTL L24 P0": 0.0,
+    "QSX-UF RTL L24 P1": 0.0
+   },
+   "rtl_win_fraction": 0.0,
+   "normalisers": {
+    "pl": 0.00688,
+    "t_p99": 5791.9540391837,
+    "lut": 8981
+   },
+   "note": "delta*E omitted (no CPU energy measurement; RTL activity proxy is not in Watts)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "latency_metric": "t_worst",
+   "configs": [
+    {
+     "name": "PyMatching (CPU)",
+     "kind": "cpu",
+     "pl": 0.00659,
+     "pl_ci95": [
+      0.0060978720273864315,
+      0.007111064963610744
+     ],
+     "t_p99": 542.0,
+     "t_worst": 4750.0,
+     "lut": 0,
+     "t_stage": "CPU measurement (1 thread); worst = observed max (no bound)"
+    },
+    {
+     "name": "QSX-UF q5 (CPU)",
+     "kind": "cpu",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 583.0,
+     "t_worst": 13833.0,
+     "lut": 0,
+     "t_stage": "CPU measurement (1 thread); worst = observed max (no bound)"
+    },
+    {
+     "name": "QSX-UF RTL L1 P0",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 5791.9540391837,
+     "t_worst": 5917.478031160324,
+     "lut": 6666,
+     "fmax_mhz": 55.766231536865234,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L1 P1",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 5198.418260749693,
+     "t_worst": 5308.689259411183,
+     "lut": 6727,
+     "fmax_mhz": 63.47997283935547,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L8 P0",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 1258.2523015614177,
+     "t_worst": 1382.3132957649887,
+     "lut": 7593,
+     "fmax_mhz": 56.423858642578125,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L8 P1",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 1201.597914397685,
+     "t_worst": 1309.4399154475384,
+     "lut": 7254,
+     "fmax_mhz": 64.90977478027344,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L32 P0",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 854.3772772193389,
+     "t_worst": 981.6372766562072,
+     "lut": 8883,
+     "fmax_mhz": 55.00550079345703,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L32 P1",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 832.9337670640231,
+     "t_worst": 940.9157612773903,
+     "lut": 8947,
+     "fmax_mhz": 64.82562255859375,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L24 P0",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 838.2578309249147,
+     "t_worst": 963.116829327407,
+     "lut": 8620,
+     "fmax_mhz": 56.06324005126953,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L24 P1",
+     "kind": "rtl",
+     "pl": 0.00688,
+     "pl_ci95": [
+      0.006377021872644753,
+      0.007411890209740811
+     ],
+     "t_p99": 841.6270622432309,
+     "t_worst": 950.7360600514279,
+     "lut": 8981,
+     "fmax_mhz": 64.1560287475586,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    }
+   ],
+   "pareto": [
+    "PyMatching (CPU)",
+    "QSX-UF RTL L8 P1",
+    "QSX-UF RTL L32 P1",
+    "QSX-UF RTL L24 P0"
+   ],
+   "weight_grid": [
+    {
+     "alpha": 0.0,
+     "beta": 0.0,
+     "gamma": 1.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.05,
+     "gamma": 0.95,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.1,
+     "gamma": 0.9,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.15,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.2,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.25,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.3,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.35,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.4,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.45,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.5,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.55,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.6,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.65,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.7,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.75,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.8,
+     "gamma": 0.2,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.85,
+     "gamma": 0.15,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.9,
+     "gamma": 0.1,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.95,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 1.0,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.0,
+     "gamma": 0.95,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.05,
+     "gamma": 0.9,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.1,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.15,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.2,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.25,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.3,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.35,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.4,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.45,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.5,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.55,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.6,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.65,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.7,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.75,
+     "gamma": 0.2,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.8,
+     "gamma": 0.15,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.85,
+     "gamma": 0.1,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.9,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.95,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.0,
+     "gamma": 0.9,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.05,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.1,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.15,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.2,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.25,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.3,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.35,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.4,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.45,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.5,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.55,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.6,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.65,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.7,
+     "gamma": 0.2,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.75,
+     "gamma": 0.15,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.8,
+     "gamma": 0.1,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.85,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.9,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.0,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.05,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.1,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.15,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.2,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.25,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.3,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.35,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.4,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.45,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.5,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.55,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.6,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.65,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.7,
+     "gamma": 0.15,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.75,
+     "gamma": 0.1,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.8,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.85,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.0,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.05,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.1,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.15,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.2,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.25,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.3,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.35,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.4,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.45,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.5,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.55,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.6,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.65,
+     "gamma": 0.15,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.7,
+     "gamma": 0.1,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.75,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.8,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.0,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.05,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.1,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.15,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.2,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.25,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.3,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.35,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.4,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.45,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.5,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.55,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.6,
+     "gamma": 0.15,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.65,
+     "gamma": 0.1,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.7,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.75,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.0,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.05,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.1,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.15,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.2,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.25,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.3,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.35,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.4,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.45,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.5,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.55,
+     "gamma": 0.15,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.6,
+     "gamma": 0.1,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.65,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.7,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.0,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.05,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.1,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.15,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.2,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.25,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.3,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.35,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.4,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.45,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.5,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.55,
+     "gamma": 0.1,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.6,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.65,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.0,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.05,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.1,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.15,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.2,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.25,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.3,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.35,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.4,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.45,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.5,
+     "gamma": 0.1,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.55,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.6,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.0,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.05,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.1,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.15,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.2,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.25,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.3,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.35,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.4,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.45,
+     "gamma": 0.1,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.5,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.55,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.0,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.05,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.1,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.15,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.2,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.25,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.3,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.35,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.4,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.45,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.5,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.0,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.05,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.1,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.15,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.2,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.25,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.3,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.35,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.4,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.45,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.0,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.05,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.1,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.15,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.2,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.25,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.3,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.35,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L24 P0"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.4,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.0,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.05,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.1,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.15,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.2,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.25,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.3,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L8 P1"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.35,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.0,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.05,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.1,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.15,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.2,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.25,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.3,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.0,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.05,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.1,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.15,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.2,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.25,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.0,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.05,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.1,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.15,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.2,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.0,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.05,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.1,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.15,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L32 P1"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.0,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.05,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.1,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.95,
+     "beta": 0.0,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.95,
+     "beta": 0.05,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 1.0,
+     "beta": 0.0,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    }
+   ],
+   "win_fraction": {
+    "PyMatching (CPU)": 0.7748917748917749,
+    "QSX-UF q5 (CPU)": 0.0,
+    "QSX-UF RTL L1 P0": 0.0,
+    "QSX-UF RTL L1 P1": 0.0,
+    "QSX-UF RTL L8 P0": 0.0,
+    "QSX-UF RTL L8 P1": 0.06493506493506493,
+    "QSX-UF RTL L32 P0": 0.0,
+    "QSX-UF RTL L32 P1": 0.07792207792207792,
+    "QSX-UF RTL L24 P0": 0.08225108225108226,
+    "QSX-UF RTL L24 P1": 0.0
+   },
+   "rtl_win_fraction": 0.2251082251082251,
+   "normalisers": {
+    "pl": 0.00688,
+    "t_worst": 13833.0,
+    "lut": 8981
+   },
+   "note": "delta*E omitted (no CPU energy measurement; RTL activity proxy is not in Watts)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "latency_metric": "t_p99",
+   "configs": [
+    {
+     "name": "PyMatching (CPU)",
+     "kind": "cpu",
+     "pl": 0.00362,
+     "pl_ci95": [
+      0.0032572273615876605,
+      0.004012014018064888
+     ],
+     "t_p99": 3125.0,
+     "t_worst": 28208.0,
+     "lut": 0,
+     "t_stage": "CPU measurement (1 thread); worst = observed max (no bound)"
+    },
+    {
+     "name": "QSX-UF q5 (CPU)",
+     "kind": "cpu",
+     "pl": 0.00404,
+     "pl_ci95": [
+      0.0036562925735033297,
+      0.004452897254329811
+     ],
+     "t_p99": 2792.0,
+     "t_worst": 32917.0,
+     "lut": 0,
+     "t_stage": "CPU measurement (1 thread); worst = observed max (no bound)"
+    },
+    {
+     "name": "QSX-UF RTL L1 P0",
+     "kind": "rtl",
+     "pl": 0.00404,
+     "pl_ci95": [
+      0.0036562925735033297,
+      0.004452897254329811
+     ],
+     "t_p99": 53332.719629130755,
+     "t_worst": 76176.49588009999,
+     "lut": 60275,
+     "fmax_mhz": 32.56904602050781,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L4 P0",
+     "kind": "rtl",
+     "pl": 0.00404,
+     "pl_ci95": [
+      0.0036562925735033297,
+      0.004452897254329811
+     ],
+     "t_p99": 14610.380996743905,
+     "t_worst": 20858.90084395379,
+     "lut": 60840,
+     "fmax_mhz": 32.64773178100586,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    }
+   ],
+   "pareto": [
+    "PyMatching (CPU)",
+    "QSX-UF q5 (CPU)"
+   ],
+   "weight_grid": [
+    {
+     "alpha": 0.0,
+     "beta": 0.0,
+     "gamma": 1.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.05,
+     "gamma": 0.95,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.1,
+     "gamma": 0.9,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.15,
+     "gamma": 0.85,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.2,
+     "gamma": 0.8,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.25,
+     "gamma": 0.75,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.3,
+     "gamma": 0.7,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.35,
+     "gamma": 0.65,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.4,
+     "gamma": 0.6,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.45,
+     "gamma": 0.55,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.5,
+     "gamma": 0.5,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.55,
+     "gamma": 0.45,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.6,
+     "gamma": 0.4,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.65,
+     "gamma": 0.35,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.7,
+     "gamma": 0.3,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.75,
+     "gamma": 0.25,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.8,
+     "gamma": 0.2,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.85,
+     "gamma": 0.15,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.9,
+     "gamma": 0.1,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.95,
+     "gamma": 0.05,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 1.0,
+     "gamma": 0.0,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.0,
+     "gamma": 0.95,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.05,
+     "gamma": 0.9,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.1,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.15,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.2,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.25,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.3,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.35,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.4,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.45,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.5,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.55,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.6,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.65,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.7,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.75,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.8,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.85,
+     "gamma": 0.1,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.9,
+     "gamma": 0.05,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.95,
+     "gamma": 0.0,
+     "winner": "QSX-UF q5 (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.0,
+     "gamma": 0.9,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.05,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.1,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.15,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.2,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.25,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.3,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.35,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.4,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.45,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.5,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.55,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.6,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.65,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.7,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.75,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.8,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.85,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.9,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.0,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.05,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.1,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.15,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.2,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.25,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.3,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.35,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.4,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.45,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.5,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.55,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.6,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.65,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.7,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.75,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.8,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.85,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.0,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.05,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.1,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.15,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.2,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.25,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.3,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.35,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.4,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.45,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.5,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.55,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.6,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.65,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.7,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.75,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.8,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.0,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.05,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.1,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.15,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.2,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.25,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.3,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.35,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.4,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.45,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.5,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.55,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.6,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.65,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.7,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.75,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.0,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.05,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.1,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.15,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.2,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.25,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.3,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.35,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.4,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.45,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.5,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.55,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.6,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.65,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.7,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.0,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.05,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.1,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.15,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.2,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.25,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.3,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.35,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.4,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.45,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.5,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.55,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.6,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.65,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.0,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.05,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.1,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.15,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.2,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.25,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.3,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.35,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.4,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.45,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.5,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.55,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.6,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.0,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.05,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.1,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.15,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.2,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.25,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.3,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.35,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.4,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.45,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.5,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.55,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.0,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.05,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.1,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.15,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.2,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.25,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.3,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.35,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.4,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.45,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.5,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.0,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.05,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.1,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.15,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.2,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.25,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.3,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.35,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.4,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.45,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.0,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.05,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.1,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.15,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.2,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.25,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.3,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.35,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.4,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.0,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.05,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.1,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.15,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.2,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.25,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.3,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.35,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.0,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.05,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.1,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.15,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.2,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.25,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.3,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.0,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.05,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.1,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.15,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.2,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.25,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.0,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.05,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.1,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.15,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.2,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.0,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.05,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.1,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.15,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.0,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.05,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.1,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.95,
+     "beta": 0.0,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.95,
+     "beta": 0.05,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 1.0,
+     "beta": 0.0,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    }
+   ],
+   "win_fraction": {
+    "PyMatching (CPU)": 0.9004329004329005,
+    "QSX-UF q5 (CPU)": 0.09956709956709957,
+    "QSX-UF RTL L1 P0": 0.0,
+    "QSX-UF RTL L4 P0": 0.0
+   },
+   "rtl_win_fraction": 0.0,
+   "normalisers": {
+    "pl": 0.00404,
+    "t_p99": 53332.719629130755,
+    "lut": 60840
+   },
+   "note": "delta*E omitted (no CPU energy measurement; RTL activity proxy is not in Watts)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "latency_metric": "t_worst",
+   "configs": [
+    {
+     "name": "PyMatching (CPU)",
+     "kind": "cpu",
+     "pl": 0.00362,
+     "pl_ci95": [
+      0.0032572273615876605,
+      0.004012014018064888
+     ],
+     "t_p99": 3125.0,
+     "t_worst": 28208.0,
+     "lut": 0,
+     "t_stage": "CPU measurement (1 thread); worst = observed max (no bound)"
+    },
+    {
+     "name": "QSX-UF q5 (CPU)",
+     "kind": "cpu",
+     "pl": 0.00404,
+     "pl_ci95": [
+      0.0036562925735033297,
+      0.004452897254329811
+     ],
+     "t_p99": 2792.0,
+     "t_worst": 32917.0,
+     "lut": 0,
+     "t_stage": "CPU measurement (1 thread); worst = observed max (no bound)"
+    },
+    {
+     "name": "QSX-UF RTL L1 P0",
+     "kind": "rtl",
+     "pl": 0.00404,
+     "pl_ci95": [
+      0.0036562925735033297,
+      0.004452897254329811
+     ],
+     "t_p99": 53332.719629130755,
+     "t_worst": 76176.49588009999,
+     "lut": 60275,
+     "fmax_mhz": 32.56904602050781,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    },
+    {
+     "name": "QSX-UF RTL L4 P0",
+     "kind": "rtl",
+     "pl": 0.00404,
+     "pl_ci95": [
+      0.0036562925735033297,
+      0.004452897254329811
+     ],
+     "t_p99": 14610.380996743905,
+     "t_worst": 20858.90084395379,
+     "lut": 60840,
+     "fmax_mhz": 32.64773178100586,
+     "t_stage": "sim cycles / pnr Fmax; worst = observed max, bounded by proof C2"
+    }
+   ],
+   "pareto": [
+    "PyMatching (CPU)",
+    "QSX-UF RTL L4 P0"
+   ],
+   "weight_grid": [
+    {
+     "alpha": 0.0,
+     "beta": 0.0,
+     "gamma": 1.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.05,
+     "gamma": 0.95,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.1,
+     "gamma": 0.9,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.15,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.2,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.25,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.3,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.35,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.4,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.45,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.5,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.55,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.6,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.65,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.7,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.75,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.8,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.85,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.9,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 0.95,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.0,
+     "beta": 1.0,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.0,
+     "gamma": 0.95,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.05,
+     "gamma": 0.9,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.1,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.15,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.2,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.25,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.3,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.35,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.4,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.45,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.5,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.55,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.6,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.65,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.7,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.75,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.8,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.85,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.9,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.05,
+     "beta": 0.95,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.0,
+     "gamma": 0.9,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.05,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.1,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.15,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.2,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.25,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.3,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.35,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.4,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.45,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.5,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.55,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.6,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.65,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.7,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.75,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.8,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.85,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.1,
+     "beta": 0.9,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.0,
+     "gamma": 0.85,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.05,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.1,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.15,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.2,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.25,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.3,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.35,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.4,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.45,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.5,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.55,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.6,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.65,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.7,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.75,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.8,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.15,
+     "beta": 0.85,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.0,
+     "gamma": 0.8,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.05,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.1,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.15,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.2,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.25,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.3,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.35,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.4,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.45,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.5,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.55,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.6,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.65,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.7,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.75,
+     "gamma": 0.05,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.2,
+     "beta": 0.8,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.0,
+     "gamma": 0.75,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.05,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.1,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.15,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.2,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.25,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.3,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.35,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.4,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.45,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.5,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.55,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.6,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.65,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.7,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.25,
+     "beta": 0.75,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.0,
+     "gamma": 0.7,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.05,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.1,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.15,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.2,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.25,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.3,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.35,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.4,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.45,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.5,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.55,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.6,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.65,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.3,
+     "beta": 0.7,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.0,
+     "gamma": 0.65,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.05,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.1,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.15,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.2,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.25,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.3,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.35,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.4,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.45,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.5,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.55,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.6,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.35,
+     "beta": 0.65,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.0,
+     "gamma": 0.6,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.05,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.1,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.15,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.2,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.25,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.3,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.35,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.4,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.45,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.5,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.55,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.4,
+     "beta": 0.6,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.0,
+     "gamma": 0.55,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.05,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.1,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.15,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.2,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.25,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.3,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.35,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.4,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.45,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.5,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.45,
+     "beta": 0.55,
+     "gamma": 0.0,
+     "winner": "QSX-UF RTL L4 P0"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.0,
+     "gamma": 0.5,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.05,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.1,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.15,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.2,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.25,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.3,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.35,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.4,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.45,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.5,
+     "beta": 0.5,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.0,
+     "gamma": 0.45,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.05,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.1,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.15,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.2,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.25,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.3,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.35,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.4,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.55,
+     "beta": 0.45,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.0,
+     "gamma": 0.4,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.05,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.1,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.15,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.2,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.25,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.3,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.35,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.6,
+     "beta": 0.4,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.0,
+     "gamma": 0.35,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.05,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.1,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.15,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.2,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.25,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.3,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.65,
+     "beta": 0.35,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.0,
+     "gamma": 0.3,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.05,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.1,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.15,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.2,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.25,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.7,
+     "beta": 0.3,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.0,
+     "gamma": 0.25,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.05,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.1,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.15,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.2,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.75,
+     "beta": 0.25,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.0,
+     "gamma": 0.2,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.05,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.1,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.15,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.8,
+     "beta": 0.2,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.0,
+     "gamma": 0.15,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.05,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.1,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.85,
+     "beta": 0.15,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.0,
+     "gamma": 0.1,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.05,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.9,
+     "beta": 0.1,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.95,
+     "beta": 0.0,
+     "gamma": 0.05,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 0.95,
+     "beta": 0.05,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    },
+    {
+     "alpha": 1.0,
+     "beta": 0.0,
+     "gamma": 0.0,
+     "winner": "PyMatching (CPU)"
+    }
+   ],
+   "win_fraction": {
+    "PyMatching (CPU)": 0.935064935064935,
+    "QSX-UF q5 (CPU)": 0.0,
+    "QSX-UF RTL L1 P0": 0.0,
+    "QSX-UF RTL L4 P0": 0.06493506493506493
+   },
+   "rtl_win_fraction": 0.06493506493506493,
+   "normalisers": {
+    "pl": 0.00404,
+    "t_worst": 76176.49588009999,
+    "lut": 60840
+   },
+   "note": "delta*E omitted (no CPU energy measurement; RTL activity proxy is not in Watts)"
+  }
+ ]
+}

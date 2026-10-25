@@ -1,0 +1,24 @@
+d3_q5_L1_PIPE0               LUT4=   6666 FF=  1375 fmax=55.8 
+d3_q5_L1_PIPE1               LUT4=   6727 FF=  1455 fmax=63.5 
+d3_q5_L8_PIPE0               LUT4=   7593 FF=  1372 fmax=56.4 
+d3_q5_L8_PIPE1               LUT4=   7254 FF=  1452 fmax=64.9 
+d3_q5_L8_PIPE0_qsx_uf_core   LUT4=   7531 FF=   866 fmax=nan 
+d3_q5_L32_PIPE0              LUT4=   8883 FF=  1371 fmax=55.0 
+d3_q5_L32_PIPE1              LUT4=   8947 FF=  1451 fmax=64.8 
+d5_q5_L1_PIPE0               LUT4=  60275 FF=  7753 fmax=32.6 
+d5_q5_L4_PIPE0               LUT4=  60840 FF=  7751 fmax=32.6 
+d5_q5_L8_PIPE0               LUT4=  63211 FF=  7750 fmax=nan ERROR: Unable to find legal placement for all cells, design is probably at utili
+d5_q5_L8_PIPE1               LUT4=  62722 FF=  8254 fmax=nan ERROR: Unable to find legal placement for all cells, design is probably at utili
+d5_q5_L8_PIPE0_qsx_uf_core   LUT4=  66202 FF=  5380 fmax=nan 
+d5_q5_L16_PIPE0              LUT4=  70546 FF=  7749 fmax=nan ERROR: Unable to find legal placement for all cells, design is probably at utili
+d5_q5_L16_PIPE1              LUT4=  67160 FF=  8253 fmax=nan ERROR: Unable to find legal placement for all cells, design is probably at utili
+d5_q5_L32_PIPE0              LUT4=  78316 FF=  7748 fmax=nan ERROR: Unable to find legal placement for all cells, design is probably at utili
+d5_unweighted_L8_PIPE0       LUT4=  57993 FF=  6746 fmax=32.1 
+d7_q5_L4_PIPE0               LUT4= 262677 FF= 24258 fmax=nan does not fit: 262677 LUT4 after synthesis > 83640 on LFE5U-85F
+d7_q5_L8_PIPE0               LUT4= 242409 FF= 24257 fmax=nan does not fit: 242409 LUT4 after synthesis > 83640 on LFE5U-85F
+d7_q5_L8_PIPE1               LUT4= 239897 FF= 25817 fmax=nan does not fit: 239897 LUT4 after synthesis > 83640 on LFE5U-85F
+d7_q5_L8_PIPE0_qsx_uf_core   LUT4= 240222 FF= 17310 fmax=nan 
+d7_q5_L16_PIPE0              LUT4=      - FF=     - fmax=nan 
+d7_q5_L16_PIPE1              LUT4=      - FF=     - fmax=nan 
+d9_q5_L8_PIPE0               LUT4=      - FF=     - fmax=nan 
+d9_q5_L8_PIPE1               LUT4=      - FF=     - fmax=nan 

@@ -1,0 +1,6 @@
+toggle d=3 p=0.001 toggles/decode=1067 points=17148
+toggle d=3 p=0.003 toggles/decode=1904 points=17148
+toggle d=3 p=0.006 toggles/decode=2934 points=17148
+toggle d=5 p=0.001 toggles/decode=15094 points=134822
+toggle d=5 p=0.003 toggles/decode=34088 points=134822
+toggle d=5 p=0.006 toggles/decode=60843 points=134822

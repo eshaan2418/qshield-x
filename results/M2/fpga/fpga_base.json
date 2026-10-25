@@ -1,0 +1,791 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "85e496f10ff211aa9918697d2c6ab3a3526e405e",
+   "dirty": false
+  },
+  "timestamp_utc": "2026-10-25T05:12:30+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+   "yosys": "Yosys 0.70+219 (git sha1 5053d0e26, Release, Clang /usr/local/osxcross/target/bin/aarch64-apple-darwin25.5-clang++ 21.1.8)",
+   "nextpnr-ecp5": "\"nextpnr-ecp5\" -- Next Generation Place and Route (Version nextpnr-0.11.1-79-g22c5adf4)",
+   "device": "LFE5U-85F CABGA381 speed 8"
+  },
+  "seed": 1,
+  "config": {
+   "configs": "3:q5:1,8,32:0,1;5:q5:1,4,8,16,32:0;5:q5:8,16:1;7:q5:4,8,16:0;7:q5:8,16:1;5:unweighted:8:0",
+   "synth_only": "9:q5:8:0,1",
+   "core_only": "3:q5:8:0;5:q5:8:0;7:q5:8:0",
+   "params": "",
+   "freq": 100.0,
+   "seed": 1,
+   "jobs": 3,
+   "timeout": 14400,
+   "collect": true,
+   "name": null,
+   "out": "/Users/eshaan.kapooswalla/QShield-X/results/M2/fpga"
+  }
+ },
+ "data": [
+  {
+   "d": 3,
+   "weights": "q5",
+   "lanes": 1,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d3_q5_L1_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 20.5,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 657,
+     "DP16KD": 1,
+     "L6MUX21": 204,
+     "LUT4": 6666,
+     "PFUMX": 1464,
+     "TRELLIS_FF": 1375
+    }
+   },
+   "pnr_s": 51.9,
+   "pnr": {
+    "stage": "pnr",
+    "fmax_mhz": 55.766231536865234,
+    "target_mhz": 100.0,
+    "utilization": {
+     "DCCA": {
+      "available": 56,
+      "used": 1
+     },
+     "DP16KD": {
+      "available": 208,
+      "used": 1
+     },
+     "TRELLIS_COMB": {
+      "available": 83640,
+      "used": 9138
+     },
+     "TRELLIS_FF": {
+      "available": 83640,
+      "used": 1375
+     },
+     "TRELLIS_IO": {
+      "available": 365,
+      "used": 121
+     }
+    }
+   }
+  },
+  {
+   "d": 3,
+   "weights": "q5",
+   "lanes": 1,
+   "params": {
+    "PIPE": 1
+   },
+   "tag": "d3_q5_L1_PIPE1",
+   "top": "qsx_pnr_shell",
+   "synth_s": 22.7,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 657,
+     "DP16KD": 1,
+     "L6MUX21": 266,
+     "LUT4": 6727,
+     "PFUMX": 1492,
+     "TRELLIS_FF": 1455
+    }
+   },
+   "pnr_s": 51.8,
+   "pnr": {
+    "stage": "pnr",
+    "fmax_mhz": 63.47997283935547,
+    "target_mhz": 100.0,
+    "utilization": {
+     "DCCA": {
+      "available": 56,
+      "used": 1
+     },
+     "DP16KD": {
+      "available": 208,
+      "used": 1
+     },
+     "TRELLIS_COMB": {
+      "available": 83640,
+      "used": 9199
+     },
+     "TRELLIS_FF": {
+      "available": 83640,
+      "used": 1455
+     },
+     "TRELLIS_IO": {
+      "available": 365,
+      "used": 121
+     }
+    }
+   }
+  },
+  {
+   "d": 3,
+   "weights": "q5",
+   "lanes": 8,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d3_q5_L8_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 22.6,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 654,
+     "DP16KD": 1,
+     "L6MUX21": 272,
+     "LUT4": 7593,
+     "PFUMX": 1651,
+     "TRELLIS_FF": 1372
+    }
+   },
+   "pnr_s": 57.9,
+   "pnr": {
+    "stage": "pnr",
+    "fmax_mhz": 56.423858642578125,
+    "target_mhz": 100.0,
+    "utilization": {
+     "DCCA": {
+      "available": 56,
+      "used": 1
+     },
+     "DP16KD": {
+      "available": 208,
+      "used": 1
+     },
+     "TRELLIS_COMB": {
+      "available": 83640,
+      "used": 10055
+     },
+     "TRELLIS_FF": {
+      "available": 83640,
+      "used": 1372
+     },
+     "TRELLIS_IO": {
+      "available": 365,
+      "used": 121
+     }
+    }
+   }
+  },
+  {
+   "d": 3,
+   "weights": "q5",
+   "lanes": 8,
+   "params": {
+    "PIPE": 1
+   },
+   "tag": "d3_q5_L8_PIPE1",
+   "top": "qsx_pnr_shell",
+   "synth_s": 19.2,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 654,
+     "DP16KD": 1,
+     "L6MUX21": 207,
+     "LUT4": 7254,
+     "PFUMX": 1406,
+     "TRELLIS_FF": 1452
+    }
+   },
+   "pnr_s": 36.9,
+   "pnr": {
+    "stage": "pnr",
+    "fmax_mhz": 64.90977478027344,
+    "target_mhz": 100.0,
+    "utilization": {
+     "DCCA": {
+      "available": 56,
+      "used": 1
+     },
+     "DP16KD": {
+      "available": 208,
+      "used": 1
+     },
+     "TRELLIS_COMB": {
+      "available": 83640,
+      "used": 9716
+     },
+     "TRELLIS_FF": {
+      "available": 83640,
+      "used": 1452
+     },
+     "TRELLIS_IO": {
+      "available": 365,
+      "used": 121
+     }
+    }
+   }
+  },
+  {
+   "d": 3,
+   "weights": "q5",
+   "lanes": 8,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d3_q5_L8_PIPE0_qsx_uf_core",
+   "top": "qsx_uf_core",
+   "synth_s": 15.3,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 646,
+     "L6MUX21": 306,
+     "LUT4": 7531,
+     "PFUMX": 1515,
+     "TRELLIS_FF": 866
+    }
+   }
+  },
+  {
+   "d": 3,
+   "weights": "q5",
+   "lanes": 32,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d3_q5_L32_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 17.8,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 654,
+     "DP16KD": 1,
+     "L6MUX21": 175,
+     "LUT4": 8883,
+     "PFUMX": 1463,
+     "TRELLIS_FF": 1371
+    }
+   },
+   "pnr_s": 52.2,
+   "pnr": {
+    "stage": "pnr",
+    "fmax_mhz": 55.00550079345703,
+    "target_mhz": 100.0,
+    "utilization": {
+     "DCCA": {
+      "available": 56,
+      "used": 1
+     },
+     "DP16KD": {
+      "available": 208,
+      "used": 1
+     },
+     "TRELLIS_COMB": {
+      "available": 83640,
+      "used": 11345
+     },
+     "TRELLIS_FF": {
+      "available": 83640,
+      "used": 1371
+     },
+     "TRELLIS_IO": {
+      "available": 365,
+      "used": 121
+     }
+    }
+   }
+  },
+  {
+   "d": 3,
+   "weights": "q5",
+   "lanes": 32,
+   "params": {
+    "PIPE": 1
+   },
+   "tag": "d3_q5_L32_PIPE1",
+   "top": "qsx_pnr_shell",
+   "synth_s": 18.2,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 654,
+     "DP16KD": 1,
+     "L6MUX21": 210,
+     "LUT4": 8947,
+     "PFUMX": 1553,
+     "TRELLIS_FF": 1451
+    }
+   },
+   "pnr_s": 45.4,
+   "pnr": {
+    "stage": "pnr",
+    "fmax_mhz": 64.82562255859375,
+    "target_mhz": 100.0,
+    "utilization": {
+     "DCCA": {
+      "available": 56,
+      "used": 1
+     },
+     "DP16KD": {
+      "available": 208,
+      "used": 1
+     },
+     "TRELLIS_COMB": {
+      "available": 83640,
+      "used": 11409
+     },
+     "TRELLIS_FF": {
+      "available": 83640,
+      "used": 1451
+     },
+     "TRELLIS_IO": {
+      "available": 365,
+      "used": 121
+     }
+    }
+   }
+  },
+  {
+   "d": 5,
+   "weights": "q5",
+   "lanes": 1,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d5_q5_L1_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 289.0,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 6620,
+     "DP16KD": 1,
+     "L6MUX21": 1963,
+     "LUT4": 60275,
+     "PFUMX": 14667,
+     "TRELLIS_FF": 7753
+    }
+   },
+   "pnr_s": 4048.0,
+   "pnr": {
+    "stage": "pnr",
+    "fmax_mhz": 32.56904602050781,
+    "target_mhz": 100.0,
+    "utilization": {
+     "DCCA": {
+      "available": 56,
+      "used": 1
+     },
+     "DP16KD": {
+      "available": 208,
+      "used": 1
+     },
+     "TRELLIS_COMB": {
+      "available": 83640,
+      "used": 81861
+     },
+     "TRELLIS_FF": {
+      "available": 83640,
+      "used": 7753
+     },
+     "TRELLIS_IO": {
+      "available": 365,
+      "used": 121
+     }
+    }
+   }
+  },
+  {
+   "d": 5,
+   "weights": "q5",
+   "lanes": 4,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d5_q5_L4_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 380.8,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 6611,
+     "DP16KD": 1,
+     "L6MUX21": 1530,
+     "LUT4": 60840,
+     "PFUMX": 14274,
+     "TRELLIS_FF": 7751
+    }
+   },
+   "pnr_s": 3485.8,
+   "pnr": {
+    "stage": "pnr",
+    "fmax_mhz": 32.64773178100586,
+    "target_mhz": 100.0,
+    "utilization": {
+     "DCCA": {
+      "available": 56,
+      "used": 1
+     },
+     "DP16KD": {
+      "available": 208,
+      "used": 1
+     },
+     "TRELLIS_COMB": {
+      "available": 83640,
+      "used": 82400
+     },
+     "TRELLIS_FF": {
+      "available": 83640,
+      "used": 7751
+     },
+     "TRELLIS_IO": {
+      "available": 365,
+      "used": 121
+     }
+    }
+   }
+  },
+  {
+   "d": 5,
+   "weights": "q5",
+   "lanes": 8,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d5_q5_L8_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 379.3,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 6604,
+     "DP16KD": 1,
+     "L6MUX21": 1713,
+     "LUT4": 63211,
+     "PFUMX": 14560,
+     "TRELLIS_FF": 7750
+    }
+   },
+   "pnr_s": 94.0,
+   "pnr_error": "ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit."
+  },
+  {
+   "d": 5,
+   "weights": "q5",
+   "lanes": 8,
+   "params": {
+    "PIPE": 1
+   },
+   "tag": "d5_q5_L8_PIPE1",
+   "top": "qsx_pnr_shell",
+   "synth_s": 788.1,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 6620,
+     "DP16KD": 1,
+     "L6MUX21": 2018,
+     "LUT4": 62722,
+     "PFUMX": 13658,
+     "TRELLIS_FF": 8254
+    }
+   },
+   "pnr_s": 139.4,
+   "pnr_error": "ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit."
+  },
+  {
+   "d": 5,
+   "weights": "unweighted",
+   "lanes": 8,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d5_unweighted_L8_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 551.9,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 6608,
+     "DP16KD": 1,
+     "L6MUX21": 1082,
+     "LUT4": 57993,
+     "PFUMX": 12536,
+     "TRELLIS_FF": 6746
+    }
+   },
+   "pnr_s": 2979.1,
+   "pnr": {
+    "stage": "pnr",
+    "fmax_mhz": 32.11200714111328,
+    "target_mhz": 100.0,
+    "utilization": {
+     "DCCA": {
+      "available": 56,
+      "used": 1
+     },
+     "DP16KD": {
+      "available": 208,
+      "used": 1
+     },
+     "TRELLIS_COMB": {
+      "available": 83640,
+      "used": 79543
+     },
+     "TRELLIS_FF": {
+      "available": 83640,
+      "used": 6746
+     },
+     "TRELLIS_IO": {
+      "available": 365,
+      "used": 121
+     }
+    }
+   }
+  },
+  {
+   "d": 5,
+   "weights": "q5",
+   "lanes": 8,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d5_q5_L8_PIPE0_qsx_uf_core",
+   "top": "qsx_uf_core",
+   "synth_s": 444.0,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 6593,
+     "L6MUX21": 2524,
+     "LUT4": 66202,
+     "PFUMX": 15872,
+     "TRELLIS_FF": 5380
+    }
+   }
+  },
+  {
+   "d": 5,
+   "weights": "q5",
+   "lanes": 16,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d5_q5_L16_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 305.7,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 6616,
+     "DP16KD": 1,
+     "L6MUX21": 3164,
+     "LUT4": 70546,
+     "PFUMX": 16124,
+     "TRELLIS_FF": 7749
+    }
+   },
+   "pnr_s": 57.2,
+   "pnr_error": "ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit."
+  },
+  {
+   "d": 5,
+   "weights": "q5",
+   "lanes": 16,
+   "params": {
+    "PIPE": 1
+   },
+   "tag": "d5_q5_L16_PIPE1",
+   "top": "qsx_pnr_shell",
+   "synth_s": 321.7,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 6620,
+     "DP16KD": 1,
+     "L6MUX21": 1897,
+     "LUT4": 67160,
+     "PFUMX": 14217,
+     "TRELLIS_FF": 8253
+    }
+   },
+   "pnr_s": 48.5,
+   "pnr_error": "ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit."
+  },
+  {
+   "d": 5,
+   "weights": "q5",
+   "lanes": 32,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d5_q5_L32_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 389.6,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 6636,
+     "DP16KD": 1,
+     "L6MUX21": 2654,
+     "LUT4": 78316,
+     "PFUMX": 16242,
+     "TRELLIS_FF": 7748
+    }
+   },
+   "pnr_s": 71.2,
+   "pnr_error": "ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit."
+  },
+  {
+   "d": 7,
+   "weights": "q5",
+   "lanes": 4,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d7_q5_L4_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 6364.9,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 27518,
+     "DP16KD": 1,
+     "L6MUX21": 13551,
+     "LUT4": 262677,
+     "PFUMX": 74291,
+     "TRELLIS_FF": 24258
+    }
+   },
+   "pnr_error": "does not fit: 262677 LUT4 after synthesis > 83640 on LFE5U-85F",
+   "fits": false
+  },
+  {
+   "d": 7,
+   "weights": "q5",
+   "lanes": 8,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d7_q5_L8_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 6125.7,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 27528,
+     "DP16KD": 1,
+     "L6MUX21": 6018,
+     "LUT4": 242409,
+     "PFUMX": 57740,
+     "TRELLIS_FF": 24257
+    }
+   },
+   "pnr_error": "does not fit: 242409 LUT4 after synthesis > 83640 on LFE5U-85F",
+   "fits": false
+  },
+  {
+   "d": 7,
+   "weights": "q5",
+   "lanes": 8,
+   "params": {
+    "PIPE": 1
+   },
+   "tag": "d7_q5_L8_PIPE1",
+   "top": "qsx_pnr_shell",
+   "synth_s": 8913.8,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 27532,
+     "DP16KD": 1,
+     "L6MUX21": 4892,
+     "LUT4": 239897,
+     "PFUMX": 53471,
+     "TRELLIS_FF": 25817
+    }
+   },
+   "pnr_error": "does not fit: 239897 LUT4 after synthesis > 83640 on LFE5U-85F",
+   "fits": false
+  },
+  {
+   "d": 7,
+   "weights": "q5",
+   "lanes": 8,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d7_q5_L8_PIPE0_qsx_uf_core",
+   "top": "qsx_uf_core",
+   "synth_s": 5631.2,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 27496,
+     "L6MUX21": 5339,
+     "LUT4": 240222,
+     "PFUMX": 55500,
+     "TRELLIS_FF": 17310
+    }
+   }
+  },
+  {
+   "d": 7,
+   "weights": "q5",
+   "lanes": 16,
+   "params": {
+    "PIPE": 0
+   },
+   "top": "qsx_pnr_shell",
+   "tag": "d7_q5_L16_PIPE0",
+   "synth_error": "no result (not run)"
+  },
+  {
+   "d": 7,
+   "weights": "q5",
+   "lanes": 16,
+   "params": {
+    "PIPE": 1
+   },
+   "top": "qsx_pnr_shell",
+   "tag": "d7_q5_L16_PIPE1",
+   "synth_error": "no result (not run)"
+  },
+  {
+   "d": 9,
+   "weights": "q5",
+   "lanes": 8,
+   "params": {
+    "PIPE": 0
+   },
+   "top": "qsx_pnr_shell",
+   "tag": "d9_q5_L8_PIPE0",
+   "synth_error": "no result (not run)"
+  },
+  {
+   "d": 9,
+   "weights": "q5",
+   "lanes": 8,
+   "params": {
+    "PIPE": 1
+   },
+   "top": "qsx_pnr_shell",
+   "tag": "d9_q5_L8_PIPE1",
+   "synth_error": "no result (not run)"
+  }
+ ]
+}

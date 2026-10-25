@@ -1,0 +1,161 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "85e496f10ff211aa9918697d2c6ab3a3526e405e",
+   "dirty": false
+  },
+  "timestamp_utc": "2026-10-25T05:12:30+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)"
+  },
+  "seed": null,
+  "config": {
+   "source": "build/fpga/*/nextpnr.log"
+  }
+ },
+ "data": [
+  {
+   "tag": "d3_q5_L1_PIPE0",
+   "fmax_mhz": 55.766231536865234,
+   "start": "u_top.u_core.g_edge[21].s_TRELLIS_FF_Q.Q",
+   "end": "u_top.u_core.par_acc_TRELLIS_FF_Q_20.LSR",
+   "start_block": "edge fabric (support/grown)",
+   "end_block": "core control/scans",
+   "logic_ns": 4.1899999999999995,
+   "routing_ns": 13.03,
+   "levels": 23,
+   "stage": "pnr (nextpnr-ecp5 timing report)"
+  },
+  {
+   "tag": "d3_q5_L1_PIPE1",
+   "fmax_mhz": 63.47997283935547,
+   "start": "u_top.u_core.grown_TRELLIS_FF_Q_16.Q",
+   "end": "u_top.u_core.lchg_TRELLIS_FF_Q.M",
+   "start_block": "core control/scans",
+   "end_block": "core control/scans",
+   "logic_ns": 4.68,
+   "routing_ns": 10.66,
+   "levels": 25,
+   "stage": "pnr (nextpnr-ecp5 timing report)"
+  },
+  {
+   "tag": "d3_q5_L8_PIPE0",
+   "fmax_mhz": 56.423858642578125,
+   "start": "u_top.u_core.g_edge[25].s_TRELLIS_FF_Q_2.Q",
+   "end": "u_top.u_core.par_acc_TRELLIS_FF_Q_12.LSR",
+   "start_block": "edge fabric (support/grown)",
+   "end_block": "core control/scans",
+   "logic_ns": 4.51,
+   "routing_ns": 12.5,
+   "levels": 23,
+   "stage": "pnr (nextpnr-ecp5 timing report)"
+  },
+  {
+   "tag": "d3_q5_L8_PIPE1",
+   "fmax_mhz": 64.90977478027344,
+   "start": "u_top.u_core.g_vert[14].u_lmin.t[6]_TRELLIS_FF_Q_1.Q",
+   "end": "u_top.u_core.lchg_TRELLIS_FF_Q.M",
+   "start_block": "vertex min-label tree",
+   "end_block": "core control/scans",
+   "logic_ns": 4.74,
+   "routing_ns": 10.25,
+   "levels": 28,
+   "stage": "pnr (nextpnr-ecp5 timing report)"
+  },
+  {
+   "tag": "d3_q5_L32_PIPE0",
+   "fmax_mhz": 55.00550079345703,
+   "start": "u_top.u_core.g_edge[37].s_TRELLIS_FF_Q_2.Q",
+   "end": "u_top.u_core.state_TRELLIS_FF_Q_3.CE",
+   "start_block": "edge fabric (support/grown)",
+   "end_block": "core control/scans",
+   "logic_ns": 4.39,
+   "routing_ns": 13.37,
+   "levels": 24,
+   "stage": "pnr (nextpnr-ecp5 timing report)"
+  },
+  {
+   "tag": "d3_q5_L32_PIPE1",
+   "fmax_mhz": 64.82562255859375,
+   "start": "u_top.u_core.g_vert[9].u_dmin.in_TRELLIS_FF_Q.Q",
+   "end": "u_top.u_core.lchg_TRELLIS_FF_Q.M",
+   "start_block": "vertex fabric",
+   "end_block": "core control/scans",
+   "logic_ns": 4.91,
+   "routing_ns": 10.11,
+   "levels": 23,
+   "stage": "pnr (nextpnr-ecp5 timing report)"
+  },
+  {
+   "tag": "d5_q5_L1_PIPE0",
+   "fmax_mhz": 32.56904602050781,
+   "start": "u_top.u_core.g_vert[58].u_lmin.t[27]_TRELLIS_FF_Q_6.Q",
+   "end": "u_top.u_core.par_acc_TRELLIS_FF_Q_33.LSR",
+   "start_block": "vertex min-label tree",
+   "end_block": "core control/scans",
+   "logic_ns": 5.66,
+   "routing_ns": 24.36,
+   "levels": 39,
+   "stage": "pnr (nextpnr-ecp5 timing report)"
+  },
+  {
+   "tag": "d5_q5_L4_PIPE0",
+   "fmax_mhz": 32.64773178100586,
+   "start": "u_top.u_cfg.thr_TRELLIS_FF_Q_1388.Q",
+   "end": "u_top.u_core.par_acc_TRELLIS_FF_Q_105.LSR",
+   "start_block": "config",
+   "end_block": "core control/scans",
+   "logic_ns": 5.86,
+   "routing_ns": 24.1,
+   "levels": 36,
+   "stage": "pnr (nextpnr-ecp5 timing report)"
+  },
+  {
+   "tag": "d5_unweighted_L8_PIPE0",
+   "fmax_mhz": 32.11200714111328,
+   "start": "u_top.u_core.g_edge[441].s_TRELLIS_FF_Q.Q",
+   "end": "u_top.u_core.par_acc_TRELLIS_FF_Q_49.LSR",
+   "start_block": "edge fabric (support/grown)",
+   "end_block": "core control/scans",
+   "logic_ns": 6.35,
+   "routing_ns": 24.11,
+   "levels": 41,
+   "stage": "pnr (nextpnr-ecp5 timing report)"
+  },
+  {
+   "tag": "d3_q5_L24_PIPE0",
+   "fmax_mhz": 56.06324005126953,
+   "start": "u_top.u_cfg.thr_TRELLIS_FF_Q_118.Q",
+   "end": "u_top.u_core.par_acc_TRELLIS_FF_Q_4.CE",
+   "start_block": "config",
+   "end_block": "core control/scans",
+   "logic_ns": 4.68,
+   "routing_ns": 12.76,
+   "levels": 28,
+   "stage": "pnr (nextpnr-ecp5 timing report)"
+  },
+  {
+   "tag": "d3_q5_L24_PIPE1",
+   "fmax_mhz": 64.1560287475586,
+   "start": "u_top.u_core.g_vert[21].u_dmin.in_TRELLIS_FF_Q.Q",
+   "end": "u_top.u_core.lchg_TRELLIS_FF_Q.M",
+   "start_block": "vertex fabric",
+   "end_block": "core control/scans",
+   "logic_ns": 5.13,
+   "routing_ns": 10.07,
+   "levels": 29,
+   "stage": "pnr (nextpnr-ecp5 timing report)"
+  }
+ ]
+}
