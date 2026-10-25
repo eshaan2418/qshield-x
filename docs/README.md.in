@@ -79,7 +79,9 @@ make test                # C++ golden model + Python + infra tests
 make ci                  # lint, tests, quick co-simulation, quick formal
 make reproduce-quick     # < 1 h: rebuild, reduced experiments, figures, number cross-check
 make reproduce-full      # every experiment (many hours; FPGA d >= 7 needs > 16 GB RAM)
-make paper               # paper/qshieldx.pdf
+make timing              # all timing-sensitive measurements in one quiet window (records load average)
+make viz                  # browser view at http://127.0.0.1:8765/viz/ (live Wasm decoding, signed-result replay)
+make paper               # paper/qshieldx.pdf (12 pages; every number is a \claim from results/)
 ```
 
 ## Limitations
@@ -93,4 +95,4 @@ uniform circuit-level depolarizing noise. The federated study is a single-proces
 `sim/` graphs and circuits · `decoders/` C++ golden model + Python bindings · `rtl/` SystemVerilog · `tb/`
 Verilator testbenches · `formal/` SVA, TLA+, Z3 · `fpga/` open-flow scripts · `wasm/` Emscripten builds +
 harness · `v8/` patch, reduced cases, analysis · `learned/` GNN and adaptive policy · `federated/` ·
-`infra/` signing/encryption/mTLS · `bench/` runners, statistics, plots, claims · `paper/` · `results/`
+`infra/` signing/encryption/mTLS · `viz/` browser view · `bench/` runners, statistics, plots, claims · `paper/` · `results/`
