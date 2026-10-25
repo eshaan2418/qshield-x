@@ -54,6 +54,7 @@ def build_sim(kind: str, d: int, lanes: int, inc: Path, tbits: int, pipe: int = 
     stamp = max(os.path.getmtime(ROOT / s) for s in srcs + [f"tb/{kind}_tb.cpp", "decoders/src/decoder.cpp"])
     if exe.exists() and os.path.getmtime(exe) > max(stamp, os.path.getmtime(inc / "qsx_graph_tables.svh")):
         return exe
+    mdir.mkdir(parents=True, exist_ok=True)  # verilator creates only the leaf of --Mdir
     sh(["verilator", "--cc", "--exe", "--build", "-j", "8", "-O3", "--x-assign", "fast", "--x-initial", "fast",
         f"-I{inc}", "--Mdir", str(mdir), f"-GLANES={lanes}", f"-GPIPE={pipe}", *srcs,
         "--top-module", f"qsx_{'top' if kind == 'top' else 'uf_core'}",
