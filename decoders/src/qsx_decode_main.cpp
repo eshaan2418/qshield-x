@@ -30,6 +30,7 @@ int main(int argc, char** argv) {
   std::string graph, dets, obs, out, json, impl = "fast";
   long shots = -1;
   int max_rounds = 255, reps = 1;
+  double budget_ns = 0;  // optional deadline: report how many blocks took longer
   for (int i = 1; i + 1 < argc; i += 2) {
     std::string k = argv[i], v = argv[i + 1];
     if (k == "--graph") graph = v;
@@ -41,6 +42,7 @@ int main(int argc, char** argv) {
     else if (k == "--shots") shots = std::atol(v.c_str());
     else if (k == "--max-rounds") max_rounds = std::atoi(v.c_str());
     else if (k == "--reps") reps = std::atoi(v.c_str());
+    else if (k == "--budget-ns") budget_ns = std::atof(v.c_str());
     else {
       std::fprintf(stderr, "unknown arg %s\n", k.c_str());
       return 2;
@@ -107,14 +109,17 @@ int main(int argc, char** argv) {
     std::ofstream f(out, std::ios::binary);
     f.write(reinterpret_cast<const char*>(pred.data()), pred.size());
   }
+  long over = 0;
+  for (double x : lat) over += budget_ns > 0 && x > budget_ns;
   char buf[1024];
   std::snprintf(buf, sizeof buf,
                 "{\"impl\":\"%s\",\"shots\":%ld,\"errors\":%ld,\"timeouts\":%ld,\"parity_errors\":%ld,"
                 "\"mean_rounds\":%.4f,\"lat_ns_mean\":%.1f,\"lat_ns_p50\":%.1f,\"lat_ns_p90\":%.1f,"
-                "\"lat_ns_p99\":%.1f,\"lat_ns_p999\":%.1f,\"lat_ns_max\":%.1f,\"wall_s\":%.6f,\"reps\":%d}",
+                "\"lat_ns_p99\":%.1f,\"lat_ns_p999\":%.1f,\"lat_ns_max\":%.1f,\"wall_s\":%.6f,\"reps\":%d,"
+                "\"budget_ns\":%.1f,\"over_budget\":%ld}",
                 impl.c_str(), shots, errors, timeouts, parity_errors,
                 static_cast<double>(total_rounds) / std::max(1L, shots), mean, q(0.5), q(0.9), q(0.99), q(0.999),
-                sl.empty() ? 0.0 : sl.back(), wall, reps);
+                sl.empty() ? 0.0 : sl.back(), wall, reps, budget_ns, over);
   std::printf("%s\n", buf);
   if (!json.empty()) {
     std::ofstream f(json);
