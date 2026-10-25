@@ -46,5 +46,20 @@
    "p": 0.006
   }
  ],
- "fmax": {}
+ "fmax": {
+  "3": {
+   "fmax_mhz": 64.90977478027344,
+   "lanes": 8,
+   "pipe": 1,
+   "tag": "d3_q5_L8_PIPE1",
+   "stage": "pnr (nextpnr-ecp5, LFE5U-85F)"
+  },
+  "5": {
+   "fmax_mhz": 32.64773178100586,
+   "lanes": 4,
+   "pipe": 0,
+   "tag": "d5_q5_L4_PIPE0",
+   "stage": "pnr (nextpnr-ecp5, LFE5U-85F)"
+  }
+ }
 }
