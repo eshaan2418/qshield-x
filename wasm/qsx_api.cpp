@@ -26,6 +26,8 @@ using namespace qsx;
 
 static Graph* g_graph = nullptr;
 static FastDecoder* g_dec = nullptr;
+static HwModel* g_hw = nullptr;  // inspection API; references *g_graph
+static int g_hw_lanes = -1, g_hw_pipe = -1;
 static std::vector<int> g_sparse;
 static uint64_t g_hash = 0;
 
@@ -58,6 +60,8 @@ QSX_EXPORT int qsx_init(const char* text) {
   }
   if (!in) return -2;
   g.finalize();
+  delete g_hw;
+  g_hw = nullptr;
   delete g_dec;
   delete g_graph;
   g_graph = new Graph(std::move(g));
@@ -130,4 +134,36 @@ QSX_EXPORT double qsx_bench_unpack(const uint8_t* bits, int shots, int reps, int
   double t1 = now_ns();
   g_hash ^= sink;
   return t1 - t0;
+}
+
+// ---------------------------------------------------------------- single-shot inspection API (M9 viz)
+// Edge endpoints (v == V denotes the virtual boundary).
+QSX_EXPORT int qsx_edge_u(int e) { return g_graph->eu[e]; }
+QSX_EXPORT int qsx_edge_v(int e) { return g_graph->ev[e]; }
+
+// Decode one bit-packed row with the golden decoder. Writes up to `cap` corrected edge indices to `edges` and
+// info[0] = status, info[1] = observable mask (low 32 bits), info[2] = growth rounds. Returns #corrected edges.
+QSX_EXPORT int qsx_decode_one(const uint8_t* row, int* edges, int cap, int* info) {
+  int n = unpack(row, 1);
+  const DecodeResult& r = g_dec->decode(g_sparse.data(), n);
+  info[0] = r.status;
+  info[1] = static_cast<int>(r.obs & 0xffffffffu);
+  info[2] = r.rounds;
+  int k = 0;
+  for (int e : r.corr)
+    if (k < cap) edges[k++] = e;
+  return k;
+}
+
+// Busy cycles of the RTL core for this row (cycle-exact qsx::HwModel, verified against the RTL in co-simulation).
+QSX_EXPORT int qsx_hw_cycles(const uint8_t* row, int lanes, int pipe) {
+  if (!g_hw || lanes != g_hw_lanes || pipe != g_hw_pipe) {
+    delete g_hw;
+    g_hw = new HwModel(*g_graph, HwParams{lanes, 255, 0, pipe});
+    g_hw_lanes = lanes;
+    g_hw_pipe = pipe;
+  }
+  std::vector<uint8_t> dense(g_graph->V, 0);
+  for (int v = 0; v < g_graph->V; v++) dense[v] = (row[v >> 3] >> (v & 7)) & 1;
+  return static_cast<int>(g_hw->decode(dense.data()).cycles);
 }
