@@ -118,6 +118,8 @@ def main() -> None:
                 e[f"{k}_p99_ns"] = c["lat_ns_p99"]
                 e[f"{k}_p999_ns"] = c["lat_ns_p999"]
                 e[f"{k}_max_ns"] = c["lat_ns_max"]
+                if "over_budget_fraction" in c:  # blocks slower than the same d * T_round deadline
+                    e[f"{k}_over_deadline"] = c["over_budget_fraction"]
                 e[f"{k}_stage"] = "CPU measurement (1 thread)"
         if "cpu_pm_p99_ns" in e:
             e["speedup_vs_pm_p99"] = e["cpu_pm_p99_ns"] / e["hw_p99_ns"]

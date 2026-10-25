@@ -18,12 +18,14 @@ static std::vector<uint8_t> read_all(const std::string& p) {
 
 int main(int argc, char** argv) {
   std::string dem_path, dets, obs, json;
+  double budget_ns = 0;  // optional deadline: report how many blocks took longer
   for (int i = 1; i + 1 < argc; i += 2) {
     std::string k = argv[i], v = argv[i + 1];
     if (k == "--dem") dem_path = v;
     else if (k == "--dets") dets = v;
     else if (k == "--obs") obs = v;
     else if (k == "--json") json = v;
+    else if (k == "--budget-ns") budget_ns = std::atof(v.c_str());
   }
   FILE* f = std::fopen(dem_path.c_str(), "r");
   if (!f) return 2;
@@ -62,12 +64,15 @@ int main(int argc, char** argv) {
   double mean = 0;
   for (double x : lat) mean += x;
   mean /= std::max<size_t>(1, lat.size());
+  long over = 0;
+  for (double x : lat) over += budget_ns > 0 && x > budget_ns;
   char buf[768];
   std::snprintf(buf, sizeof buf,
                 "{\"impl\":\"pymatching-2.4.0-cpp\",\"shots\":%zu,\"errors\":%ld,\"lat_ns_mean\":%.1f,"
                 "\"lat_ns_p50\":%.1f,\"lat_ns_p90\":%.1f,\"lat_ns_p99\":%.1f,\"lat_ns_p999\":%.1f,"
-                "\"lat_ns_max\":%.1f,\"wall_s\":%.6f}",
-                shots, errors, mean, q(0.5), q(0.9), q(0.99), q(0.999), sl.empty() ? 0.0 : sl.back(), wall);
+                "\"lat_ns_max\":%.1f,\"wall_s\":%.6f,\"budget_ns\":%.1f,\"over_budget\":%ld}",
+                shots, errors, mean, q(0.5), q(0.9), q(0.99), q(0.999), sl.empty() ? 0.0 : sl.back(), wall, budget_ns,
+                over);
   std::printf("%s\n", buf);
   if (!json.empty()) std::ofstream(json) << buf << "\n";
   return 0;

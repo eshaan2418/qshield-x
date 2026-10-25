@@ -19,6 +19,7 @@ from bench.provenance import write_result  # noqa: E402
 from sim.qsx_graph import build  # noqa: E402
 
 B = ROOT / "build"
+T_ROUND_NS = 1000.0  # assumed syndrome-round time; the block deadline is d * T_ROUND_NS (same as bench/m2_report.py)
 
 
 def main() -> None:
@@ -41,18 +42,21 @@ def main() -> None:
             obs.tofile(tmp / "o.b8")
             res = {}
             r = subprocess.run([str(B / "pm_bench"), "--dem", str(tmp / "c.dem"), "--dets", str(tmp / "d.b8"),
-                                "--obs", str(tmp / "o.b8")], capture_output=True, text=True, check=True)
+                                "--obs", str(tmp / "o.b8"), "--budget-ns", str(d * T_ROUND_NS)],
+                               capture_output=True, text=True, check=True)
             res["pymatching"] = json.loads(r.stdout)
             for w in ["unweighted", "q5"]:
                 _, g = build(d, p, weights=w)
                 g.write(str(tmp / "g.qsxg"))
                 r = subprocess.run([str(B / "qsx_decode"), "--graph", str(tmp / "g.qsxg"), "--dets",
-                                    str(tmp / "d.b8"), "--obs", str(tmp / "o.b8")],
+                                    str(tmp / "d.b8"), "--obs", str(tmp / "o.b8"), "--budget-ns",
+                                    str(d * T_ROUND_NS)],
                                    capture_output=True, text=True, check=True)
                 res[f"qsxuf-{w}"] = json.loads(r.stdout)
             for k, v in res.items():
                 v["throughput_shots_per_s"] = v["shots"] / v["wall_s"]
                 v["lat_ns_p99_per_round_amortised"] = v["lat_ns_p99"] / d
+                v["over_budget_fraction"] = v["over_budget"] / v["shots"]
                 rows.append({"d": d, "p": p, "decoder": k, **v})
                 print(f"d={d} p={p} {k:18s} p50={v['lat_ns_p50']:8.0f}ns p99={v['lat_ns_p99']:8.0f}ns "
                       f"thr={v['throughput_shots_per_s']:10.0f}/s err={v['errors']}")
@@ -60,7 +64,8 @@ def main() -> None:
                 f.unlink()
             tmp.rmdir()
     write_result(a.out, rows, vars(a), a.seed,
-                 extra_tools={"timer": "std::chrono::steady_clock, single thread"})
+                 extra_tools={"timer": "std::chrono::steady_clock, single thread",
+                              "loadavg_at_end": list(__import__("os").getloadavg())})
 
 
 if __name__ == "__main__":
