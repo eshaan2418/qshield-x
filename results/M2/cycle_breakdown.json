@@ -1,0 +1,633 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "fc897cf7df337d9233e2fb8856e724e95b5ee4e4",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-25T00:46:58+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)"
+  },
+  "seed": 3003,
+  "config": {
+   "distances": "3,5,7,9",
+   "p": 0.003,
+   "lanes": "8,32,V",
+   "shots": 50000,
+   "seed": 3003
+  }
+ },
+ "data": [
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 8,
+   "lanes_label": "8",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 25.66836,
+   "mean": {
+    "label": 2.75992,
+    "scans": 14.52456,
+    "ctrl": 5.84152,
+    "dist": 1.27118,
+    "peel": 1.27118
+   },
+   "share": {
+    "label": 0.10752225697317631,
+    "scans": 0.5658546163447918,
+    "ctrl": 0.22757667416227606,
+    "dist": 0.04952322625987792,
+    "peel": 0.04952322625987792
+   },
+   "mean_growth_rounds": 1.42076,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 8,
+   "lanes_label": "8",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 29.08912,
+   "mean": {
+    "label": 5.18068,
+    "scans": 14.52456,
+    "ctrl": 5.84152,
+    "dist": 2.27118,
+    "peel": 1.27118
+   },
+   "share": {
+    "label": 0.17809682795491924,
+    "scans": 0.4993124577161495,
+    "ctrl": 0.20081460009790603,
+    "dist": 0.07807661421177402,
+    "peel": 0.043699500019251186
+   },
+   "mean_growth_rounds": 1.42076,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 32,
+   "lanes_label": "32",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 15.98532,
+   "mean": {
+    "label": 2.75992,
+    "scans": 4.84152,
+    "ctrl": 5.84152,
+    "dist": 1.27118,
+    "peel": 1.27118
+   },
+   "share": {
+    "label": 0.1726534095032192,
+    "scans": 0.30287288587278827,
+    "ctrl": 0.36543028228399554,
+    "dist": 0.07952171116999847,
+    "peel": 0.07952171116999847
+   },
+   "mean_growth_rounds": 1.42076,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 32,
+   "lanes_label": "32",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 19.40608,
+   "mean": {
+    "label": 5.18068,
+    "scans": 4.84152,
+    "ctrl": 5.84152,
+    "dist": 2.27118,
+    "peel": 1.27118
+   },
+   "share": {
+    "label": 0.266961694479256,
+    "scans": 0.24948469757931535,
+    "ctrl": 0.3010149396477805,
+    "dist": 0.11703445518105667,
+    "peel": 0.06550421311259151
+   },
+   "mean_growth_rounds": 1.42076,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 24,
+   "lanes_label": "V",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 15.98532,
+   "mean": {
+    "label": 2.75992,
+    "scans": 4.84152,
+    "ctrl": 5.84152,
+    "dist": 1.27118,
+    "peel": 1.27118
+   },
+   "share": {
+    "label": 0.1726534095032192,
+    "scans": 0.30287288587278827,
+    "ctrl": 0.36543028228399554,
+    "dist": 0.07952171116999847,
+    "peel": 0.07952171116999847
+   },
+   "mean_growth_rounds": 1.42076,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 24,
+   "lanes_label": "V",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 19.40608,
+   "mean": {
+    "label": 5.18068,
+    "scans": 4.84152,
+    "ctrl": 5.84152,
+    "dist": 2.27118,
+    "peel": 1.27118
+   },
+   "share": {
+    "label": 0.266961694479256,
+    "scans": 0.24948469757931535,
+    "ctrl": 0.3010149396477805,
+    "dist": 0.11703445518105667,
+    "peel": 0.06550421311259151
+   },
+   "mean_growth_rounds": 1.42076,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 8,
+   "lanes_label": "8",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 145.42234,
+   "mean": {
+    "label": 6.75022,
+    "scans": 124.8186,
+    "ctrl": 9.32124,
+    "dist": 2.26614,
+    "peel": 2.26614
+   },
+   "share": {
+    "label": 0.04641804003428909,
+    "scans": 0.8583179173158677,
+    "ctrl": 0.06409771703577319,
+    "dist": 0.015583162807035013,
+    "peel": 0.015583162807035013
+   },
+   "mean_growth_rounds": 3.16062,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 8,
+   "lanes_label": "8",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 150.58296,
+   "mean": {
+    "label": 10.91084,
+    "scans": 124.8186,
+    "ctrl": 9.32124,
+    "dist": 3.26614,
+    "peel": 2.26614
+   },
+   "share": {
+    "label": 0.07245733514602183,
+    "scans": 0.8289025531175639,
+    "ctrl": 0.061901027845381706,
+    "dist": 0.021689970764288337,
+    "peel": 0.01504911312674422
+   },
+   "mean_growth_rounds": 3.16062,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 32,
+   "lanes_label": "32",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 53.8887,
+   "mean": {
+    "label": 6.75022,
+    "scans": 33.28496,
+    "ctrl": 9.32124,
+    "dist": 2.26614,
+    "peel": 2.26614
+   },
+   "share": {
+    "label": 0.12526225349655865,
+    "scans": 0.6176612165444704,
+    "ctrl": 0.1729720702113801,
+    "dist": 0.042052229873795435,
+    "peel": 0.042052229873795435
+   },
+   "mean_growth_rounds": 3.16062,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 32,
+   "lanes_label": "32",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 59.04932,
+   "mean": {
+    "label": 10.91084,
+    "scans": 33.28496,
+    "ctrl": 9.32124,
+    "dist": 3.26614,
+    "peel": 2.26614
+   },
+   "share": {
+    "label": 0.18477503212568747,
+    "scans": 0.5636806655859882,
+    "ctrl": 0.15785516243032097,
+    "dist": 0.05531206794591369,
+    "peel": 0.03837707191208976
+   },
+   "mean_growth_rounds": 3.16062,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 120,
+   "lanes_label": "V",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 28.92498,
+   "mean": {
+    "label": 6.75022,
+    "scans": 8.32124,
+    "ctrl": 9.32124,
+    "dist": 2.26614,
+    "peel": 2.26614
+   },
+   "share": {
+    "label": 0.23336991071385357,
+    "scans": 0.287683517845129,
+    "ctrl": 0.32225571115347357,
+    "dist": 0.07834543014377192,
+    "peel": 0.07834543014377192
+   },
+   "mean_growth_rounds": 3.16062,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 120,
+   "lanes_label": "V",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 34.0856,
+   "mean": {
+    "label": 10.91084,
+    "scans": 8.32124,
+    "ctrl": 9.32124,
+    "dist": 3.26614,
+    "peel": 2.26614
+   },
+   "share": {
+    "label": 0.32010115708686365,
+    "scans": 0.24412772549111647,
+    "ctrl": 0.27346562771375593,
+    "dist": 0.09582169596545169,
+    "peel": 0.06648379374281221
+   },
+   "mean_growth_rounds": 3.16062,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 8,
+   "lanes_label": "8",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 438.90718,
+   "mean": {
+    "label": 10.07938,
+    "scans": 411.49584,
+    "ctrl": 10.79752,
+    "dist": 3.26722,
+    "peel": 3.26722
+   },
+   "share": {
+    "label": 0.02296471887290611,
+    "scans": 0.9375463850921737,
+    "ctrl": 0.024600919037141292,
+    "dist": 0.007443988498889447,
+    "peel": 0.007443988498889447
+   },
+   "mean_growth_rounds": 3.89876,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 8,
+   "lanes_label": "8",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 444.80594,
+   "mean": {
+    "label": 14.97814,
+    "scans": 411.49584,
+    "ctrl": 10.79752,
+    "dist": 4.26722,
+    "peel": 3.26722
+   },
+   "share": {
+    "label": 0.033673426213687706,
+    "scans": 0.9251131853140271,
+    "ctrl": 0.024274675828294918,
+    "dist": 0.00959344203002325,
+    "peel": 0.007345270613967071
+   },
+   "mean_growth_rounds": 3.89876,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 32,
+   "lanes_label": "32",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 135.18406,
+   "mean": {
+    "label": 10.07938,
+    "scans": 107.77272,
+    "ctrl": 10.79752,
+    "dist": 3.26722,
+    "peel": 3.26722
+   },
+   "share": {
+    "label": 0.07456041784808061,
+    "scans": 0.7972294958444065,
+    "ctrl": 0.07987273055713817,
+    "dist": 0.024168677875187356,
+    "peel": 0.024168677875187356
+   },
+   "mean_growth_rounds": 3.89876,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 32,
+   "lanes_label": "32",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 141.08282,
+   "mean": {
+    "label": 14.97814,
+    "scans": 107.77272,
+    "ctrl": 10.79752,
+    "dist": 4.26722,
+    "peel": 3.26722
+   },
+   "share": {
+    "label": 0.10616558415829794,
+    "scans": 0.7638968373328517,
+    "ctrl": 0.07653320227083638,
+    "dist": 0.030246205739295543,
+    "peel": 0.023158170498718413
+   },
+   "mean_growth_rounds": 3.89876,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 336,
+   "lanes_label": "V",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 37.20886,
+   "mean": {
+    "label": 10.07938,
+    "scans": 9.79752,
+    "ctrl": 10.79752,
+    "dist": 3.26722,
+    "peel": 3.26722
+   },
+   "share": {
+    "label": 0.27088655766395425,
+    "scans": 0.2633114801152199,
+    "ctrl": 0.2901867995955802,
+    "dist": 0.08780758131262285,
+    "peel": 0.08780758131262285
+   },
+   "mean_growth_rounds": 3.89876,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 336,
+   "lanes_label": "V",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 43.10762,
+   "mean": {
+    "label": 14.97814,
+    "scans": 9.79752,
+    "ctrl": 10.79752,
+    "dist": 4.26722,
+    "peel": 3.26722
+   },
+   "share": {
+    "label": 0.34745921950689923,
+    "scans": 0.22728046688729278,
+    "ctrl": 0.2504782217157895,
+    "dist": 0.0989899233592576,
+    "peel": 0.07579216853076091
+   },
+   "mean_growth_rounds": 3.89876,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 8,
+   "lanes_label": "8",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 996.39894,
+   "mean": {
+    "label": 13.34678,
+    "scans": 962.5536,
+    "ctrl": 11.69504,
+    "dist": 4.40176,
+    "peel": 4.40176
+   },
+   "share": {
+    "label": 0.01339501625724331,
+    "scans": 0.9660323404197921,
+    "ctrl": 0.011737306745830138,
+    "dist": 0.004417668288567228,
+    "peel": 0.004417668288567228
+   },
+   "mean_growth_rounds": 4.34752,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 8,
+   "lanes_label": "8",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 1002.74646,
+   "mean": {
+    "label": 18.6943,
+    "scans": 962.5536,
+    "ctrl": 11.69504,
+    "dist": 5.40176,
+    "peel": 4.40176
+   },
+   "share": {
+    "label": 0.0186430974784992,
+    "scans": 0.9599172257362045,
+    "ctrl": 0.011663008015007104,
+    "dist": 0.00538696491633588,
+    "peel": 0.004389703853953272
+   },
+   "mean_growth_rounds": 4.34752,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 32,
+   "lanes_label": "32",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 279.83126,
+   "mean": {
+    "label": 13.34678,
+    "scans": 245.98592,
+    "ctrl": 11.69504,
+    "dist": 4.40176,
+    "peel": 4.40176
+   },
+   "share": {
+    "label": 0.047695814970779175,
+    "scans": 0.8790508966010445,
+    "ctrl": 0.04179318636524025,
+    "dist": 0.015730051031468035,
+    "peel": 0.015730051031468035
+   },
+   "mean_growth_rounds": 4.34752,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 32,
+   "lanes_label": "32",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 286.17878,
+   "mean": {
+    "label": 18.6943,
+    "scans": 245.98592,
+    "ctrl": 11.69504,
+    "dist": 5.40176,
+    "peel": 4.40176
+   },
+   "share": {
+    "label": 0.06532385105562334,
+    "scans": 0.8595533183837041,
+    "ctrl": 0.04086620258846586,
+    "dist": 0.01887547357634273,
+    "peel": 0.015381154395864013
+   },
+   "mean_growth_rounds": 4.34752,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 720,
+   "lanes_label": "V",
+   "pipe": 0,
+   "shots": 50000,
+   "mean_cycles": 44.54038,
+   "mean": {
+    "label": 13.34678,
+    "scans": 10.69504,
+    "ctrl": 11.69504,
+    "dist": 4.40176,
+    "peel": 4.40176
+   },
+   "share": {
+    "label": 0.2996557281280492,
+    "scans": 0.24012008878235883,
+    "ctrl": 0.26257162601666173,
+    "dist": 0.09882627853646511,
+    "peel": 0.09882627853646511
+   },
+   "mean_growth_rounds": 4.34752,
+   "stage": "sim (cycle-exact HwModel)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 720,
+   "lanes_label": "V",
+   "pipe": 1,
+   "shots": 50000,
+   "mean_cycles": 50.8879,
+   "mean": {
+    "label": 18.6943,
+    "scans": 10.69504,
+    "ctrl": 11.69504,
+    "dist": 5.40176,
+    "peel": 4.40176
+   },
+   "share": {
+    "label": 0.3673623788759214,
+    "scans": 0.21016862554752702,
+    "ctrl": 0.22981966243448834,
+    "dist": 0.10615018501451229,
+    "peel": 0.08649914812755095
+   },
+   "mean_growth_rounds": 4.34752,
+   "stage": "sim (cycle-exact HwModel)"
+  }
+ ]
+}
