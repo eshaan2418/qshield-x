@@ -1,4 +1,17 @@
+<div align="center">
+
 # QShield-X
+
+**A formally verified, FPGA-targeted union-find decoder for the surface code, and a measured answer to whether
+hardware beats software.**
+
+[![ci](https://github.com/eshaan2418/qshield-x/actions/workflows/ci.yml/badge.svg)](https://github.com/eshaan2418/qshield-x/actions/workflows/ci.yml)
+![SystemVerilog](https://img.shields.io/badge/RTL-SystemVerilog-4c6ef5)
+![Formal](https://img.shields.io/badge/formal-SymbiYosys%20%C2%B7%20TLA%2B%20%C2%B7%20Z3-7048e8)
+![C++](https://img.shields.io/badge/golden%20model-C%2B%2B-00599c)
+![Wasm](https://img.shields.io/badge/runtime-WebAssembly%20SIMD-654ff0)
+
+</div>
 
 A union-find decoder for the surface code, written as SystemVerilog and checked formally, targeting an FPGA. It
 is built together with a bit-exact C++ golden model, a WebAssembly runtime, and a fix to V8's arm64 code generation.
@@ -36,6 +49,31 @@ circuit-level depolarizing noise, d = 3–9)
   is optimal for 0 % of weightings when T is p99 latency, and for 23 %
   when T is worst-case latency (d = 3) [analysis of measured configs (weight sweep)]. Co-design pays off exactly when the deadline
   is what matters.
+
+## Architecture
+
+```mermaid
+flowchart LR
+  S[Stim circuit<br/>detector samples] --> I[AXI-Stream ingress<br/>frame FIFO]
+  I --> C[QSX-UF core<br/>parallel union-find + peeling]
+  C -->|valid| H[Host protocol<br/>TLA+ checked]
+  C -->|WATCHDOG / invalid| F[Verified software<br/>fallback]
+  F --> H
+  H --> R[Ed25519-signed results<br/>AES-GCM storage]
+  R --> W[Wasm replay<br/>browser + d8]
+```
+
+The RTL core matches the C++ `HwModel` bit for bit and cycle for cycle, and the Wasm build matches the native
+decoder bit for bit. The shell properties and the core's interface guarantees (d = 3, 5, 7) are proven by
+k-induction, and the host protocol is model-checked with TLC.
+
+## Figures
+
+| Latency per d-round block | Logical error rate vs physical error rate |
+|:---:|:---:|
+| ![p99 latency, RTL vs CPU](results/M2/figs/hw_vs_cpu.png) | ![P_L vs p](results/M1/figs/pl_vs_p.png) |
+| **Where J = α·P_L + β·T + γ·A is minimised (worst-case T)** | **Where the cycles go** |
+| ![objective](results/M10/figs/objective_d3_t_worst.png) | ![cycle breakdown](results/M2/figs/cycle_breakdown.png) |
 
 ## What's here
 
