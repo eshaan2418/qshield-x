@@ -504,6 +504,11 @@ if _exists("M2/report.json"):
         return 100 * (f[1] / f[0] - 1)
 
     claim("M2_pipe_gain_pct_d3", _pipe_gain, "{:.0f}", "pnr (nextpnr-ecp5)", REP)
+    def _min_lut(d):
+        return min(r["synth"]["LUT4"] for r in _rep["configs"] if r["d"] == d and r["synth"]["LUT4"])
+
+    claim("M2_min_lut_d7", lambda: _min_lut(7), "{:,}", "synth (Yosys synth_ecp5)", REP)
+    claim("M2_d7_over_device", lambda: _min_lut(7) / 83640, "{:.1f}", "synth (Yosys) vs LFE5U-85F capacity", REP)
 
     def _fit_rows():
         rows = []
