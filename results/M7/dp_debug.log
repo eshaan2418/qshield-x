@@ -1,0 +1,5 @@
+W1024 20:43:19.743000 57215 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+{"sigma": 0.6, "round": 10, "pl": {"site-A": 0.00666, "site-B": 0.03364, "site-C": 0.03304}, "positive_predictions": {"site-A": 2008, "site-B": 4061, "site-C": 3880}, "param_sha256": "5a6635f1b2a63110"}
+{"sigma": 0.6, "round": 20, "pl": {"site-A": 0.00516, "site-B": 0.02654, "site-C": 0.027}, "positive_predictions": {"site-A": 2103, "site-B": 4612, "site-C": 4362}, "param_sha256": "57b5c1969a83e764"}
+{"sigma": 0.6, "round": 30, "pl": {"site-A": 0.00516, "site-B": 0.02654, "site-C": 0.027}, "positive_predictions": {"site-A": 2103, "site-B": 4612, "site-C": 4362}, "param_sha256": "57506e7587ad246b"}
+{"sigma": 0.6, "round": 40, "pl": {"site-A": 0.00516, "site-B": 0.02654, "site-C": 0.027}, "positive_predictions": {"site-A": 2103, "site-B": 4612, "site-C": 4362}, "param_sha256": "3d876120253d3204"}

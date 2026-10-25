@@ -1,1 +1,6 @@
-W1024 14:28:22.101000 6330 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+W1024 19:43:57.545000 15185 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+fedavg {"site-A": 0.00376, "site-B": 0.02193, "site-C": 0.02064} None
+fedavg-iid {"site-A": 0.00343, "site-B": 0.01954, "site-C": 0.0182} None
+fedavg-dp-sigma0.6 {"site-A": 0.00511, "site-B": 0.02707, "site-C": 0.02685} 4.799506912093924
+fedavg-dp-sigma1.0 {"site-A": 0.00511, "site-B": 0.02708, "site-C": 0.02686} 1.096355581658249
+fedavg-dp-sigma2.0 {"site-A": 0.00511, "site-B": 0.02707, "site-C": 0.02685} 0.3262077126136367
