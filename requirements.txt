@@ -4,6 +4,7 @@ cryptography==50.0.2
 matplotlib==3.11.2
 ninja==1.13.2
 numpy==2.5.4
+opacus==1.6.0
 pybind11==3.1.0
 PyMatching==2.4.0
 pytest==9.1.1
