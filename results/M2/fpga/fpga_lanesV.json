@@ -1,0 +1,190 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "4ceaafeb7703d1238cf2f3dcce5599a1ca8531ed",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-25T04:50:22+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+   "yosys": "Yosys 0.70+219 (git sha1 5053d0e26, Release, Clang /usr/local/osxcross/target/bin/aarch64-apple-darwin25.5-clang++ 21.1.8)",
+   "nextpnr-ecp5": "\"nextpnr-ecp5\" -- Next Generation Place and Route (Version nextpnr-0.11.1-79-g22c5adf4)",
+   "device": "LFE5U-85F CABGA381 speed 8"
+  },
+  "seed": 1,
+  "config": {
+   "configs": "3:q5:24:0,1;5:q5:120:0,1",
+   "synth_only": "",
+   "core_only": "",
+   "params": "",
+   "freq": 100.0,
+   "seed": 1,
+   "jobs": 3,
+   "timeout": 14400,
+   "collect": true,
+   "name": "fpga_lanesV.json",
+   "out": "/Users/eshaan.kapooswalla/QShield-X/results/M2/fpga"
+  }
+ },
+ "data": [
+  {
+   "d": 3,
+   "weights": "q5",
+   "lanes": 24,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d3_q5_L24_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 10.7,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 654,
+     "DP16KD": 1,
+     "L6MUX21": 171,
+     "LUT4": 8620,
+     "PFUMX": 1260,
+     "TRELLIS_FF": 1371
+    }
+   },
+   "pnr_s": 26.8,
+   "pnr": {
+    "stage": "pnr",
+    "fmax_mhz": 56.06324005126953,
+    "target_mhz": 100.0,
+    "utilization": {
+     "DCCA": {
+      "available": 56,
+      "used": 1
+     },
+     "DP16KD": {
+      "available": 208,
+      "used": 1
+     },
+     "TRELLIS_COMB": {
+      "available": 83640,
+      "used": 11082
+     },
+     "TRELLIS_FF": {
+      "available": 83640,
+      "used": 1371
+     },
+     "TRELLIS_IO": {
+      "available": 365,
+      "used": 121
+     }
+    }
+   }
+  },
+  {
+   "d": 3,
+   "weights": "q5",
+   "lanes": 24,
+   "params": {
+    "PIPE": 1
+   },
+   "tag": "d3_q5_L24_PIPE1",
+   "top": "qsx_pnr_shell",
+   "synth_s": 11.2,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 654,
+     "DP16KD": 1,
+     "L6MUX21": 236,
+     "LUT4": 8981,
+     "PFUMX": 1574,
+     "TRELLIS_FF": 1451
+    }
+   },
+   "pnr_s": 28.3,
+   "pnr": {
+    "stage": "pnr",
+    "fmax_mhz": 64.1560287475586,
+    "target_mhz": 100.0,
+    "utilization": {
+     "DCCA": {
+      "available": 56,
+      "used": 1
+     },
+     "DP16KD": {
+      "available": 208,
+      "used": 1
+     },
+     "TRELLIS_COMB": {
+      "available": 83640,
+      "used": 11443
+     },
+     "TRELLIS_FF": {
+      "available": 83640,
+      "used": 1451
+     },
+     "TRELLIS_IO": {
+      "available": 365,
+      "used": 121
+     }
+    }
+   }
+  },
+  {
+   "d": 5,
+   "weights": "q5",
+   "lanes": 120,
+   "params": {
+    "PIPE": 0
+   },
+   "tag": "d5_q5_L120_PIPE0",
+   "top": "qsx_pnr_shell",
+   "synth_s": 419.7,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 6631,
+     "DP16KD": 1,
+     "L6MUX21": 2310,
+     "LUT4": 115386,
+     "PFUMX": 17667,
+     "TRELLIS_FF": 7747
+    }
+   },
+   "pnr_error": "does not fit: 115386 LUT4 after synthesis > 83640 on LFE5U-85F",
+   "fits": false
+  },
+  {
+   "d": 5,
+   "weights": "q5",
+   "lanes": 120,
+   "params": {
+    "PIPE": 1
+   },
+   "tag": "d5_q5_L120_PIPE1",
+   "top": "qsx_pnr_shell",
+   "synth_s": 391.6,
+   "synth": {
+    "stage": "synth",
+    "cells": {
+     "CCU2C": 6642,
+     "DP16KD": 1,
+     "L6MUX21": 1194,
+     "LUT4": 109311,
+     "PFUMX": 13932,
+     "TRELLIS_FF": 8251
+    }
+   },
+   "pnr_error": "does not fit: 109311 LUT4 after synthesis > 83640 on LFE5U-85F",
+   "fits": false
+  }
+ ]
+}
