@@ -97,3 +97,13 @@ validation data drawn with seeds disjoint from fed.py's train/test seeds. On val
 base rate 10.3%) and sigma = 2.0 collapses, i.e. noise now visibly trades utility for privacy. The batch-512 results
 stay in results/M7/federated_d3.json and are reported as the failed configuration. Their sigma-independence is
 explained in results/M7/dp_debug.json.
+
+## 2026-10-24 D10 — M7 DP plateau (supersedes the clipping / signal-to-noise explanation in D9)
+Ablations refute D9's hypotheses. With lot 512, clip-only (sigma = 0) learns a better decoder (results/M7/
+federated_d3_clip_ablation.json), so clipping is not the cause. With lot 8192 and 300 steps, even sigma = 0 lands on
+the same P_L as every sigma > 0 (results/M7/federated_d3_dp_b8192.json). Explanation: a training-budget plateau.
+DP-limited training reaches a decoder that classifies the frequent low-weight syndromes like any reasonable decoder
+(P_L between "PyMatching on syndromes of weight <= 3, else 0" and "<= 4", computed on the fed.py test sets). Models
+on the plateau agree on almost every test syndrome, so their error counts differ by a few in 200k. Prediction: more
+DP steps escape the plateau at higher epsilon (results/M7/federated_d3_dp_b8192_long.json). Reported as: within the
+tested step budget, privacy from epsilon ~ 17.6 down to ~ 0.33 costs no additional utility beyond the plateau.
