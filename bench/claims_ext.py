@@ -137,6 +137,65 @@ for d in (3, 5, 7, 9):
               pipe=0)["mean_cycles"], "{:.0f}", "sim (cycle-exact HwModel)", BD)
 
 
+# ---------------------------------------------------------------- M6 learned / adaptive
+for d in (3, 5):
+    src = f"results/M6/gnn_d{d}/eval.json"
+    for dec, tag in (("gnn", "GNN"), ("pymatching", "PM"), ("qsxuf-q5", "UF")):
+        claim(f"M6_pl_d{d}_{tag}", lambda d=d, dec=dec: _find(J(f"M6/gnn_d{d}/eval.json"), p=0.003)[dec]["pl"],
+              "{:.2e}", "sim (Monte Carlo, Stim)", src)
+    claim(f"M6_gnn_ratio_d{d}", lambda d=d: _find(J(f"M6/gnn_d{d}/eval.json"), p=0.003)["gnn"]["pl"]
+          / _find(J(f"M6/gnn_d{d}/eval.json"), p=0.003)["pymatching"]["pl"], "{:.2f}", "sim (Monte Carlo, Stim)", src)
+    claim(f"M6_gnn_b1_p50_us_d{d}", lambda d=d: _find(J(f"M6/gnn_d{d}/eval.json"), p=0.003)["gnn_latency_batch1_us"]
+          ["p50"], "{:.0f}", "CPU measurement (PyTorch, 1 thread)", src)
+    claim(f"M6_gnn_batched_us_d{d}", lambda d=d: _find(J(f"M6/gnn_d{d}/eval.json"), p=0.003)["gnn_batched_us_per_shot"],
+          "{:.1f}", "CPU measurement (PyTorch, 1 thread)", src)
+AD = "results/M6/adaptive_d5.json"
+for sc in ("step", "readout", "drift", "burst"):
+    for st in ("fixed-UF", "fixed-PM", "adaptive-UF", "adaptive-hybrid", "oracle-UF", "oracle-PM"):
+        tag = st.replace("-", "")
+        claim(f"M6_{sc}_{tag}", lambda sc=sc, st=st: J("M6/adaptive_d5.json")["results"][sc]["strategies"][st]["pl"],
+              "{:.2e}", "sim (Monte Carlo, Stim)", AD)
+claim("M6_policy_ns", lambda: max(v["policy_ns_per_shot"] for v in J("M6/adaptive_d5.json")["results"].values()),
+      "{:,.0f}", "CPU measurement (policy statistics + estimate, per shot)", AD)
+claim("M6_recovery_shots", lambda: J("M6/adaptive_d5.json")["results"]["step"]["recovery"]["shots"], "{:,}",
+      "sim (Monte Carlo, Stim)", AD)
+
+# ---------------------------------------------------------------- M8 infra
+M8 = "results/M8/overhead.json"
+claim("M8_verify_mbps", lambda: _find(J("M8/overhead.json")["sign_verify"], mb=64)["verify_mb_per_s"], "{:,.0f}",
+      "CPU measurement", M8)
+claim("M8_aes_enc_mbps", lambda: _find(J("M8/overhead.json")["aes_gcm"], mb=64)["encrypt_mb_per_s"], "{:,.0f}",
+      "CPU measurement", M8)
+claim("M8_mtls_p50_ms", lambda: J("M8/overhead.json")["control_api"]["mtls"]["p50_ms"], "{:.2f}", "CPU measurement",
+      M8)
+claim("M8_plain_p50_ms", lambda: J("M8/overhead.json")["control_api"]["plain_http"]["p50_ms"], "{:.2f}",
+      "CPU measurement", M8)
+
+
+def _junit():
+    import xml.etree.ElementTree as ET
+
+    t = ET.parse(R / "M8/tests.xml").getroot()
+    ts = t if t.tag == "testsuite" else t.find("testsuite")
+    return int(ts.get("tests")), int(ts.get("failures")) + int(ts.get("errors"))
+
+
+claim("M8_tests", lambda: _junit()[0], "{}", "pytest (results/M8/tests.xml)", "results/M8/tests.xml")
+claim("M8_tests_failed", lambda: _junit()[1], "{}", "pytest (results/M8/tests.xml)", "results/M8/tests.xml")
+
+# ---------------------------------------------------------------- M10 end-to-end demo
+E2E = "results/M10/e2e_demo.json"
+claim("E2E_shots", lambda: J("M10/e2e_demo.json")["shots"], "{:,}", "sim (Verilator RTL + host protocol)", E2E)
+claim("E2E_hw", lambda: J("M10/e2e_demo.json")["hw_committed"], "{:,}", "sim (Verilator RTL + host protocol)", E2E)
+claim("E2E_sw", lambda: J("M10/e2e_demo.json")["sw_committed"], "{:,}", "sim (Verilator RTL + host protocol)", E2E)
+claim("E2E_lost", lambda: J("M10/e2e_demo.json")["responses_lost_injected"], "{:,}", "fault injection", E2E)
+claim("E2E_timeouts", lambda: J("M10/e2e_demo.json")["hw_status_counts_received"]["TIMEOUT"], "{:,}",
+      "sim (Verilator RTL)", E2E)
+claim("E2E_replay", lambda: "yes" if J("M10/e2e_demo.json")["wasm_replay_matches_committed"] else "NO", "{}",
+      "Wasm replay (Node.js)", E2E)
+claim("E2E_mm", lambda: J("M10/e2e_demo.json")["rtl_testbench"]["mismatches"], "{}", "sim (Verilator RTL)", E2E)
+
+
 # ---------------------------------------------------------------- generated paper tables
 def _tex(s) -> str:
     return str(s).replace("\\", "\\textbackslash{}").replace("_", "\\_").replace("%", "\\%").replace("&", "\\&")
@@ -309,6 +368,11 @@ if _exists("M7/federated_d3_dp_b8192.json"):
                                     for g in J("M7/federated_d3_dp_b8192.json") if g.startswith("fedavg-dp")
                                     and J("M7/federated_d3_dp_b8192.json")[g]["dp"]["sigma"] > 0), "{:.1f}",
           "DP accounting (Opacus RDP)", K7)
+
+
+if _exists("M7/federated_d3_dp_b8192_long.json"):
+    claim("M7_long_eps_s2", lambda: J("M7/federated_d3_dp_b8192_long.json")["fedavg-dp-sigma2.0"]["dp"]["epsilon"],
+          "{:.2f}", "DP accounting (Opacus RDP)", "results/M7/federated_d3_dp_b8192_long.json")
 
 
 if _exists("M7/federated_d3.json"):
