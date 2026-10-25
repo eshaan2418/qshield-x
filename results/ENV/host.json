@@ -1,0 +1,37 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "278db074a42351d7f1b576e78446c31b9c544561",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-25T00:01:05+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)"
+  },
+  "seed": null,
+  "config": {}
+ },
+ "data": {
+  "cpu": "Apple M5 Pro",
+  "ncpu": 18,
+  "ram_gb": 48.0,
+  "os": "Darwin 27.0.0",
+  "loadavg": [
+   68.69677734375,
+   50.74853515625,
+   42.84130859375
+  ],
+  "timer_resolution_ns": 41
+ }
+}

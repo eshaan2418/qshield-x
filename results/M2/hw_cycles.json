@@ -1,0 +1,1961 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "278db074a42351d7f1b576e78446c31b9c544561",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-24T23:57:07+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)"
+  },
+  "seed": 2002,
+  "config": {
+   "what": "cycles,shell,toggle",
+   "distances": "3,5,7,9",
+   "ps": "0.001,0.003,0.006",
+   "lanes": "1,4,8,16,32",
+   "shots": 100000,
+   "shell_distances": "3,5,7",
+   "shell_p": 0.003,
+   "shell_shots": 20000,
+   "toggle_distances": "3,5,7",
+   "toggle_shots": 5000,
+   "jobs": 4,
+   "seed": 2002,
+   "out": "/Users/eshaan.kapooswalla/QShield-X/results/M2"
+  }
+ },
+ "data": [
+  {
+   "d": 3,
+   "p": 0.001,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 84.66272,
+    "p50": 54.0,
+    "p99": 313.0,
+    "p999": 314.0,
+    "max": 318
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.001,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 87.25732,
+    "p50": 56.0,
+    "p99": 320.0,
+    "p999": 321.0,
+    "max": 325
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.001,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 27.25712,
+    "p50": 18.0,
+    "p99": 97.0,
+    "p999": 98.0,
+    "max": 102
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.001,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 29.85172,
+    "p50": 20.0,
+    "p99": 104.0,
+    "p999": 105.0,
+    "max": 109
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.001,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 17.68952,
+    "p50": 12.0,
+    "p99": 61.0,
+    "p999": 62.0,
+    "max": 66
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.001,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 20.28412,
+    "p50": 14.0,
+    "p99": 68.0,
+    "p999": 69.0,
+    "max": 73
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.001,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 14.50032,
+    "p50": 10.0,
+    "p99": 49.0,
+    "p999": 50.0,
+    "max": 54
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.001,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 17.09492,
+    "p50": 12.0,
+    "p99": 56.0,
+    "p999": 57.0,
+    "max": 61
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.001,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 11.31112,
+    "p50": 8.0,
+    "p99": 37.0,
+    "p999": 38.0,
+    "max": 43
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.001,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 13.90572,
+    "p50": 10.0,
+    "p99": 44.0,
+    "p999": 45.0,
+    "max": 49
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 127.48176,
+    "p50": 54.0,
+    "p99": 313.0,
+    "p999": 316.0,
+    "max": 320
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 130.90531,
+    "p50": 56.0,
+    "p99": 320.0,
+    "p999": 323.0,
+    "max": 327
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 40.23396,
+    "p50": 18.0,
+    "p99": 97.0,
+    "p999": 100.0,
+    "max": 104
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 43.65751,
+    "p50": 20.0,
+    "p99": 104.0,
+    "p999": 107.0,
+    "max": 111
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 25.69266,
+    "p50": 12.0,
+    "p99": 61.0,
+    "p999": 64.0,
+    "max": 68
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 29.11621,
+    "p50": 14.0,
+    "p99": 68.0,
+    "p999": 71.0,
+    "max": 75
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 20.84556,
+    "p50": 10.0,
+    "p99": 49.0,
+    "p999": 52.0,
+    "max": 56
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 24.26911,
+    "p50": 12.0,
+    "p99": 56.0,
+    "p999": 59.0,
+    "max": 63
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 15.99846,
+    "p50": 8.0,
+    "p99": 37.0,
+    "p999": 40.0,
+    "max": 44
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 19.42201,
+    "p50": 10.0,
+    "p99": 44.0,
+    "p999": 47.0,
+    "max": 51
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.006,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 173.67155,
+    "p50": 210.0,
+    "p99": 315.0,
+    "p999": 318.0,
+    "max": 325
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.006,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 177.98007,
+    "p50": 215.0,
+    "p99": 322.0,
+    "p999": 325.0,
+    "max": 332
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.006,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 54.56483,
+    "p50": 66.0,
+    "p99": 99.0,
+    "p999": 102.0,
+    "max": 109
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.006,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 58.87335,
+    "p50": 71.0,
+    "p99": 106.0,
+    "p999": 109.0,
+    "max": 116
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.006,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 34.71371,
+    "p50": 42.0,
+    "p99": 63.0,
+    "p999": 66.0,
+    "max": 73
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.006,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 39.02223,
+    "p50": 47.0,
+    "p99": 70.0,
+    "p999": 73.0,
+    "max": 80
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.006,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 28.09667,
+    "p50": 34.0,
+    "p99": 51.0,
+    "p999": 54.0,
+    "max": 61
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.006,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 32.40519,
+    "p50": 39.0,
+    "p99": 58.0,
+    "p999": 61.0,
+    "max": 68
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.006,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 21.47963,
+    "p50": 26.0,
+    "p99": 39.0,
+    "p999": 42.0,
+    "max": 49
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 3,
+   "p": 0.006,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 25.78815,
+    "p50": 31.0,
+    "p99": 46.0,
+    "p999": 49.0,
+    "max": 56
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.001,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 690.7297,
+    "p50": 735.0,
+    "p99": 1467.0,
+    "p999": 2200.0,
+    "max": 2458
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.001,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 694.55074,
+    "p50": 739.0,
+    "p99": 1474.0,
+    "p999": 2210.0,
+    "max": 2469
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.001,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 182.9425,
+    "p50": 195.0,
+    "p99": 387.0,
+    "p999": 580.0,
+    "max": 658
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.001,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 186.76354,
+    "p50": 199.0,
+    "p99": 394.0,
+    "p999": 590.0,
+    "max": 669
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.001,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 98.3113,
+    "p50": 105.0,
+    "p99": 207.0,
+    "p999": 310.0,
+    "max": 358
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.001,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 102.13234,
+    "p50": 109.0,
+    "p99": 214.0,
+    "p999": 320.0,
+    "max": 369
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.001,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 58.81674,
+    "p50": 63.0,
+    "p99": 123.0,
+    "p999": 184.0,
+    "max": 218
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.001,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 62.63778,
+    "p50": 67.0,
+    "p99": 130.0,
+    "p999": 194.0,
+    "max": 229
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.001,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 36.24842,
+    "p50": 39.0,
+    "p99": 75.0,
+    "p999": 112.0,
+    "max": 138
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.001,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 40.06946,
+    "p50": 43.0,
+    "p99": 82.0,
+    "p999": 122.0,
+    "max": 149
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 1018.6981,
+    "p50": 981.0,
+    "p99": 1721.0,
+    "p999": 2450.0,
+    "max": 2465
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 1023.85688,
+    "p50": 986.0,
+    "p99": 1729.0,
+    "p999": 2461.0,
+    "max": 2476
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 270.1177,
+    "p50": 261.0,
+    "p99": 461.0,
+    "p999": 650.0,
+    "max": 665
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 275.27648,
+    "p50": 266.0,
+    "p99": 469.0,
+    "p999": 661.0,
+    "max": 676
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 145.3543,
+    "p50": 141.0,
+    "p99": 251.0,
+    "p999": 350.0,
+    "max": 365
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 150.51308,
+    "p50": 146.0,
+    "p99": 259.0,
+    "p999": 361.0,
+    "max": 376
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 87.13138,
+    "p50": 85.0,
+    "p99": 153.0,
+    "p999": 210.0,
+    "max": 225
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 92.29016,
+    "p50": 90.0,
+    "p99": 161.0,
+    "p999": 221.0,
+    "max": 236
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 53.86114,
+    "p50": 53.0,
+    "p99": 97.0,
+    "p999": 130.0,
+    "max": 145
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 59.01992,
+    "p50": 58.0,
+    "p99": 105.0,
+    "p999": 141.0,
+    "max": 156
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.006,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 1130.39155,
+    "p50": 986.0,
+    "p99": 1970.0,
+    "p999": 2220.0,
+    "max": 2463
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.006,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 1135.99867,
+    "p50": 991.0,
+    "p99": 1979.0,
+    "p999": 2230.0,
+    "max": 2474
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.006,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 301.10995,
+    "p50": 266.0,
+    "p99": 530.0,
+    "p999": 600.0,
+    "max": 663
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.006,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 306.71707,
+    "p50": 271.0,
+    "p99": 539.0,
+    "p999": 610.0,
+    "max": 674
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.006,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 162.89635,
+    "p50": 146.0,
+    "p99": 290.0,
+    "p999": 330.0,
+    "max": 363
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.006,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 168.50347,
+    "p50": 151.0,
+    "p99": 299.0,
+    "p999": 340.0,
+    "max": 374
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.006,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 98.39667,
+    "p50": 90.0,
+    "p99": 178.0,
+    "p999": 204.0,
+    "max": 223
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.006,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 104.00379,
+    "p50": 95.0,
+    "p99": 187.0,
+    "p999": 214.0,
+    "max": 234
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.006,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 61.53971,
+    "p50": 58.0,
+    "p99": 114.0,
+    "p999": 127.0,
+    "max": 143
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 5,
+   "p": 0.006,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 67.14683,
+    "p50": 63.0,
+    "p99": 123.0,
+    "p999": 137.0,
+    "max": 154
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.001,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 2745.64184,
+    "p50": 2707.0,
+    "p99": 4067.0,
+    "p999": 6097.0,
+    "max": 8810
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.001,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 2750.69828,
+    "p50": 2712.0,
+    "p99": 4074.0,
+    "p999": 6107.0,
+    "max": 8824
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.001,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 701.19608,
+    "p50": 691.0,
+    "p99": 1043.0,
+    "p999": 1561.0,
+    "max": 2258
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.001,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 706.25252,
+    "p50": 696.0,
+    "p99": 1050.0,
+    "p999": 1571.0,
+    "max": 2272
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.001,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 360.45512,
+    "p50": 355.0,
+    "p99": 539.0,
+    "p999": 805.0,
+    "max": 1166
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.001,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 365.51156,
+    "p50": 360.0,
+    "p99": 546.0,
+    "p999": 815.0,
+    "max": 1180
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.001,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 190.08464,
+    "p50": 187.0,
+    "p99": 287.0,
+    "p999": 427.0,
+    "max": 620
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.001,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 195.14108,
+    "p50": 192.0,
+    "p99": 294.0,
+    "p999": 437.0,
+    "max": 634
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.001,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 108.95584,
+    "p50": 107.0,
+    "p99": 167.0,
+    "p999": 247.0,
+    "max": 360
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.001,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 114.01228,
+    "p50": 112.0,
+    "p99": 174.0,
+    "p999": 257.0,
+    "max": 374
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 3325.28104,
+    "p50": 3384.0,
+    "p99": 6097.0,
+    "p999": 6786.0,
+    "max": 10167
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 3331.18852,
+    "p50": 3390.0,
+    "p99": 6107.0,
+    "p999": 6797.0,
+    "max": 10183
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 851.91112,
+    "p50": 864.0,
+    "p99": 1561.0,
+    "p999": 1746.0,
+    "max": 2607
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 857.8186,
+    "p50": 870.0,
+    "p99": 1571.0,
+    "p999": 1757.0,
+    "max": 2623
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 439.6828,
+    "p50": 444.0,
+    "p99": 805.0,
+    "p999": 906.0,
+    "max": 1347
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 445.59028,
+    "p50": 450.0,
+    "p99": 815.0,
+    "p999": 917.0,
+    "max": 1363
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 233.56864,
+    "p50": 234.0,
+    "p99": 427.0,
+    "p999": 486.0,
+    "max": 717
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 239.47612,
+    "p50": 240.0,
+    "p99": 437.0,
+    "p999": 497.0,
+    "max": 733
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 135.41904,
+    "p50": 134.0,
+    "p99": 247.0,
+    "p999": 286.0,
+    "max": 417
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 141.32652,
+    "p50": 140.0,
+    "p99": 257.0,
+    "p999": 297.0,
+    "max": 433
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.006,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 3619.265,
+    "p50": 3393.0,
+    "p99": 6107.0,
+    "p999": 7465.001000000004,
+    "max": 9520
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.006,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 3625.59866,
+    "p50": 3399.0,
+    "p99": 6117.0,
+    "p999": 7477.001000000004,
+    "max": 9535
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.006,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 931.10036,
+    "p50": 873.0,
+    "p99": 1571.0,
+    "p999": 1921.0010000000038,
+    "max": 2464
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.006,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 937.43402,
+    "p50": 879.0,
+    "p99": 1581.0,
+    "p999": 1933.0010000000038,
+    "max": 2479
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.006,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 483.07292,
+    "p50": 453.0,
+    "p99": 815.0,
+    "p999": 997.0010000000038,
+    "max": 1288
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.006,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 489.40658,
+    "p50": 459.0,
+    "p99": 825.0,
+    "p999": 1009.0010000000038,
+    "max": 1303
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.006,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 259.0592,
+    "p50": 243.0,
+    "p99": 437.0,
+    "p999": 535.0010000000038,
+    "max": 700
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.006,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 265.39286,
+    "p50": 249.0,
+    "p99": 447.0,
+    "p999": 547.0010000000038,
+    "max": 715
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.006,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 152.386,
+    "p50": 143.0,
+    "p99": 257.0,
+    "p999": 315.00100000000384,
+    "max": 420
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 7,
+   "p": 0.006,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 158.71966,
+    "p50": 149.0,
+    "p99": 267.0,
+    "p999": 327.00100000000384,
+    "max": 435
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.001,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 6716.41443,
+    "p50": 7223.0,
+    "p99": 10117.0,
+    "p999": 13013.0,
+    "max": 15915
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.001,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 6722.0623,
+    "p50": 7229.0,
+    "p99": 10125.0,
+    "p999": 13023.0,
+    "max": 15927
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.001,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 1696.71483,
+    "p50": 1823.0,
+    "p99": 2557.0,
+    "p999": 3293.0,
+    "max": 4035
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.001,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 1702.3627,
+    "p50": 1829.0,
+    "p99": 2565.0,
+    "p999": 3303.0,
+    "max": 4047
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.001,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 860.09823,
+    "p50": 923.0,
+    "p99": 1297.0,
+    "p999": 1673.0,
+    "max": 2055
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.001,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 865.7461,
+    "p50": 929.0,
+    "p99": 1305.0,
+    "p999": 1683.0,
+    "max": 2067
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.001,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 441.78993,
+    "p50": 473.0,
+    "p99": 667.0,
+    "p999": 863.0,
+    "max": 1065
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.001,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 447.4378,
+    "p50": 479.0,
+    "p99": 675.0,
+    "p999": 873.0,
+    "max": 1077
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.001,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 237.28365,
+    "p50": 253.0,
+    "p99": 359.0,
+    "p999": 467.0,
+    "max": 581
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.001,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 242.93152,
+    "p50": 259.0,
+    "p99": 367.0,
+    "p999": 477.0,
+    "max": 593
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 7758.83919,
+    "p50": 7232.0,
+    "p99": 13026.0,
+    "p999": 15912.001000000004,
+    "max": 21702
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 7765.20367,
+    "p50": 7238.0,
+    "p99": 13036.0,
+    "p999": 15924.001000000004,
+    "max": 21718
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 1965.20079,
+    "p50": 1832.0,
+    "p99": 3306.0,
+    "p999": 4032.001000000004,
+    "max": 5502
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 1971.56527,
+    "p50": 1838.0,
+    "p99": 3316.0,
+    "p999": 4044.001000000004,
+    "max": 5518
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 999.59439,
+    "p50": 932.0,
+    "p99": 1686.0,
+    "p999": 2052.001000000004,
+    "max": 2802
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 1005.95887,
+    "p50": 938.0,
+    "p99": 1696.0,
+    "p999": 2064.001000000004,
+    "max": 2818
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 516.79119,
+    "p50": 482.0,
+    "p99": 876.0,
+    "p999": 1062.0010000000038,
+    "max": 1452
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 523.15567,
+    "p50": 488.0,
+    "p99": 886.0,
+    "p999": 1074.0010000000038,
+    "max": 1468
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 280.75407,
+    "p50": 262.0,
+    "p99": 480.0,
+    "p999": 578.0010000000038,
+    "max": 792
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.003,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 287.11855,
+    "p50": 268.0,
+    "p99": 490.0,
+    "p999": 590.0010000000038,
+    "max": 808
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.006,
+   "lanes": 1,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 8868.90304,
+    "p50": 8685.0,
+    "p99": 14470.0,
+    "p999": 17368.001000000004,
+    "max": 23162
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.006,
+   "lanes": 1,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 8876.02914,
+    "p50": 8692.0,
+    "p99": 14481.0,
+    "p999": 17381.001000000004,
+    "max": 23179
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.006,
+   "lanes": 4,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 2252.71504,
+    "p50": 2205.0,
+    "p99": 3670.0,
+    "p999": 4408.001000000004,
+    "max": 5882
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.006,
+   "lanes": 4,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 2259.84114,
+    "p50": 2212.0,
+    "p99": 3681.0,
+    "p999": 4421.001000000004,
+    "max": 5899
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.006,
+   "lanes": 8,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 1150.01704,
+    "p50": 1125.0,
+    "p99": 1870.0,
+    "p999": 2248.001000000004,
+    "max": 3002
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.006,
+   "lanes": 8,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 1157.14314,
+    "p50": 1132.0,
+    "p99": 1881.0,
+    "p999": 2261.001000000004,
+    "max": 3019
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.006,
+   "lanes": 16,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 598.66804,
+    "p50": 585.0,
+    "p99": 970.0,
+    "p999": 1168.0010000000038,
+    "max": 1562
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.006,
+   "lanes": 16,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 605.79414,
+    "p50": 592.0,
+    "p99": 981.0,
+    "p999": 1181.0010000000038,
+    "max": 1579
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.006,
+   "lanes": 32,
+   "pipe": 0,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 329.11964,
+    "p50": 321.0,
+    "p99": 530.0,
+    "p999": 640.0010000000038,
+    "max": 858
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  },
+  {
+   "d": 9,
+   "p": 0.006,
+   "lanes": 32,
+   "pipe": 1,
+   "shots": 100000,
+   "non_ok": 0,
+   "cycles": {
+    "mean": 336.24574,
+    "p50": 328.0,
+    "p99": 541.0,
+    "p999": 653.0010000000038,
+    "max": 875
+   },
+   "stage": "sim (cycle-exact HwModel, co-sim verified)"
+  }
+ ]
+}

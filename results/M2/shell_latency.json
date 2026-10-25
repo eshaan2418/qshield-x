@@ -1,0 +1,114 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "278db074a42351d7f1b576e78446c31b9c544561",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-25T00:04:34+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+   "verilator": "Verilator 5.053 devel rev v5.052-567-g0041d207c (mod)"
+  },
+  "seed": 2002,
+  "config": {
+   "what": "cycles,shell,toggle",
+   "distances": "3,5,7,9",
+   "ps": "0.001,0.003,0.006",
+   "lanes": "1,4,8,16,32",
+   "shots": 100000,
+   "shell_distances": "3,5,7",
+   "shell_p": 0.003,
+   "shell_shots": 20000,
+   "toggle_distances": "3,5,7",
+   "toggle_shots": 5000,
+   "jobs": 4,
+   "seed": 2002,
+   "out": "/Users/eshaan.kapooswalla/QShield-X/results/M2"
+  }
+ },
+ "data": [
+  {
+   "d": 3,
+   "p": 0.003,
+   "lanes": 8,
+   "shots": 20000,
+   "mismatches": 0,
+   "e2e_cycles": {
+    "n": 20000,
+    "mean": 36.38,
+    "p50": 22,
+    "p99": 72,
+    "p999": 75,
+    "max": 78
+   },
+   "core_cycles": {
+    "mean": 26.38455,
+    "p50": 12.0,
+    "p99": 62.0,
+    "p999": 65.0,
+    "max": 68
+   },
+   "overhead_cycles_mean": 9.995450000000002,
+   "stage": "sim (Verilator, qsx_top)"
+  },
+  {
+   "d": 5,
+   "p": 0.003,
+   "lanes": 8,
+   "shots": 20000,
+   "mismatches": 0,
+   "e2e_cycles": {
+    "n": 20000,
+    "mean": 166.49,
+    "p50": 187,
+    "p99": 299,
+    "p999": 367,
+    "max": 376
+   },
+   "core_cycles": {
+    "mean": 150.4942,
+    "p50": 171.0,
+    "p99": 283.0,
+    "p999": 351.0,
+    "max": 360
+   },
+   "overhead_cycles_mean": 15.995800000000003,
+   "stage": "sim (Verilator, qsx_top)"
+  },
+  {
+   "d": 7,
+   "p": 0.003,
+   "lanes": 8,
+   "shots": 20000,
+   "mismatches": 0,
+   "e2e_cycles": {
+    "n": 20000,
+    "mean": 484.76,
+    "p50": 477,
+    "p99": 837,
+    "p999": 934,
+    "max": 1301
+   },
+   "core_cycles": {
+    "mean": 454.7562,
+    "p50": 447.0,
+    "p99": 807.0,
+    "p999": 904.0,
+    "max": 1271
+   },
+   "overhead_cycles_mean": 30.003800000000012,
+   "stage": "sim (Verilator, qsx_top)"
+  }
+ ]
+}

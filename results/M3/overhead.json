@@ -1,0 +1,181 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "278db074a42351d7f1b576e78446c31b9c544561",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-25T00:07:10+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+   "yosys": "Yosys 0.70+219 (git sha1 5053d0e26, Release, Clang /usr/local/osxcross/target/bin/aarch64-apple-darwin25.5-clang++ 21.1.8)"
+  },
+  "seed": null,
+  "config": {
+   "distances": "3,5",
+   "lanes": 8,
+   "out": "/Users/eshaan.kapooswalla/QShield-X/results/M3/overhead.json"
+  }
+ },
+ "data": [
+  {
+   "d": 3,
+   "lanes": 8,
+   "stage": "synth (Yosys synth_ecp5 -noflatten)",
+   "modules": {
+    "qsx_top": {
+     "CCU2C": 32,
+     "LUT4": 108,
+     "PFUMX": 23,
+     "TRELLIS_FF": 219
+    },
+    "$paramod$e9bea96b49432d2997da5d097061645126367de7\\qsx_ingress": {
+     "DP16KD": 1,
+     "L6MUX21": 5,
+     "LUT4": 84,
+     "PFUMX": 15,
+     "TRELLIS_FF": 83
+    },
+    "$paramod$7178cbaa20c2cb30440aade225812c34b6029c40\\qsx_cfg": {
+     "CCU2C": 4,
+     "L6MUX21": 17,
+     "LUT4": 113,
+     "PFUMX": 34,
+     "TRELLIS_FF": 276
+    },
+    "$paramod$92984e644bf1032ad219acde35cc3e7f92cf39ad\\qsx_uf_core": {
+     "CCU2C": 214,
+     "L6MUX21": 36,
+     "LUT4": 4869,
+     "PFUMX": 337,
+     "TRELLIS_FF": 866
+    },
+    "$paramod$2d0c4b99bae19b0228a94b8e3d8313f0b874e942\\qsx_min_tree": {
+     "CCU2C": 14,
+     "L6MUX21": 7,
+     "LUT4": 70,
+     "PFUMX": 29
+    }
+   },
+   "core": {
+    "LUT4": 4939,
+    "TRELLIS_FF": 866,
+    "CCU2C": 228,
+    "DP16KD": 0,
+    "TRELLIS_DPR16X4": 0,
+    "PFUMX": 366,
+    "L6MUX21": 43
+   },
+   "shell": {
+    "LUT4": 305,
+    "TRELLIS_FF": 578,
+    "CCU2C": 36,
+    "DP16KD": 1,
+    "TRELLIS_DPR16X4": 0,
+    "PFUMX": 72,
+    "L6MUX21": 22
+   },
+   "core_module_only": {
+    "CCU2C": 214,
+    "L6MUX21": 36,
+    "LUT4": 4869,
+    "PFUMX": 337,
+    "TRELLIS_FF": 866
+   },
+   "shell_lut_fraction": 0.05816170861937452,
+   "shell_ff_fraction": 0.4002770083102493,
+   "latency": {
+    "stage": "sim (Verilator, qsx_top)",
+    "e2e_mean": 36.38,
+    "core_mean": 26.38455,
+    "overhead_cycles_mean": 9.995450000000002,
+    "overhead_fraction": 0.2747512369433755
+   }
+  },
+  {
+   "d": 5,
+   "lanes": 8,
+   "stage": "synth (Yosys synth_ecp5 -noflatten)",
+   "modules": {
+    "qsx_top": {
+     "CCU2C": 35,
+     "L6MUX21": 129,
+     "LUT4": 729,
+     "PFUMX": 230,
+     "TRELLIS_FF": 746
+    },
+    "$paramod$b041da9710c425b9b56c347df9c049889346920f\\qsx_min_tree": {
+     "CCU2C": 36,
+     "L6MUX21": 23,
+     "LUT4": 192,
+     "PFUMX": 84
+    },
+    "$paramod$595a2bd4b2d567c7db36268273745377fe31ca47\\qsx_ingress": {
+     "DP16KD": 1,
+     "L6MUX21": 4,
+     "LUT4": 90,
+     "PFUMX": 14,
+     "TRELLIS_FF": 87
+    },
+    "$paramod$7178cbaa20c2cb30440aade225812c34b6029c40\\qsx_cfg": {
+     "CCU2C": 8,
+     "L6MUX21": 1,
+     "LUT4": 330,
+     "PFUMX": 68,
+     "TRELLIS_FF": 1601
+    },
+    "$paramod$92984e644bf1032ad219acde35cc3e7f92cf39ad\\qsx_uf_core": {
+     "CCU2C": 1434,
+     "L6MUX21": 709,
+     "LUT4": 38840,
+     "PFUMX": 3253,
+     "TRELLIS_FF": 5380
+    }
+   },
+   "core": {
+    "LUT4": 39032,
+    "TRELLIS_FF": 5380,
+    "CCU2C": 1470,
+    "DP16KD": 0,
+    "TRELLIS_DPR16X4": 0,
+    "PFUMX": 3337,
+    "L6MUX21": 732
+   },
+   "shell": {
+    "LUT4": 1149,
+    "TRELLIS_FF": 2434,
+    "CCU2C": 43,
+    "DP16KD": 1,
+    "TRELLIS_DPR16X4": 0,
+    "PFUMX": 312,
+    "L6MUX21": 134
+   },
+   "core_module_only": {
+    "CCU2C": 1434,
+    "L6MUX21": 709,
+    "LUT4": 38840,
+    "PFUMX": 3253,
+    "TRELLIS_FF": 5380
+   },
+   "shell_lut_fraction": 0.028595604887882334,
+   "shell_ff_fraction": 0.3114921934988482,
+   "latency": {
+    "stage": "sim (Verilator, qsx_top)",
+    "e2e_mean": 166.49,
+    "core_mean": 150.4942,
+    "overhead_cycles_mean": 15.995800000000003,
+    "overhead_fraction": 0.09607664123971411
+   }
+  }
+ ]
+}
