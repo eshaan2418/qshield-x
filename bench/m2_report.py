@@ -138,6 +138,11 @@ def main() -> None:
         xs = [j + (i - 1) * w for j, e in enumerate(comp) if k in e]
         ys = [e[k] for e in comp if k in e]
         ax.bar(xs, ys, width=w - 0.03, color=plotstyle.SERIES[i], label=lab, zorder=3)
+    # Real-time reference: a d-round block arrives every d * T_round; T_round = 1 us is an assumed, typical
+    # superconducting syndrome-cycle time (a plot parameter, not a measurement).
+    for j, e in enumerate(comp):
+        ax.hlines(e["d"] * 1000.0, j - 0.42, j + 0.42, colors=plotstyle.INK2, linestyles="dashed", lw=1.0, zorder=4)
+    ax.plot([], [], color=plotstyle.INK2, ls="--", lw=1.0, label="block budget d x 1 us (assumed round time)")
     ax.set_xticks(range(len(comp)), [f"d={e['d']}" for e in comp])
     ax.set_yscale("log")
     ax.set_ylabel(f"p99 latency per d-round block, ns (p={P_REF})")

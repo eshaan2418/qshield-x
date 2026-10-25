@@ -112,6 +112,16 @@ for d in (3, 5, 7):
               "results/M2/toggle_proxy.json")
 
 
+# ---------------------------------------------------------------- M2 cycle breakdown
+BD = "results/M2/cycle_breakdown.json"
+for d in (3, 5, 7, 9):
+    for ls in ("8", "32", "V"):
+        claim(f"M2_scan_share_d{d}_L{ls}", lambda d=d, ls=ls: 100 * _find(J("M2/cycle_breakdown.json"), d=d,
+              lanes_label=ls, pipe=0)["share"]["scans"], "{:.0f}", "sim (cycle-exact HwModel)", BD)
+        claim(f"M2_mean_cyc_d{d}_L{ls}", lambda d=d, ls=ls: _find(J("M2/cycle_breakdown.json"), d=d, lanes_label=ls,
+              pipe=0)["mean_cycles"], "{:.0f}", "sim (cycle-exact HwModel)", BD)
+
+
 # ---------------------------------------------------------------- generated paper tables
 def _tex(s) -> str:
     return str(s).replace("\\", "\\textbackslash{}").replace("_", "\\_").replace("%", "\\%").replace("&", "\\&")
@@ -175,6 +185,125 @@ if _exists("M3/formal_summary.json"):
             r"\label{tab:formal}",
             r"\begin{tabular}{llllr}\toprule job & tool & bound & result & s \\ \midrule",
             *_FORMAL_TEX, r"\bottomrule\end{tabular}\end{table}"])
+
+
+_COSIM_KINDS = [("core-random", "core, random syndromes"), ("core-stim", "core, Stim syndromes"),
+                ("sweep", "core, LANES sweep 1/4/16/32"), ("top-random-stress", "shell, random + gaps/backpressure/"
+                                                                              "malformed/reconfig"),
+                ("top-stim-stress", "shell, Stim + gaps/backpressure")]
+
+
+def _cosim_cell(d, kind, fld):
+    if kind == "sweep":
+        return _sweep(d, fld)
+    return _find(_agg(d), kind=kind)[fld]
+
+
+if all(_exists(f"M2/cosim/cosim_d{d}.json") for d in (3, 5, 7)):
+    _CT = []
+    for kind, lab in _COSIM_KINDS:
+        claim(f"M2_ct_{kind.replace('-', '')}_lab", lambda lab=lab: _tex(lab), "{}", "config",
+              "tb/run_cosim.py (campaign definition)")
+        cells = [f"\\claim{{M2_ct_{kind.replace('-', '')}_lab}}"]
+        for d in (3, 5, 7):
+            for fld, f in (("syndromes", "{:,}"), ("mismatches", "{}")):
+                cid = f"M2_ct_{kind.replace('-', '')}_d{d}_{fld[:2]}"
+                claim(cid, lambda d=d, kind=kind, fld=fld: _cosim_cell(d, kind, fld), f, "sim (Verilator)",
+                      f"results/M2/cosim/cosim_d{d}.json")
+                cells.append(f"\\claim{{{cid}}}")
+        _CT.append(" & ".join(cells) + r" \\")
+
+    @table("gen_cosim.tex")
+    def _t_cosim():
+        return "\n".join([
+            r"\begin{table}[t]\centering\small",
+            r"\caption{Co-simulation of the final RTL against the C++ golden model (status, rounds, observable, full"
+            r" correction bitmap and cycle count compared per syndrome). Columns: syndromes / mismatches.}",
+            r"\label{tab:cosim}",
+            r"\begin{tabular}{lrrrrrr}\toprule & \multicolumn{2}{c}{$d=3$} & \multicolumn{2}{c}{$d=5$} &"
+            r" \multicolumn{2}{c}{$d=7$} \\ \midrule",
+            *_CT, r"\bottomrule\end{tabular}\end{table}"])
+
+
+if _exists("M3/overhead.json"):
+    _OV_ROWS = []
+    for r in J("M3/overhead.json"):
+        d = r["d"]
+        cells = [f"$d={d}$"]
+        for part in ("core", "shell"):
+            for tag in ("lut", "ff", "bram"):
+                cells.append(f"\\claim{{M3_{part}_{tag}_d{d}}}")
+        cells += [f"\\claim{{M3_shell_lut_pct_d{d}}}\\%", f"\\claim{{M3_shell_cycles_d{d}}}"]
+        _OV_ROWS.append(" & ".join(cells) + r" \\")
+
+    @table("gen_overhead.tex")
+    def _t_overhead():
+        return "\n".join([
+            r"\begin{table}[t]\centering\small",
+            r"\caption{Core vs.\ verified shell (Yosys \texttt{synth\_ecp5 -noflatten}, LANES=8) and the shell's"
+            r" framing/handshake cycles per frame (Verilator, one frame in flight).}",
+            r"\label{tab:overhead}",
+            r"\begin{tabular}{lrrrrrrrr}\toprule & \multicolumn{3}{c}{core} & \multicolumn{3}{c}{shell} & & \\"
+            r" & LUT4 & FF & BRAM & LUT4 & FF & BRAM & shell LUT & cycles \\ \midrule",
+            *_OV_ROWS, r"\bottomrule\end{tabular}\end{table}"])
+
+
+# ---------------------------------------------------------------- M7 federated
+def _m7_rows():
+    rows = []
+    fed = J("M7/federated_d3.json")
+    rows.append(("PyMatching (true noise model)", "--", fed["pymatching_reference"], None, "M7/federated_d3.json"))
+    rows.append(("local only (no sharing)", "--", fed["local-only"], None, "M7/federated_d3.json"))
+    rows.append(("centralized (pooled data)", "--", fed["centralized"], None, "M7/federated_d3.json"))
+    for k, lab in (("fedavg", "FedAvg + SecAgg, non-IID"), ("fedavg-iid", "FedAvg + SecAgg, IID split")):
+        rows.append((lab, "--", fed[k]["eval"], fed[k], "M7/federated_d3.json"))
+    for src, tag in (("M7/federated_d3_clip_ablation.json", "lot 512"), ("M7/federated_d3.json", "lot 512"),
+                     ("M7/federated_d3_dp_b8192.json", "lot 8192")):
+        if not _exists(src):
+            continue
+        dat = J(src)
+        for k in sorted(x for x in dat if x.startswith("fedavg-dp")):
+            if src.endswith("federated_d3.json") and k == "fedavg-dp-sigma0.6" and _exists(
+                    "M7/federated_d3_clip_ablation.json"):
+                continue  # the ablation file re-runs sigma 0.6 paired with sigma 0
+            sig = dat[k]["dp"]["sigma"]
+            rows.append((f"FedAvg + DP-SGD, {tag}, $\\sigma={sig:g}$", "eps", dat[k]["eval"], dat[k], src))
+    return rows
+
+
+if _exists("M7/federated_d3.json"):
+    _M7 = []
+    for i, (lab, _kind, ev, info, src) in enumerate(_m7_rows()):
+        claim(f"M7_r{i}_lab", lambda lab=lab: lab, "{}", "config", f"results/{src}")
+        cells = [f"\\claim{{M7_r{i}_lab}}"]
+        if info and "dp" in info:
+            claim(f"M7_r{i}_eps", lambda info=info: info["dp"]["epsilon"], "{:.2f}", "DP accounting (Opacus RDP)",
+                  f"results/{src}")
+            cells.append(f"\\claim{{M7_r{i}_eps}}" if info["dp"]["epsilon"] != float("inf") else "$\\infty$")
+        else:
+            cells.append("--")
+        for site in ("site-A", "site-B", "site-C"):
+            claim(f"M7_r{i}_{site[-1]}", lambda ev=ev, site=site: 100 * ev[site]["pl"], "{:.2f}",
+                  "sim (Monte Carlo, Stim)", f"results/{src}")
+            cells.append(f"\\claim{{M7_r{i}_{site[-1]}}}")
+        if info:
+            claim(f"M7_r{i}_mb", lambda info=info: info["bytes_up_total"] / 1e6, "{:.1f}", "measured (bytes)",
+                  f"results/{src}")
+            cells.append(f"\\claim{{M7_r{i}_mb}}")
+        else:
+            cells.append("--")
+        _M7.append(" & ".join(cells) + r" \\")
+
+    @table("gen_m7.tex")
+    def _t_m7():
+        return "\n".join([
+            r"\begin{table}[t]\centering\small",
+            r"\caption{Federated GNN decoder training, $d=3$, three sites with different noise. P\textsubscript{L} in"
+            r" \%, per site's own test set; $\varepsilon$ per site at $\delta=10^{-5}$ (record level); upload = total"
+            r" masked-update bytes from all sites.}",
+            r"\label{tab:m7}",
+            r"\begin{tabular}{lrrrrr}\toprule regime & $\varepsilon$ & A & B & C & upload MB \\ \midrule",
+            *_M7, r"\bottomrule\end{tabular}\end{table}"])
 
 
 def tables() -> list[str]:
