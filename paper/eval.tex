@@ -26,7 +26,56 @@ shell runs inject malformed frames and incomplete configuration sessions. Every 
 model predicts.
 
 \subsection{Hardware: cycles, resources and latency}\label{sec:eval-hw}
-TODO-hw
+\paragraph{Where the cycles go.} The cycle-exact model splits every decode into label propagation, the
+LANES-wide scans (cluster parity/boundary and the activity broadcast), FSM control, BFS distances and peeling. An
+identity on every shot checks the split exactly (Fig.~\ref{fig:cyc}). At LANES$=8$ the scans take
+\claim{M2_scan_share_d5_L8}\% of all cycles at $d=5$ and \claim{M2_scan_share_d7_L8}\% at $d=7$. With one lane per
+vertex (LANES$=V$) they drop to \claim{M2_scan_share_d7_LV}\% at $d=7$, and the mean cost falls from
+\claim{M2_mean_cyc_d7_L8} to \claim{M2_mean_cyc_d7_LV} cycles. The compute-unit parameter is therefore the main
+latency lever of this microarchitecture \stage{sim}.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.49\linewidth]{M2/figs/cycle_breakdown.pdf}\hfill
+\includegraphics[width=0.49\linewidth]{M2/figs/pareto.pdf}
+\caption{Left: mean core cycles per decode by FSM phase \stage{sim}. Right: LUT4 \stage{synth} vs.\ p99 latency
+\stage{sim cycles / PnR Fmax} for every configuration that places and routes; labels give LANES and \emph{p}=PIPE.}
+\label{fig:cyc}
+\end{figure}
+
+\paragraph{Resources and timing.} Table~\ref{tab:fpga} lists every configuration. The fully parallel edge and vertex
+fabrics make area grow roughly with the number of graph edges. At $d=3$ every configuration fits comfortably and
+closes at up to \claim{M2_fmax_d3q5L32PIPE1}\,MHz. With PIPE$=1$, a register in the label path, Fmax rises by about
+15\% for a few extra cycles. At $d=5$ only LANES$\le 4$ places, at \claim{M2_util_d5q5L4PIPE0}\% logic
+utilisation and \claim{M2_fmax_d5q5L4PIPE0}\,MHz. Wider scans fail placement, and every $d\ge 7$ configuration
+exceeds the device after synthesis alone. The critical path always runs through the vertex min-label tree
+(\texttt{results/M2/fpga/critical\_paths.json}).
+\input{gen_fpga.tex}
+
+\paragraph{Latency vs.\ the CPU.} Figure~\ref{fig:hwcpu} compares the best placed configuration per distance with
+single-thread CPU decoding of the same shots. At $d=3$ the RTL p99 is \claim{M2_hw_p99_ns_d3}\,ns
+(\claim{M2_hw_best_d3}), against \claim{M2_cpu_pm_p99_us_d3}\,\textmu s for PyMatching, a ratio of
+\claim{M2_ratio_p99_d3}. At $d=5$ it is \claim{M2_hw_p99_ns_d5}\,ns against \claim{M2_cpu_pm_p99_us_d5}\,\textmu s
+(ratio \claim{M2_ratio_p99_d5}). On this device the hardware decoder is \emph{not} faster in typical or p99
+latency. Its advantage lies in the tail. The worst case observed in hardware is \claim{M2_hw_max_ns_d3}\,ns at
+$d=3$, against \claim{M2_cpu_pm_max_us_d3}\,\textmu s for the CPU, which is \claim{M2_ratio_max_d3}$\times$ lower.
+More importantly, the hardware bound is guaranteed rather than observed. Property C2 proves that a decode never
+exceeds its \texttt{cycle\_budget}, and the shell proofs guarantee that a frame over budget comes back as a
+\texttt{WATCHDOG} status, never as a wrong valid result. Against a block deadline of $d\times 1$\,\textmu s
+(an assumed round time), with the budget set to fit, the hardware finishes all but \claim{M2_hw_fallback_d3}\% of
+$d=3$ frames itself. At $d=5$ it finishes only \claim{M2_hw_within_d5}\% of them; the rest go to the
+verified software path.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.62\linewidth]{M2/figs/hw_vs_cpu.pdf}
+\caption{p99 latency per $d$-round block at $p=0.003$: best placed RTL configuration \stage{sim cycles / PnR Fmax}
+vs.\ QSX-UF and PyMatching on one CPU core \stage{CPU}. Dashed: the $d\times 1$\,\textmu s block budget
+(assumed round time).}
+\label{fig:hwcpu}
+\end{figure}
+
+\paragraph{Activity.} The toggle-count proxy grows from \claim{M2_toggles_d3_p3} bit toggles per decode at $d=3$ to
+\claim{M2_toggles_d5_p3} at $d=5$ and \claim{M2_toggles_d7_p3} at $d=7$ ($p=0.003$) \stage{estimate}. It is a relative
+estimate of dynamic energy, not a power number, and it cannot be compared with the CPU.
 
 \subsection{Cost of the verified mechanisms}
 Table~\ref{tab:overhead} separates the decoder core from the verified shell with a hierarchical synthesis
