@@ -90,7 +90,33 @@ header and syndrome beats, the dispatcher's load and the output header. Formal-o
 \input{gen_overhead.tex}
 
 \subsection{WebAssembly runtime and the V8 patch}\label{sec:eval-wasm}
-TODO-wasm
+\paragraph{Portability and bit-exactness.} Every native, Node.js, d8 and headless-Chrome build of the decoder produces
+identical hashes over statuses, observables and correction lists on the shared test vectors (\claim{M4_bitexact}
+distances match). Figure~\ref{fig:wasm} compares steady-state decode time. At $d=5$ the Wasm SIMD build in d8 takes
+\claim{M4_wasm_simd_over_native_d5}$\times$ the time of native clang \texttt{-O3} with NEON \stage{CPU}. Headless
+Chrome's \texttt{performance.now()} resolution is coarse even when cross-origin isolated (BLOCKERS B7), so Chrome is
+reported by throughput only.
+
+\paragraph{The V8 patch.} In the real decoder module, all \claim{M5_sites_total} \texttt{v128.any\_true} sites
+change from \texttt{umaxp; fmov; cmp; cset; cbnz} to \texttt{umaxp; fmov; cbz/cbnz} (\claim{M5_sites_fused} of
+\claim{M5_sites_total} fused). The patch applies cleanly to the recorded upstream revision. \claim{M5_tests_ran} V8
+tests pass on the patched build (\claim{M5_tests_failed} failures), covering the arm64 instruction-selector and
+scheduler unittests, the Wasm SIMD execution unittests, and \texttt{mjsunit/wasm}. The new mjsunit test passes on
+both builds and fails on a deliberately broken lowering that moves only the low 32 bits of the reduction. In
+interleaved A/B runs of the two d8 binaries, the zero-block scan takes \claim{M5_micro_ratio_0}$\times$ the
+unpatched time on all-zero data, and the decoder's SIMD unpack kernel at $d=9$, $p=0.001$ takes
+\claim{M5_unpack_ratio_d9}$\times$ (medians; bootstrap intervals in \texttt{results/M5/anytrue\_fusion.json})
+\stage{d8 measurement}. Full decode time at the same point changes by a factor of \claim{M5_steady_ratio_d9}, because
+union-find dominates it, so the patch matters for sparse-scan kernels rather than for the decoder as a whole.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.52\linewidth]{M4/figs/runtime.pdf}\hfill
+\includegraphics[width=0.46\linewidth]{M5/figs/anytrue_fusion.pdf}
+\caption{Left: steady-state decode time per $d$-round block, native vs.\ Wasm (d8 tiers, Chrome) \stage{CPU}.
+Right: V8 patch, patched/unpatched time ratio with bootstrap 95\% CIs \stage{d8 measurement}.}
+\label{fig:wasm}
+\end{figure}
+\input{gen_m4.tex}
 
 \subsection{Extensions}\label{sec:ext}
 \paragraph{Learned decoding.} A small message-passing GNN over the decoding graph, trained on Stim data at
