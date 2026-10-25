@@ -108,6 +108,7 @@ def toggle_proxy(a) -> list[dict]:
         exe = mdir / "toggle_tb"
         if not exe.exists() or exe.stat().st_mtime < max((ROOT / s).stat().st_mtime for s in RTL[:2]
                                                          + ["tb/toggle_tb.cpp"]):
+            mdir.mkdir(parents=True, exist_ok=True)
             # --output-split: the coverage-instrumented model is huge; sharding it keeps C++ compile times sane
             sh(["verilator", "--cc", "--exe", "--build", "-j", "8", "-O3", "--coverage-toggle", "--output-split",
                 "20000", "--coverage-max-width", "1000000", "--x-assign", "fast", "--x-initial", "fast", f"-I{inc}",
