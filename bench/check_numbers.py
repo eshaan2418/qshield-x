@@ -21,11 +21,15 @@ STRUCTURAL = [
     r"LFE5U-\d+F", r"CABGA\d+", r"SIMD\d+", r"AES-\d+", r"Ed\d+", r"X\d+", r"SHA-\d+", r"TLS\s*1\.3", r"ECP\d",
     r"iCE\d+", r"Artix-\d", r"\bP\d\b", r"\bC\d\b", r"\bI\d\b", r"\bD\d\b", r"\bB\d\b", r"2\^\d+", r"\b[0-9]-bit",
     r"\b(?:32|64)-bit", r"\bfloat\d+", r"\buint\d+", r"\bint\d+", r"\bq\d+(?:m\d+)?\b", r"\bp\s*=\s*0\.00[1-9]\b",
-    r"\bK\s*=\s*\d\b", r"\bN\s*=\s*\d\b", r"\bL\s*=\s*\d\b", r"\bLANES\s*=\s*\d+\b", r"\bPIPE\s*=\s*\d\b",
+    r"\bK\s*=\s*\d\b", r"\bN\s*=\s*\d\b", r"\bL\s*=\s*\d\b", r"\bLANES\$?\s*=\s*\$?\d+\b", r"\bPIPE\s*=\s*\d\b",
     r"\b\d+\s*(?:rounds?|layers?|sites?|lanes?)\b", r"arm64|x86[_-]64|aarch64", r"\b10\^\d\b|10⁶|10⁵",
     r"\bNBUF\s*=\s*\d\b", r"\bTB\s*=\s*\d\b", r"\bW\s*=\s*\d\b", r"\[\d+(?:,\s*\d+)*\]",
     r"\b(?:sec|Section|Table|Fig\.?|Figure)\s*\d+",
     r"\bGF\(2\)", r"\bstep\s+\d+\b", r"\bL\d\b", r"\bO\(\w+\)",
+    # structural constants (not results): confidence level, field/beat/block widths, experiment-grid set notation,
+    # xcolor mixes, ceil(V/32) beat counts
+    r"\b95\s*\\?%", r"\b\d+-(?:bit|byte)\b", r"\\in\s*\\?\{[\d.,\s]+\\?\}", r"\\in\s*\[[\d.,\s]+\]", r"!\d+!",
+    r"\\lceil\s*[VE]\s*/\s*\d+\s*\\rceil",
     r"(?:Verilator|Yosys|nextpnr\S*|Stim|PyMatching|Emscripten|emcc|Chrome|TLC|Z3|Python|PyTorch|torch|Opacus|"
     r"Node(?:\.js)?|clang|OpenJDK|Java|Bitwuzla|SymbiYosys|cryptography|macOS|V8)\s+v?\d+(?:\.\d+)*",
 ]

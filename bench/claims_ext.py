@@ -417,6 +417,18 @@ if _exists("M7/federated_d3_dp_b8192.json"):
           "DP accounting (Opacus RDP)", K7)
 
 
+def _cfg(path: str) -> dict:
+    import json as _json
+
+    return _json.loads((R / path).read_text())["provenance"]["config"]
+
+
+claim("M7_lot_small", lambda: _cfg("M7/federated_d3.json").get("dp_batch", _cfg("M7/federated_d3.json")["batch"]),
+      "{}", "config (result provenance)", "results/M7/federated_d3.json")
+claim("M7_lot_large", lambda: _cfg("M7/federated_d3_dp_b8192.json")["dp_batch"], "{}", "config (result provenance)",
+      "results/M7/federated_d3_dp_b8192.json")
+
+
 if _exists("M7/federated_d3_dp_b8192_long.json"):
     claim("M7_long_eps_s2", lambda: J("M7/federated_d3_dp_b8192_long.json")["fedavg-dp-sigma2.0"]["dp"]["epsilon"],
           "{:.2f}", "DP accounting (Opacus RDP)", "results/M7/federated_d3_dp_b8192_long.json")
