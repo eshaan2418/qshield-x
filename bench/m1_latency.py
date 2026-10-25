@@ -34,6 +34,7 @@ def main() -> None:
     for d in map(int, a.distances.split(",")):
         for p in map(float, a.ps.split(",")):
             c, _ = build(d, p)
+            (B / "tmp").mkdir(parents=True, exist_ok=True)
             tmp = Path(tempfile.mkdtemp(dir=B / "tmp"))
             (tmp / "c.dem").write_text(str(c.detector_error_model(decompose_errors=True)))
             dets, obs = c.compile_detector_sampler(seed=a.seed).sample(a.shots, separate_observables=True,
