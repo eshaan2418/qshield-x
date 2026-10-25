@@ -32,7 +32,6 @@ PARTS = ["label", "scans", "ctrl", "dist", "peel"]
 
 
 def main() -> None:
-    import matplotlib.pyplot as plt
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--distances", default="3,5,7,9")
@@ -40,7 +39,14 @@ def main() -> None:
     ap.add_argument("--lanes", default="8,32,V")
     ap.add_argument("--shots", type=int, default=50_000)
     ap.add_argument("--seed", type=int, default=3003)
+    ap.add_argument("--plot-only", action="store_true", help="redraw the figure from the saved JSON")
     a = ap.parse_args()
+    if a.plot_only:
+        import json
+
+        doc = json.loads((ROOT / "results/M2/cycle_breakdown.json").read_text())
+        plot(doc["data"], doc["provenance"]["config"]["p"])
+        return
     rows = []
     for d in map(int, a.distances.split(",")):
         c, g = build(d, a.p, weights="q5")
@@ -68,23 +74,31 @@ def main() -> None:
                 print(d, ls, P, {k: round(v, 2) for k, v in rows[-1]["share"].items()}, flush=True)
     write_result(ROOT / "results/M2/cycle_breakdown.json", rows, vars(a), a.seed)
 
+    plot(rows, a.p)
+
+
+def plot(rows: list[dict], p: float) -> None:
+    import matplotlib.pyplot as plt
+
     plotstyle.apply()
     sel = [r for r in rows if r["pipe"] == 0]
-    fig, ax = plt.subplots(figsize=(6.4, 3.6))
-    labels = [f"d={r['d']}\nL={r['lanes_label']}" for r in sel]
+    fig, ax = plt.subplots(figsize=(6.4, 4.0))
+    labels = [f"d={r['d']}, LANES={r['lanes_label']}" for r in sel]
     left = np.zeros(len(sel))
     for i, k in enumerate(PARTS):
-        v = np.array([r["mean"][k] for r in sel])
-        ax.barh(range(len(sel)), v, left=left, color=plotstyle.SERIES[i], label=k, height=0.7,
+        v = np.array([100 * r["share"][k] for r in sel])
+        ax.barh(range(len(sel)), v, left=left, color=plotstyle.SERIES[i], label=k, height=0.72,
                 edgecolor=plotstyle.SURFACE, linewidth=1.0, zorder=3)
         left += v
+    for y, r in enumerate(sel):
+        ax.text(101.5, y, f"{r['mean_cycles']:.0f} cyc", va="center", fontsize=7, color=plotstyle.INK2)
     ax.set_yticks(range(len(sel)), labels, fontsize=7)
     ax.invert_yaxis()
-    ax.set_xscale("log")
-    ax.set_xlabel(f"mean core cycles per decode (cycle-exact model, p={a.p}, PIPE=0)")
-    ax.legend(ncol=5, loc="lower right", fontsize=7)
+    ax.set_xlim(0, 100)
+    ax.grid(axis="y", visible=False)
+    ax.set_xlabel(f"share of core cycles, % (cycle-exact model, p={p}, PIPE=0); right: mean cycles per decode")
+    ax.legend(ncol=5, loc="lower left", bbox_to_anchor=(0, 1.01), fontsize=7, frameon=False)
     plotstyle.save(fig, ROOT / "results/M2/figs/cycle_breakdown.png")
-
 
 if __name__ == "__main__":
     main()
