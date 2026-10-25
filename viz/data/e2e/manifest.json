@@ -5,28 +5,28 @@
    "experiment": "e2e_demo",
    "seed": 1010,
    "d": 5,
-   "shots": 1000
+   "shots": 5000
   },
   "files": [
    {
     "name": "trace.b8",
-    "size": 15000,
-    "sha256": "3e44c6571b8776bd37f0d38731aff069684f484c89f6954d27938b43ea10c2aa"
+    "size": 75000,
+    "sha256": "d07eebb3c9294cb0789abbb579fd552a24674a8c3db6cd37640016be99689572"
    },
    {
     "name": "frames.bin",
-    "size": 72000,
-    "sha256": "9ea353e5fbea21a633390e124f563f059ba9fa2580e4770d02296199facbd370"
+    "size": 360000,
+    "sha256": "608949e44f565d0176f7ff7feba36b2a8f6ea19925fa02aab3fdb1d95b891da4"
    },
    {
     "name": "committed_predictions.u8",
-    "size": 1000,
-    "sha256": "20042119cf16bb1a7f3b655b268f47c17054cd20c6731b76fc93957c5ffe7ad5"
+    "size": 5000,
+    "sha256": "d6ebe60ce281e7ca469dcf35b9e4bd5d89489260903aff6edaee3c433477c6f8"
    },
    {
     "name": "summary.json",
-    "size": 182,
-    "sha256": "a7ef1c4a8fd1d40eac22b88c955a0a68108b032ee92211cfbc64deeed0444647"
+    "size": 185,
+    "sha256": "e32653b462d3d8283f590caec1a416c1fb82d4f12cd97510b440e086dc2e07a6"
    },
    {
     "name": "d5_q5.qsxg",
@@ -35,6 +35,6 @@
    }
   ]
  },
- "sig": "a5eIrtPNwllqXa/rPTyT768YzzOJvFzr585iP2bYe7CRrkU1CSSmrn32/5vM874MbiGaBH3Ov1IcFDsYpmLpBA==",
- "kid": "a7cc3034523757d4"
+ "sig": "xxfp8JO2SnOTqwt71ElY26jFhGPKf3r76j7PWC9qudIpV+Qy63Ng4/P+cBpRECowWQdac7lqB8g3RT6SCG+tAw==",
+ "kid": "7b36222815e17e82"
 }
