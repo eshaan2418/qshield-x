@@ -13,19 +13,24 @@ is built together with a bit-exact C++ golden model, a WebAssembly runtime, and 
 latency / resource trade-off than a fixed software decoder?* (rotated surface-code memory, uniform
 circuit-level depolarizing noise, d = 3–9)
 
-**Mixed.**
+**Mixed, and mostly negative on raw speed for this device class.**
 
-* **Latency: large gain.** At d = 5, p = 0.003 the RTL decoder's p99 latency per d-round block is
-  {{M2_hw_p99_ns_d5}} ns [{{M2_hw_p99_ns_d5:stage}}]. PyMatching takes {{M1_p99_d5_p003_PM_us}} µs and the same
-  QSX-UF algorithm in C++ takes {{M1_p99_d5_p003_UF_us}} µs [{{M1_p99_d5_p003_PM_us:stage}}].
-* **Accuracy: a cost.** QSX-UF (q5 weights) has P_L {{M1_PL_d7_p003_UF}} against {{M1_PL_d7_p003_PM}} for
-  PyMatching at d = 7, p = 0.003 [{{M1_PL_d7_p003_UF:stage}}]. The threshold crossing (d = 7/9) is
-  {{M1_thr_UF_7_9}} against {{M1_thr_PM_7_9}}.
-* **Resources: steep growth.** A fully parallel core needs {{M2_lut_d5_L8}} LUT4 at d = 5
-  [{{M2_lut_d5_L8:stage}}] and closes at {{M2_fmax_d5_L8}} MHz [{{M2_fmax_d5_L8:stage}}] on an LFE5U-85F.
-  {{M2_d7_fit_text}}
-* **Verified behaviour.** The protocol and shell guarantees are proven to stated bounds. They are what make the
-  hardware path safe to deploy behind a software fallback (tables below).
+* **Typical latency: no gain.** At d = 3, p = 0.003 the best placed RTL configuration has p99 {{M2_hw_p99_ns_d3}} ns
+  per d-round block [{{M2_hw_p99_ns_d3:stage}}], against {{M2_cpu_pm_p99_us_d3}} µs for PyMatching on one CPU core
+  [{{M2_cpu_pm_p99_us_d3:stage}}] (ratio {{M2_ratio_p99_d3}}). At d = 5 only narrow-scan configurations fit the
+  LFE5U-85F, at {{M2_fmax_d5q5L4PIPE0}} MHz: p99 {{M2_hw_p99_ns_d5}} ns against {{M2_cpu_pm_p99_us_d5}} µs.
+* **Worst case: a real gain, and a guaranteed one.** The RTL's observed maximum at d = 3 is {{M2_hw_max_ns_d3}} ns,
+  against {{M2_cpu_pm_max_us_d3}} µs on the CPU. The bound is proven: the watchdog property (C2) and the shell
+  properties guarantee that a frame over budget returns `WATCHDOG` and goes to the verified software fallback,
+  never a wrong valid result. Against a d × 1 µs block deadline (an assumed round time), the hardware finishes
+  {{M2_hw_within_d3}} % of d = 3 frames and {{M2_hw_within_d5}} % of d = 5 frames itself.
+* **Accuracy: a cost that grows with d.** QSX-UF (3-bit weights) P_L is {{M1_ratio_d7_p003}}× PyMatching's at d = 7
+  and {{M1_ratio_d9_p003}}× at d = 9, p = 0.003 [{{M1_ratio_d7_p003:stage}}]. Threshold crossings (d = 7/9):
+  {{M1_thr_UF_7_9}} vs {{M1_thr_PM_7_9}}.
+* **Area: the binding constraint.** The fully parallel fabric needs {{M2_lut_d5q5L4PIPE0}} LUT4 at d = 5
+  ({{M2_util_d5q5L4PIPE0}} % of the device after PnR); every d ≥ 7 configuration exceeds the device. In-cycle
+  accounting points to the next design: at LANES = 8 the serial scans take {{M2_scan_share_d7_L8}} % of all cycles
+  at d = 7 [{{M2_scan_share_d7_L8:stage}}].
 
 ## What's here
 
@@ -34,14 +39,16 @@ circuit-level depolarizing noise, d = 3–9)
 | Algorithm | QSX-UF: Jacobi-synchronous UF with canonical BFS peeling (bit-exact parallel ↔ sequential) | `DECISIONS.md` D1 |
 | Software baselines | Stim memory experiments d = 3–9, PyMatching 2.4 vs QSX-UF, exact binomial CIs | `results/M1/` |
 | RTL | `rtl/`: parameterised core (LANES, PIPE), AXI-Stream shell, frame FIFO, atomic config, watchdog | `rtl/README.md` |
-| Co-simulation | {{M2_cosim_total}} syndromes, {{M2_cosim_mm}} mismatches (bitmap + cycles) | `results/M2/cosim/` |
+| Co-simulation | {{M2_cosim_total}} + {{M2_cosim_extra_total}} syndromes, {{M2_cosim_mm}} mismatches (bitmap + cycles) | `results/M2/cosim*/` |
 | FPGA | Yosys + nextpnr-ecp5, LFE5U-85F | `results/M2/fpga/`, `results/M2/report.json` |
-| Formal | SVA/SymbiYosys k-induction, TLA+/TLC (liveness counterexample found and fixed), Z3 step equivalence | `results/M3/`, `formal/README.md` |
+| Formal | SVA/SymbiYosys k-induction (shell; real core at d = 3, 5, 7), TLA+/TLC (liveness counterexample found and fixed), Z3 step equivalence | `results/M3/`, `formal/README.md` |
 | Wasm | native vs Wasm scalar vs Wasm SIMD128 in Node, d8, Chrome; bit-exact | `results/M4/` |
 | V8 | arm64 `v128.any_true` → `cbz/cbnz` fusion: patch, unittests, mjsunit test | `v8/`, `results/M5/` |
 | Learned/adaptive | GNN decoder, noise-shift adaptive policy vs fixed and oracle | `results/M6/` |
 | Federated | FedAvg, DP-SGD (RDP accountant), pairwise-mask secure aggregation, 3 sites | `results/M7/` |
 | Infra | Ed25519-signed traces and manifests, AES-256-GCM storage, mTLS control API, negative tests | `infra/`, `results/M8/` |
+| Browser view | live Wasm decoding, lattice, running P_L, RTL cycles, in-browser signature verification + replay | `viz/` |
+| Objective | J = α·P_L + β·T + γ·A over all measured configurations: Pareto set and weight sweep | `results/M10/objective.json` |
 | End to end | Stim → RTL (Verilator) → verified fallback → signed results → Wasm replay | `bench/e2e_demo.py`, `results/M10/` |
 
 ## Selected results
