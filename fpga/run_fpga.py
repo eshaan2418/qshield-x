@@ -28,7 +28,9 @@ RTL = ["rtl/qsx_min_tree.sv", "rtl/qsx_uf_core.sv", "rtl/qsx_ingress.sv", "rtl/q
 
 
 def tool_version(cmd: list[str]) -> str:
-    return subprocess.run(cmd, capture_output=True, text=True).stdout.strip().splitlines()[0]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    lines = (r.stdout + r.stderr).strip().splitlines()  # nextpnr prints its version on stderr
+    return lines[0] if lines else "unknown"
 
 
 def prepare(d: int, weights: str) -> Path:
@@ -106,6 +108,8 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--jobs", type=int, default=3)
     ap.add_argument("--timeout", type=int, default=4 * 3600, help="per synthesis / PnR step, seconds")
+    ap.add_argument("--collect", action="store_true",
+                    help="do not run anything: assemble the result file from existing build/fpga/<tag>/result.json")
     ap.add_argument("--name", default=None, help="result file name (default: fpga_<params or base>.json)")
     ap.add_argument("--out", default=str(ROOT / "results/M2/fpga"))
     a = ap.parse_args()
@@ -118,7 +122,7 @@ def main() -> None:
             parts = item.split(":")
             d, w, ls = parts[:3]
             pipes = parts[3] if len(parts) > 3 else "0"
-            if (d, w) not in prepared:
+            if (d, w) not in prepared and not a.collect:
                 prepare(int(d), w)
                 prepared.add((d, w))
             for L in map(int, ls.split(",")):
@@ -128,6 +132,14 @@ def main() -> None:
     jobs.sort(key=lambda j: (j[0], j[2]))
 
     def one(j):
+        if a.collect:
+            d, w, L, prm, _pnr, top_mod = j
+            tag = (f"d{d}_{w}_L{L}" + "".join(f"_{k}{v}" for k, v in sorted(prm.items()))
+                   + ("" if top_mod == "qsx_pnr_shell" else f"_{top_mod}"))
+            f = B / "fpga" / tag / "result.json"
+            return json.loads(f.read_text()) if f.exists() else {"d": d, "weights": w, "lanes": L, "params": prm,
+                                                                   "top": top_mod, "tag": tag,
+                                                                   "synth_error": "no result (not run)"}
         try:
             return run_cfg(*j[:5], a.freq, a.seed, j[5], a.timeout)
         except subprocess.TimeoutExpired:
