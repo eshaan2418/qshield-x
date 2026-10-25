@@ -80,6 +80,12 @@ def features(x: np.ndarray, ec) -> tuple[float, float]:
     return float(x.mean()), float(n_tl / max(1, n_all))
 
 
+def features_fast(xu: np.ndarray, ec32) -> tuple[float, float]:
+    """Same statistics as features(), computed by the C++ extension in one pass (the policy's production path)."""
+    nd, npair, ntl = qsxdec.window_features(xu, *ec32)
+    return nd / xu.size, ntl / max(1, npair)
+
+
 def calibrate(d: int, ec, shots: int, seed: int):
     grid = []
     for i, p in enumerate(P_GRID):
@@ -127,6 +133,7 @@ def run(a) -> None:
     d = a.d
     cfg = Configs(d)
     ec = edge_classes(d)
+    ec32 = (ec[0].astype(np.int32), ec[1].astype(np.int32), ec[2].astype(np.uint8))
     t0 = time.time()
     grid = calibrate(d, ec, a.calib_shots, a.seed)
     calib_s = time.time() - t0
@@ -141,6 +148,7 @@ def run(a) -> None:
         est_trace = []
         base_dens = None
         policy_ns = 0.0
+        policy_py_ns = 0.0
         shift_seg = None
         prev_truth = None
         for si, (n, c, truth) in enumerate(scenario_stream(scen, d, a.shots, a.seg)):
@@ -186,8 +194,11 @@ def run(a) -> None:
                     st[k]["shots"] += len(yw)
                     st[k]["win_err"].append((si, e, len(yw)))
                 # ---- policy update (uses only syndrome statistics of this window)
+                tq = time.perf_counter()
+                ref = features(xw, ec)  # Python reference, timed separately and checked for equality
+                policy_py_ns += (time.perf_counter() - tq) * 1e9
                 tp = time.perf_counter()
-                dens, tlf = features(xw, ec)
+                dens, tlf = features_fast(xu, ec32)
                 p_hat, m_hat = estimate(grid, dens, tlf)
                 if base_dens is None:
                     base_dens = dens
@@ -202,6 +213,7 @@ def run(a) -> None:
                     state[k]["cfg"] = new_cfg
                 state["adaptive-hybrid"]["mode"] = "pm" if (p_hat >= a.p_switch or burst_flag) else "uf"
                 policy_ns += (time.perf_counter() - tp) * 1e9
+                assert abs(dens - ref[0]) < 1e-12 and abs(tlf - ref[1]) < 1e-12
                 est_trace.append({"segment": si, "p_true": truth["p"], "m_true": truth["m"], "burst": truth["burst"],
                                   "p_hat": p_hat, "m_hat": m_hat, "burst_flag": bool(burst_flag),
                                   "hybrid_mode": state["adaptive-hybrid"]["mode"]})
@@ -229,6 +241,7 @@ def run(a) -> None:
                     break
         results[scen] = {"strategies": summ, "shift_segment": shift_seg, "recovery": rec,
                          "policy_ns_per_shot": policy_ns / max(1, st["fixed-UF"]["shots"]),
+                         "policy_features_python_ns_per_shot": policy_py_ns / max(1, st["fixed-UF"]["shots"]),
                          "estimates": est_trace[:: max(1, len(est_trace) // 400)]}
         print(scen, json.dumps({k: (round(v["pl"], 5), v["reconfigs"]) for k, v in summ.items()}),
               "recovery", rec, flush=True)
