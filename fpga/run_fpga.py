@@ -22,6 +22,7 @@ from bench.provenance import write_result  # noqa: E402
 from sim.qsx_graph import build as build_graph  # noqa: E402
 
 B = ROOT / "build"
+DEVICE_LUTS = 83640  # LFE5U-85F TRELLIS_COMB capacity reported by nextpnr-ecp5
 RTL = ["rtl/qsx_min_tree.sv", "rtl/qsx_uf_core.sv", "rtl/qsx_ingress.sv", "rtl/qsx_cfg.sv", "rtl/qsx_top.sv",
        "fpga/qsx_pnr_shell.sv"]
 
@@ -41,7 +42,7 @@ def prepare(d: int, weights: str) -> Path:
 
 
 def run_cfg(d: int, weights: str, lanes: int, params: dict, pnr: bool, freq: float, seed: int,
-            top_mod: str = "qsx_pnr_shell") -> dict:
+            top_mod: str = "qsx_pnr_shell", timeout: int = 4 * 3600) -> dict:
     tag = (f"d{d}_{weights}_L{lanes}" + "".join(f"_{k}{v}" for k, v in sorted(params.items()))
            + ("" if top_mod == "qsx_pnr_shell" else f"_{top_mod}"))
     wd = B / "fpga" / tag
@@ -54,7 +55,13 @@ def run_cfg(d: int, weights: str, lanes: int, params: dict, pnr: bool, freq: flo
           f"tee -q -o {wd}/stat.txt stat")
     res: dict = {"d": d, "weights": weights, "lanes": lanes, "params": params, "tag": tag, "top": top_mod}
     t0 = time.time()
-    r = subprocess.run(["yosys", "-q", "-l", str(wd / "yosys.log"), "-p", ys], capture_output=True, text=True)
+    try:
+        r = subprocess.run(["yosys", "-q", "-l", str(wd / "yosys.log"), "-p", ys], capture_output=True, text=True,
+                           timeout=timeout)
+    except subprocess.TimeoutExpired:
+        res["synth_error"] = f"synthesis timeout after {timeout} s"
+        (wd / "result.json").write_text(json.dumps(res, indent=1))
+        return res
     res["synth_s"] = round(time.time() - t0, 1)
     if r.returncode != 0:
         res["synth_error"] = (r.stderr or r.stdout)[-2000:]
@@ -63,12 +70,15 @@ def run_cfg(d: int, weights: str, lanes: int, params: dict, pnr: bool, freq: flo
     top = st["design"] if "design" in st else st["modules"][f"\\{top_mod}"]
     cells = top["num_cells_by_type"]
     res["synth"] = {"stage": "synth", "cells": {k: v for k, v in cells.items() if not k.startswith("$scope")}}
-    if pnr:
+    if pnr and cells.get("LUT4", 0) > DEVICE_LUTS:
+        res["pnr_error"] = f"does not fit: {cells['LUT4']} LUT4 after synthesis > {DEVICE_LUTS} on LFE5U-85F"
+        res["fits"] = False
+    elif pnr:
         t0 = time.time()
         r = subprocess.run(["nextpnr-ecp5", "--85k", "--package", "CABGA381", "--speed", "8", "--json",
                             str(wd / "synth.json"), "--freq", str(freq), "--timing-allow-fail", "--seed",
                             str(seed), "--report", str(wd / "report.json"), "-l", str(wd / "nextpnr.log"), "-q"],
-                           capture_output=True, text=True)
+                           capture_output=True, text=True, timeout=timeout)
         res["pnr_s"] = round(time.time() - t0, 1)
         if r.returncode != 0 or not (wd / "report.json").exists():
             log = (wd / "nextpnr.log").read_text() if (wd / "nextpnr.log").exists() else r.stderr
@@ -95,6 +105,8 @@ def main() -> None:
     ap.add_argument("--freq", type=float, default=100.0)
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--jobs", type=int, default=3)
+    ap.add_argument("--timeout", type=int, default=4 * 3600, help="per synthesis / PnR step, seconds")
+    ap.add_argument("--name", default=None, help="result file name (default: fpga_<params or base>.json)")
     ap.add_argument("--out", default=str(ROOT / "results/M2/fpga"))
     a = ap.parse_args()
     params = dict(kv.split("=") for kv in a.params.split(",") if kv)
@@ -112,10 +124,18 @@ def main() -> None:
             for L in map(int, ls.split(",")):
                 for P in map(int, pipes.split(",")):
                     jobs.append((int(d), w, L, {**params, "PIPE": P}, pnr, top_mod))
-    # biggest first for better packing
-    jobs.sort(key=lambda j: -(j[0] * 100 + j[2]))
+    # smallest first: the configurations that fit the device produce results early
+    jobs.sort(key=lambda j: (j[0], j[2]))
+
+    def one(j):
+        try:
+            return run_cfg(*j[:5], a.freq, a.seed, j[5], a.timeout)
+        except subprocess.TimeoutExpired:
+            return {"d": j[0], "weights": j[1], "lanes": j[2], "params": j[3], "top": j[5],
+                    "tag": f"d{j[0]}_{j[1]}_L{j[2]}", "pnr_error": f"PnR timeout after {a.timeout} s"}
+
     with ThreadPoolExecutor(a.jobs) as ex:
-        res = list(ex.map(lambda j: run_cfg(*j[:5], a.freq, a.seed, j[5]), jobs))
+        res = list(ex.map(one, jobs))
     for r in sorted(res, key=lambda r: (r["d"], r["weights"], r["lanes"])):
         s = r.get("synth", {}).get("cells", {})
         p = r.get("pnr", {})
@@ -123,7 +143,7 @@ def main() -> None:
               f"fmax={p.get('fmax_mhz', float('nan')):.1f} {r.get('pnr_error', '')[:80]}")
     out = Path(a.out)
     tag = "_".join(f"{k}{v}" for k, v in params.items()) or "base"
-    write_result(out / f"fpga_{tag}.json", res, vars(a), a.seed,
+    write_result(out / (a.name or f"fpga_{tag}.json"), res, vars(a), a.seed,
                  extra_tools={"yosys": tool_version(["yosys", "-V"]),
                               "nextpnr-ecp5": tool_version(["nextpnr-ecp5", "--version"]),
                               "device": "LFE5U-85F CABGA381 speed 8"})
