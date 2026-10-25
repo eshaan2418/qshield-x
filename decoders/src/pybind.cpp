@@ -83,7 +83,31 @@ struct PyDecoder {
   }
 };
 
+// Adaptive-policy window statistics (M6): number of detection events, number of graph edges (non-boundary) whose
+// two endpoints both fired, and how many of those edges are time-like (mask). Single pass over the window.
+static py::tuple window_features(py::array_t<uint8_t, py::array::c_style | py::array::forcecast> dets,
+                                 py::array_t<int32_t, py::array::c_style | py::array::forcecast> eu,
+                                 py::array_t<int32_t, py::array::c_style | py::array::forcecast> ev,
+                                 py::array_t<uint8_t, py::array::c_style | py::array::forcecast> tl) {
+  auto x = dets.unchecked<2>();
+  auto u = eu.unchecked<1>(), v = ev.unchecked<1>();
+  auto t = tl.unchecked<1>();
+  long long ndef = 0, npair = 0, ntl = 0;
+  const py::ssize_t n = x.shape(0), V = x.shape(1), E = u.shape(0);
+  for (py::ssize_t i = 0; i < n; i++) {
+    const uint8_t* row = x.data(i, 0);
+    for (py::ssize_t k = 0; k < V; k++) ndef += row[k] != 0;
+    for (py::ssize_t e = 0; e < E; e++)
+      if (row[u(e)] && row[v(e)]) {
+        npair++;
+        ntl += t(e) != 0;
+      }
+  }
+  return py::make_tuple(ndef, npair, ntl);
+}
+
 PYBIND11_MODULE(qsxdec, m) {
+  m.def("window_features", &window_features, py::arg("dets"), py::arg("eu"), py::arg("ev"), py::arg("tl"));
   py::class_<PyDecoder>(m, "Decoder")
       .def(py::init<const std::string&, int>(), py::arg("graph"), py::arg("max_rounds") = 255)
       .def("decode_batch", &PyDecoder::decode_batch, py::arg("dets"), py::arg("timing") = false)
