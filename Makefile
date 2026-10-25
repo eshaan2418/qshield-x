@@ -19,7 +19,7 @@ EMFLAGS := -O3 -std=c++17 -Idecoders/include -sMODULARIZE=1 -sEXPORT_NAME=QSXMod
            -sALLOW_MEMORY_GROWTH=1 -sEXPORTED_FUNCTIONS=$(WASM_EXP) -sEXPORTED_RUNTIME_METHODS=HEAPU8,HEAPF64
 
 .PHONY: all graphs decoders pymatching test test-cpp test-py lint cosim cosim-quick formal formal-quick \
-        synth wasm native m1 m2hw m4 m5 m6 m7 m8 e2e env viz viz-test figures check-numbers reproduce-quick reproduce-full paper ci clean
+        synth wasm native m1 m2hw m4 m5 m6 m7 m8 e2e env viz viz-test timing figures check-numbers reproduce-quick reproduce-full paper ci clean
 
 all: decoders graphs wasm native
 
@@ -105,6 +105,8 @@ m4: native wasm
 	$(ENV) $(PY) bench/m4_runtime.py
 m6: decoders
 	$(ENV) $(PY) learned/adaptive.py
+	$(ENV) $(PY) learned/gnn.py eval --d 3 --hidden 64 --layers 6 --out results/M6/gnn_d3
+	$(ENV) $(PY) learned/gnn.py eval --d 5 --hidden 64 --layers 6 --out results/M6/gnn_d5
 m7:
 	$(ENV) $(PY) federated/fed.py --rounds 40 --local-steps 100
 m8: decoders
@@ -123,6 +125,15 @@ viz: wasm
 viz-test: wasm
 	$(ENV) $(PY) bench/viz_data.py > /dev/null && ($(PY) -m http.server 8766 --bind 127.0.0.1 > /dev/null 2>&1 & echo $$! > $(B)/viz_srv.pid) \
 	  && sleep 1 && mkdir -p $(B)/viz && node viz/smoke.mjs 8766 $(B)/viz; rc=$$?; kill $$(cat $(B)/viz_srv.pid); exit $$rc
+
+# All timing-sensitive measurements, back to back, in one quiet window (BLOCKERS B6: shared machine; each result
+# records the load average). Run after the CPU-heavy campaigns (cosim / synth / formal) have finished.
+timing: decoders pymatching native wasm
+	$(MAKE) env
+	$(ENV) $(PY) bench/m1_latency.py
+	$(ENV) $(PY) bench/m4_runtime.py
+	$(ENV) $(PY) v8/bench_anytrue.py
+	$(MAKE) m6 m8 e2e
 
 figures:
 	$(ENV) $(PY) bench/make_figures.py
