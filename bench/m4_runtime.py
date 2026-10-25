@@ -76,14 +76,15 @@ def main() -> None:
                     f"node-{var}", "2" if var == "simd" else "1"])
             runs.append(r)
             if D8.exists():
-                for flags, tag in [([], "default"), (["--liftoff", "--no-wasm-tier-up"], "liftoff-only"),
+                # --liftoff-only: with dynamic tiering, "--liftoff --no-wasm-tier-up" still tiers up in this V8
+                for flags, tag in [([], "default"), (["--liftoff-only"], "liftoff-only"),
                                    (["--no-liftoff"], "turbofan-only")]:
                     r = sh([D8, *flags, "wasm/harness.js", "--", f"wasm/dist/qsx_{var}.js", f"wasm/dist/qsx_{var}.wasm",
                             gp, dp, op, f"d8-{var}-{tag}", "2" if var == "simd" else "1"])
                     r["d8_flags"] = flags
                     runs.append(r)
             if a.chrome:
-                for jf, tag in [("", "default"), ("--liftoff --no-wasm-tier-up", "liftoff-only")]:
+                for jf, tag in [("", "default"), ("--liftoff-only", "liftoff-only")]:
                     rel = lambda p: "/" + str(Path(p).relative_to(ROOT))  # noqa: E731
                     r = sh(["node", "bench/m4_chrome.mjs", str(port), var, rel(gp), rel(dp), rel(op), jf]
                            if False else [node, "bench/m4_chrome.mjs", str(port), var, rel(gp), rel(dp), rel(op), jf])

@@ -236,9 +236,21 @@ claim("M5_sites_total", lambda: J("M5/v8_tests.json")["codegen_qsx_simd"]["base"
       "V8 --print-wasm-code (arm64)", V8T)
 if _exists("M5/anytrue_fusion.json"):
     AF = "results/M5/anytrue_fusion.json"
-    claim("M5_micro_ratio_0", lambda: _find(J("M5/anytrue_fusion.json"), workload="micro zero_block_scan",
-                                            nonzero_block_fraction=0.0)["ratio"], "{:.2f}",
-          "d8 measurement (interleaved A/B, median)", AF)
+    def _af(**kw):
+        return _find(J("M5/anytrue_fusion.json"), **kw)
+
+    for frac, tag in ((0.0, "0"), (0.05, "5"), (0.25, "25")):
+        claim(f"M5_micro_ratio_{tag}", lambda frac=frac: _af(workload="micro zero_block_scan",
+                                                             nonzero_block_fraction=frac)["ratio"], "{:.2f}",
+              "d8 measurement (interleaved A/B, median)", "results/M5/anytrue_fusion.json")
+        for k, side in ((0, "lo"), (1, "hi")):
+            claim(f"M5_micro_ci_{side}_{tag}", lambda frac=frac, k=k: _af(workload="micro zero_block_scan",
+                                                                          nonzero_block_fraction=frac)["ratio_ci95"][k],
+                  "{:.2f}", "d8 measurement (bootstrap 95% CI)", "results/M5/anytrue_fusion.json")
+    for k, side in ((0, "lo"), (1, "hi")):
+        claim(f"M5_unpack_ci_{side}_d9", lambda k=k: _af(workload="qsx d=9 p=0.001",
+                                                         metric="unpack_simd_ns_per_shot")["ratio_ci95"][k],
+              "{:.2f}", "d8 measurement (bootstrap 95% CI)", "results/M5/anytrue_fusion.json")
     claim("M5_steady_ratio_d9", lambda: _find(J("M5/anytrue_fusion.json"), workload="qsx d=9 p=0.001",
                                               metric="steady_ns_per_shot")["ratio"], "{:.2f}",
           "d8 measurement (interleaved A/B, median)", "results/M5/anytrue_fusion.json")
