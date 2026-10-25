@@ -107,3 +107,8 @@ DP-limited training reaches a decoder that classifies the frequent low-weight sy
 on the plateau agree on almost every test syndrome, so their error counts differ by a few in 200k. Prediction: more
 DP steps escape the plateau at higher epsilon (results/M7/federated_d3_dp_b8192_long.json). Reported as: within the
 tested step budget, privacy from epsilon ~ 17.6 down to ~ 0.33 costs no additional utility beyond the plateau.
+D10 addendum (results/M7/dp_debug.json). Trajectories over the original configuration: sigma = 0.6 reaches the plateau
+by round 20. Sigma = 2.0 is still at the base rate at round 10 and reaches the same plateau by round 30. After that,
+predictions are frozen while the parameters keep changing. Every per-example gradient is clipped (median norm ~5.5
+vs clip 1). So noise slows convergence to a common fixed point and prevents escaping it within 4000 steps, which
+clip-only training does.
