@@ -2,7 +2,7 @@
 
 M1: bench/m1_plots.py      -> results/M1/figs/
 M2: bench/m2_report.py     -> results/M2/figs/ (+ results/M2/report.json)
-M10: bench/objective.py    -> results/M10/figs/objective_d*.png (+ results/M10/objective.json)
+M10: bench/objective.py    -> results/M10/figs/objective_d*_{t_p99,t_worst}.png (+ results/M10/objective.json)
 M4: runtime comparison     -> results/M4/figs/runtime.png, warmup.png
 M5: V8 patch before/after  -> results/M5/figs/anytrue_fusion.png
 M6: GNN vs UF vs MWPM, adaptive policy -> results/M6/figs/
@@ -70,17 +70,18 @@ def m5() -> None:
     rows = J("M5/anytrue_fusion.json")
     figs = R / "M5/figs"
     figs.mkdir(parents=True, exist_ok=True)
-    fig, ax = plt.subplots(figsize=(5.6, 3.4))
-    labs = [f"{r['workload']}\n{r['metric'].replace('_ns_per_shot', '')}" if "qsx" in r["workload"]
-            else f"micro, {r['nonzero_block_fraction']:g} non-zero" for r in rows]
+    fig, ax = plt.subplots(figsize=(5.6, 4.6))
+    labs = [f"decoder {r['workload'][4:]}: {r['metric'].replace('_ns_per_shot', '').replace('_simd', '')}"
+            if "qsx" in r["workload"] else f"micro scan, {100 * r['nonzero_block_fraction']:g}% non-zero blocks"
+            for r in rows]
     y = [r["ratio"] for r in rows]
     lo = [r["ratio"] - r["ratio_ci95"][0] for r in rows]
     hi = [r["ratio_ci95"][1] - r["ratio"] for r in rows]
     ax.errorbar(y, range(len(rows)), xerr=[lo, hi], fmt="o", color=plotstyle.SERIES[0], capsize=3, zorder=3)
     ax.axvline(1.0, color=plotstyle.INK2, lw=0.8)
-    ax.set_yticks(range(len(rows)), labs, fontsize=6)
+    ax.set_yticks(range(len(rows)), labs, fontsize=8)
     ax.invert_yaxis()
-    ax.set_xlabel("time ratio patched / unpatched d8 (median, bootstrap 95% CI)")
+    ax.set_xlabel("patched / unpatched d8 time (median, 95% CI)")
     plotstyle.save(fig, figs / "anytrue_fusion.png")
 
 

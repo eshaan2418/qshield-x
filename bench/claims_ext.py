@@ -120,7 +120,8 @@ for d in (3, 5, 7):
 
 # ---------------------------------------------------------------- M3 overhead (synth, -noflatten) + toggle proxy
 OV = "results/M3/overhead.json"
-for d in (3, 5, 7):
+_OV_DS = [r["d"] for r in J("M3/overhead.json")] if _exists("M3/overhead.json") else []
+for d in _OV_DS:
     for part in ("core", "shell"):
         for cell, tag in (("LUT4", "lut"), ("TRELLIS_FF", "ff"), ("DP16KD", "bram")):
             claim(f"M3_{part}_{tag}_d{d}",
@@ -130,6 +131,7 @@ for d in (3, 5, 7):
           "synth (Yosys synth_ecp5 -noflatten)", OV)
     claim(f"M3_shell_ff_pct_d{d}", lambda d=d: 100 * _find(J("M3/overhead.json"), d=d)["shell_ff_fraction"], "{:.1f}",
           "synth (Yosys synth_ecp5 -noflatten)", OV)
+for d in (3, 5, 7):
     claim(f"M3_shell_cycles_d{d}", lambda d=d: _find(J("M2/shell_latency.json"), d=d)["overhead_cycles_mean"], "{:.1f}",
           "sim (Verilator qsx_top)", "results/M2/shell_latency.json")
     claim(f"M3_shell_cyc_pct_d{d}", lambda d=d: 100 * _find(J("M2/shell_latency.json"), d=d)["overhead_cycles_mean"]
@@ -303,6 +305,19 @@ if _exists("M4/runtime.json"):
           "FNV-1a hash comparison", RT)
 
 
+# ---------------------------------------------------------------- M10 objective
+if _exists("M10/objective.json"):
+    OBJ = "results/M10/objective.json"
+    for d in (3, 5):
+        for tk, tag in (("t_p99", "p99"), ("t_worst", "worst")):
+            claim(f"M10_rtl_win_{tag}_d{d}", lambda d=d, tk=tk: 100 * _find(J("M10/objective.json"), d=d,
+                                                                            latency_metric=tk)["rtl_win_fraction"],
+                  "{:.0f}", "analysis of measured configs (weight sweep)", OBJ)
+            claim(f"M10_pareto_n_{tag}_d{d}", lambda d=d, tk=tk: len(_find(J("M10/objective.json"), d=d,
+                                                                           latency_metric=tk)["pareto"]),
+                  "{}", "analysis of measured configs", OBJ)
+
+
 # ---------------------------------------------------------------- generated paper tables
 def _rowclaims(prefix: str, src: str, stage: str, rows: list[dict], cols: list[tuple[str, callable, str]]) -> list:
     """Register one claim per (row, column) and return LaTeX rows made of \\claim references."""
@@ -321,13 +336,21 @@ def _formal_rows():
     rows = J("M3/formal_summary.json")
     def bound(r):
         if r["tool"].startswith("TLC"):
-            return _tex(f"{r['distinct_states']:,} states, depth {r['depth']}" if r["distinct_states"] else "-")
+            if not r["distinct_states"]:
+                return "--"
+            dep = f", depth {r['depth']}" if r["depth"] is not None else ""
+            return _tex(f"{r['distinct_states']:,} states{dep}")
         if r["tool"].startswith("Z3"):
             return _tex(f"{len(r['steps'])} steps, 1 transition")
         return _tex(f"{r['mode']} depth {r['depth']}")
     def status(r):
         if r["tool"].startswith("TLC"):
-            s = "no error" if r["ok"] else ", ".join(r["violations"]) or "error"
+            expect_fail = any(t in r["job"] for t in ("mut_", "v0_"))
+            if r["ok"]:
+                s = "no error"
+            else:
+                s = ("safety violated" if any("Invariant" in v for v in r["violations"]) else "liveness violated")
+                s += " (expected)" if expect_fail else ""
         elif r["tool"].startswith("Z3"):
             s = "all UNSAT" if r["ok"] and "mutant" not in r["job"] else ("mutant SAT (expected)" if r["ok"] else
                                                                          "FAIL")
@@ -335,7 +358,7 @@ def _formal_rows():
             s = r["status"]
         return _tex(s)
     return rows, [("job", lambda r: "\\texttt{" + _tex(r["job"]) + "}", "{}"),
-                  ("tool", lambda r: _tex(r["tool"].split("/")[0]), "{}"),
+                  ("tool", lambda r: _tex(r["tool"].split("/")[0].split(" (")[0]), "{}"),
                   ("bound", bound, "{}"), ("status", status, "{}"), ("sec", lambda r: r["seconds"], "{:.0f}")]
 
 
@@ -346,7 +369,7 @@ if _exists("M3/formal_summary.json"):
     @table("gen_formal.tex")
     def _t_formal():
         return "\n".join([
-            r"\begin{table}[t]\centering\small",
+            r"\begin{table}[t]\centering\footnotesize",
             r"\caption{Formal verification jobs (\texttt{make formal}). ``prove'' = k-induction (unbounded); ``bmc'' ="
             r" bounded to the stated depth; TLC explores the full state space of the stated model constants.}",
             r"\label{tab:formal}",
@@ -517,12 +540,25 @@ if _exists("M7/federated_d3.json"):
             *_M7, r"\bottomrule\end{tabular}\end{table}"])
 
 
+# ---------------------------------------------------------------- M2 critical paths (pnr)
+if _exists("M2/fpga/critical_paths.json"):
+    CP = "results/M2/fpga/critical_paths.json"
+    for tag in ("d3_q5_L8_PIPE0", "d3_q5_L32_PIPE1", "d5_q5_L4_PIPE0"):
+        t = tag.replace("_", "")
+        for k in ("routing_ns", "logic_ns"):
+            claim(f"M2_cp_{k.split('_')[0]}_{t}", lambda tag=tag, k=k: _find(J("M2/fpga/critical_paths.json"),
+                                                                             tag=tag)[k], "{:.1f}",
+                  "pnr (nextpnr-ecp5 timing report)", CP)
+
+
 # ---------------------------------------------------------------- M2 report (synth / pnr / latency / deadline)
 if _exists("M2/report.json"):
     REP = "results/M2/report.json"
     _rep = J("M2/report.json")
     for r in _rep["configs"]:
         t = r["tag"].replace("_", "")
+        if r["synth"]["LUT4"] is None:  # not (yet) synthesised
+            continue
         claim(f"M2_lut_{t}", lambda r=r: r["synth"]["LUT4"], "{:,}", "synth (Yosys synth_ecp5)", REP)
         claim(f"M2_ff_{t}", lambda r=r: r["synth"]["FF"], "{:,}", "synth (Yosys synth_ecp5)", REP)
         if "pnr" in r:
@@ -575,7 +611,19 @@ if _exists("M2/report.json"):
         for r in _rep["configs"]:
             t = r["tag"].replace("_", "")
             fit = "pnr" in r
-            reason = "" if fit else _tex(r.get("pnr_error", "synth only")[:60])
+            err = r.get("pnr_error") or r.get("synth_error") or ""
+            if fit:
+                reason = ""
+            elif "legal placement" in err:
+                reason = "PnR: no legal placement (device full)"
+            elif "does not fit" in err:
+                reason = "exceeds the device after synthesis"
+            elif "timeout" in err:
+                reason = _tex(err)
+            elif r["synth"]["LUT4"] is None:
+                reason = "not finished"
+            else:
+                reason = "synthesis only"
             rows.append((r, t, fit, reason))
         return rows
 
@@ -584,6 +632,10 @@ if _exists("M2/report.json"):
         claim(f"M2_ft_{i}_cfg", lambda r=r: f"$d={r['d']}$, {r['weights']}, L{r['lanes']}, P{r['pipe']}", "{}",
               "config", REP)
         claim(f"M2_ft_{i}_why", lambda reason=reason: reason, "{}", "pnr (nextpnr-ecp5)", REP)
+        if r["synth"]["LUT4"] is None:
+            cells = [f"\\claim{{M2_ft_{i}_cfg}}", "--", "--", f"\\multicolumn{{5}}{{l}}{{\\claim{{M2_ft_{i}_why}}}}"]
+            _FT.append(" & ".join(cells) + r" \\")
+            continue
         cells = [f"\\claim{{M2_ft_{i}_cfg}}", f"\\claim{{M2_lut_{t}}}", f"\\claim{{M2_ff_{t}}}"]
         if fit:
             cells += [f"\\claim{{M2_util_{t}}}", f"\\claim{{M2_fmax_{t}}}"]

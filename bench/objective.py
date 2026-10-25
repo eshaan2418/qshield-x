@@ -42,18 +42,20 @@ def configs(d: int, p: float) -> list[dict]:
     for dec, name in (("pymatching", "PyMatching (CPU)"), ("qsxuf-q5", "QSX-UF q5 (CPU)")):
         if dec in lat:
             out.append({"name": name, "kind": "cpu", "pl": pl[dec]["pl"], "pl_ci95": pl[dec]["ci95"],
-                        "t_ns": lat[dec]["lat_ns_p99"], "lut": 0, "t_stage": "CPU measurement (1 thread)"})
+                        "t_p99": lat[dec]["lat_ns_p99"], "t_worst": lat[dec]["lat_ns_max"], "lut": 0,
+                        "t_stage": "CPU measurement (1 thread); worst = observed max (no bound)"})
     rep = J("M2/report.json")["configs"]
     for r in rep:
         if r["d"] == d and r["weights"] == "q5" and "latency_ns" in r:
             out.append({"name": f"QSX-UF RTL L{r['lanes']} P{r['pipe']}", "kind": "rtl", "pl": pl["qsxuf-q5"]["pl"],
-                        "pl_ci95": pl["qsxuf-q5"]["ci95"], "t_ns": r["latency_ns"]["p99"], "lut": r["synth"]["LUT4"],
-                        "fmax_mhz": r["pnr"]["fmax_mhz"], "t_stage": r["latency_ns"]["stage"]})
+                        "pl_ci95": pl["qsxuf-q5"]["ci95"], "t_p99": r["latency_ns"]["p99"],
+                        "t_worst": r["latency_ns"]["max"], "lut": r["synth"]["LUT4"], "fmax_mhz": r["pnr"]["fmax_mhz"],
+                        "t_stage": r["latency_ns"]["stage"] + "; worst = observed max, bounded by proof C2"})
     return out
 
 
-def pareto(cs: list[dict]) -> list[str]:
-    keys = ("pl", "t_ns", "lut")
+def pareto(cs: list[dict], tkey: str) -> list[str]:
+    keys = ("pl", tkey, "lut")
     front = []
     for a in cs:
         dominated = any(all(b[k] <= a[k] for k in keys) and any(b[k] < a[k] for k in keys) for b in cs if b is not a)
@@ -76,31 +78,33 @@ def main() -> None:
         cs = configs(d, a.p)
         if not cs:
             continue
-        mx = {k: max(c[k] for c in cs) or 1.0 for k in ("pl", "t_ns", "lut")}
-        grid = []
-        for i in range(a.steps + 1):
-            for j in range(a.steps + 1 - i):
-                w = (i / a.steps, j / a.steps, (a.steps - i - j) / a.steps)  # (alpha, beta, gamma)
-                score = [w[0] * c["pl"] / mx["pl"] + w[1] * c["t_ns"] / mx["t_ns"] + w[2] * c["lut"] / mx["lut"]
-                         for c in cs]
-                grid.append({"alpha": w[0], "beta": w[1], "gamma": w[2], "winner": cs[int(np.argmin(score))]["name"]})
-        wins = {c["name"]: sum(g["winner"] == c["name"] for g in grid) / len(grid) for c in cs}
-        rows.append({"d": d, "p": a.p, "configs": cs, "pareto": pareto(cs), "weight_grid": grid,
-                     "win_fraction": wins, "normalisers": mx,
-                     "note": "delta*E omitted (no CPU energy measurement; RTL activity proxy is not in Watts)"})
-        print(d, "pareto:", rows[-1]["pareto"], {k: round(v, 2) for k, v in wins.items() if v > 0})
-        # ternary-style map: alpha (x) vs beta (y), gamma = 1 - alpha - beta; color = winner
-        names = sorted({g["winner"] for g in grid}, key=lambda n: [c["name"] for c in cs].index(n))
-        fig, ax = plt.subplots(figsize=(4.8, 4.0))
-        for k, n in enumerate(names):
-            pts = [(g["alpha"], g["beta"]) for g in grid if g["winner"] == n]
-            ax.scatter([q[0] for q in pts], [q[1] for q in pts], s=36, marker="s", color=plotstyle.SERIES[k],
-                       label=n, edgecolors=plotstyle.SURFACE, linewidths=0.8, zorder=3)
-        ax.set_xlabel("alpha (weight on P_L)")
-        ax.set_ylabel("beta (weight on p99 latency)")
-        ax.set_title(f"configuration minimising J, d={d}, p={a.p} (gamma = 1 - alpha - beta, area)", fontsize=8)
-        ax.legend(fontsize=6, loc="upper right")
-        plotstyle.save(fig, R / f"M10/figs/objective_d{d}.png")
+        for tkey, tlab in (("t_p99", "p99 latency"), ("t_worst", "worst-case latency")):
+            mx = {k: max(c[k] for c in cs) or 1.0 for k in ("pl", tkey, "lut")}
+            grid = []
+            for i in range(a.steps + 1):
+                for j in range(a.steps + 1 - i):
+                    w = (i / a.steps, j / a.steps, (a.steps - i - j) / a.steps)  # (alpha, beta, gamma)
+                    score = [w[0] * c["pl"] / mx["pl"] + w[1] * c[tkey] / mx[tkey] + w[2] * c["lut"] / mx["lut"]
+                             for c in cs]
+                    grid.append({"alpha": w[0], "beta": w[1], "gamma": w[2],
+                                 "winner": cs[int(np.argmin(score))]["name"]})
+            wins = {c["name"]: sum(g["winner"] == c["name"] for g in grid) / len(grid) for c in cs}
+            hw_share = sum(v for k, v in wins.items() if "RTL" in k)
+            rows.append({"d": d, "p": a.p, "latency_metric": tkey, "configs": cs, "pareto": pareto(cs, tkey),
+                         "weight_grid": grid, "win_fraction": wins, "rtl_win_fraction": hw_share, "normalisers": mx,
+                         "note": "delta*E omitted (no CPU energy measurement; RTL activity proxy is not in Watts)"})
+            print(d, tkey, "pareto:", rows[-1]["pareto"], "RTL wins", round(hw_share, 2))
+            names = sorted({g["winner"] for g in grid}, key=lambda n: [c["name"] for c in cs].index(n))
+            fig, ax = plt.subplots(figsize=(4.8, 4.0))
+            for k, n in enumerate(names):
+                pts = [(g["alpha"], g["beta"]) for g in grid if g["winner"] == n]
+                ax.scatter([q[0] for q in pts], [q[1] for q in pts], s=36, marker="s", color=plotstyle.SERIES[k],
+                           label=n, edgecolors=plotstyle.SURFACE, linewidths=0.8, zorder=3)
+            ax.set_xlabel("alpha (weight on P_L)")
+            ax.set_ylabel(f"beta (weight on {tlab})")
+            ax.set_title(f"configuration minimising J, d={d}, p={a.p}; gamma = 1 - alpha - beta (area)", fontsize=8)
+            ax.legend(fontsize=6, loc="upper right")
+            plotstyle.save(fig, R / f"M10/figs/objective_d{d}_{tkey}.png")
     write_result(R / "M10/objective.json", rows, vars(a), None)
 
 

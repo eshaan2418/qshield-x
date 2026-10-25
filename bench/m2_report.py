@@ -152,7 +152,7 @@ def main() -> None:
     plotstyle.save(fig, figs / "pareto.png")
 
     # HW vs CPU p99, grouped bars per distance
-    fig, ax = plt.subplots(figsize=(5.2, 3.6))
+    fig, ax = plt.subplots(figsize=(5.2, 4.2))
     series = [("hw_p99_ns", "QSX-UF RTL (sim / PnR)"), ("cpu_uf_p99_ns", "QSX-UF C++ (CPU)"),
               ("cpu_pm_p99_ns", "PyMatching (CPU)")]
     w = 0.26
@@ -168,7 +168,7 @@ def main() -> None:
     ax.set_xticks(range(len(comp)), [f"d={e['d']}" for e in comp])
     ax.set_yscale("log")
     ax.set_ylabel(f"p99 latency per d-round block, ns (p={P_REF})")
-    ax.legend()
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=2, fontsize=7)
     plotstyle.save(fig, figs / "hw_vs_cpu.png")
 
     # Cycles vs lanes (sim only), per distance
