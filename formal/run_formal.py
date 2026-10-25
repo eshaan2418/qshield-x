@@ -95,7 +95,9 @@ def z3_job(d: int, timeout: int, mutate: bool = False) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--timeout", type=int, default=6 * 3600)
-    ap.add_argument("--z3-d", default="3,5")
+    ap.add_argument("--z3-d", default="3,5,7")
+    ap.add_argument("--only", default="", help="comma-separated job names to (re)run; results are merged into the "
+                                                "existing formal_summary.json")
     ap.add_argument("--jobs", type=int, default=4)
     a = ap.parse_args()
     jobs = [
@@ -106,6 +108,8 @@ def main() -> None:
         lambda: sby_job("top.sby", "real_cover", a.timeout),
         lambda: sby_job("core.sby", "prove", a.timeout),
         lambda: sby_job("core.sby", "cover", a.timeout),
+        lambda: sby_job("core.sby", "prove_d5", a.timeout),
+        lambda: sby_job("core.sby", "prove_d7", a.timeout),
         lambda: tlc_job("MC_main.cfg", a.timeout),
         lambda: tlc_job("MC_main.cfg", a.timeout, 5, 3),
         lambda: tlc_job("MC_mut_stale.cfg", a.timeout),
@@ -114,8 +118,20 @@ def main() -> None:
     ]
     jobs += [lambda d=d: z3_job(int(d), a.timeout) for d in a.z3_d.split(",")]
     jobs += [lambda: z3_job(3, a.timeout, mutate=True)]
+    names = ["ingress.sby:prove_w2_n4", "ingress.sby:prove_w4_n2", "top.sby:stub_prove", "top.sby:real_bmc",
+             "top.sby:real_cover", "core.sby:prove", "core.sby:cover", "core.sby:prove_d5", "core.sby:prove_d7",
+             "MC_main.cfg", "MC_main_N5K3.cfg", "MC_mut_stale.cfg", "MC_mut_status.cfg", "MC_v0_nobypass.cfg"]
+    names += [f"core_d{d}_step_equivalence" for d in a.z3_d.split(",")] + ["core_d3_step_equivalence_mutant"]
+    assert len(names) == len(jobs)
+    only = set(filter(None, a.only.split(",")))
+    sel = [f for n, f in zip(names, jobs) if not only or n in only]
     with ThreadPoolExecutor(a.jobs) as ex:
-        res = list(ex.map(lambda f: f(), jobs))
+        res = list(ex.map(lambda f: f(), sel))
+    if only and (OUT / "formal_summary.json").exists():  # merge into the previous full run, keeping job order
+        prev = json.loads((OUT / "formal_summary.json").read_text())["data"]
+        new = {r["job"]: r for r in res}
+        merged = [new.pop(r["job"], r) for r in prev]
+        res = merged + list(new.values())
     for r in res:
         print(json.dumps({k: r[k] for k in r if k not in ("steps",)}))
     write_result(OUT / "formal_summary.json", res, vars(a), None,

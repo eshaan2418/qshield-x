@@ -1,13 +1,20 @@
-# Real QSX-UF core (d=3 graph, LANES=8): watchdog bound, invalid-result masking, done protocol.
+# Real QSX-UF core (LANES=8): watchdog bound, invalid-result masking, done protocol (properties C1-C5).
+# prove / cover use the d=3 graph; prove_d5 / prove_d7 run the same k-induction on the d=5 / d=7 cores.
 [tasks]
 prove
 cover
+prove_d5
+prove_d7
 
 [options]
 prove: mode prove
 prove: depth 12
 cover: mode cover
 cover: depth 48
+prove_d5: mode prove
+prove_d5: depth 12
+prove_d7: mode prove
+prove_d7: depth 12
 
 [engines]
 smtbmc bitwuzla
@@ -20,5 +27,11 @@ prep -top core_formal
 core_formal.sv
 ../../rtl/qsx_uf_core.sv
 ../../rtl/qsx_min_tree.sv
-../../build/rtl/d3_q5/qsx_graph_defs.svh
-../../build/rtl/d3_q5/qsx_graph_tables.svh
+prove: ../../build/rtl/d3_q5/qsx_graph_defs.svh
+prove: ../../build/rtl/d3_q5/qsx_graph_tables.svh
+cover: ../../build/rtl/d3_q5/qsx_graph_defs.svh
+cover: ../../build/rtl/d3_q5/qsx_graph_tables.svh
+prove_d5: ../../build/rtl/d5_q5/qsx_graph_defs.svh
+prove_d5: ../../build/rtl/d5_q5/qsx_graph_tables.svh
+prove_d7: ../../build/rtl/d7_q5/qsx_graph_defs.svh
+prove_d7: ../../build/rtl/d7_q5/qsx_graph_tables.svh
