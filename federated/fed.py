@@ -193,33 +193,37 @@ def run(a) -> None:
         results["centralized"] = evaluate(m, tests)
 
     def fedavg(split: dict, dp: dict | None, tag: str):
+        rounds = a.dp_rounds if dp else a.rounds
+        lsteps = a.dp_local_steps if dp else a.local_steps
+        batch = dp["expected_batch"] if dp else a.batch
+        lr = a.dp_lr if dp else a.lr
         glob = new()
         agg = SecAgg(names)
         nparam = len(flat(glob))
         bytes_up = 0
         t0 = time.time()
-        for r in range(a.rounds):
+        for r in range(rounds):
             masked = []
             g0 = flat(glob)
             for n in names:
                 loc_m = copy.deepcopy(glob)
-                local_train(loc_m, *split[n], a.local_steps, a.batch, a.lr, dp, gen)
+                local_train(loc_m, *split[n], lsteps, batch, lr, dp, gen)
                 delta = (flat(loc_m) - g0) * (1.0 / len(names))  # equal weights (equal site sizes)
                 masked.append(agg.mask(n, delta, r))
                 bytes_up += masked[-1].nbytes
             s = agg.unmask_sum(masked)
             load_flat(glob, g0 + s)
         ev = evaluate(glob, tests)
-        info = {"eval": ev, "rounds": a.rounds, "local_steps": a.local_steps, "params": nparam,
+        info = {"eval": ev, "rounds": rounds, "local_steps": lsteps, "batch": batch, "lr": lr, "params": nparam,
                 "bytes_up_per_site_per_round": nparam * 4, "bytes_up_total": bytes_up,
                 "keyexchange_bytes_per_site": agg.pub_bytes * (len(names) - 1), "wall_s": time.time() - t0}
         if dp:
             eps = float("inf")
             if dp["sigma"] > 0:  # sigma = 0: clipping-only ablation, no privacy guarantee
                 acc = RDPAccountant()
-                acc.history = [(dp["sigma"], dp["q"], a.rounds * a.local_steps)]
+                acc.history = [(dp["sigma"], dp["q"], rounds * lsteps)]
                 eps = acc.get_epsilon(delta=a.delta)
-            info["dp"] = {"sigma": dp["sigma"], "clip": dp["clip"], "q": dp["q"], "steps": a.rounds * a.local_steps,
+            info["dp"] = {"sigma": dp["sigma"], "clip": dp["clip"], "q": dp["q"], "steps": rounds * lsteps,
                           "delta": a.delta, "epsilon": eps, "accountant": "opacus RDP"}
         results[tag] = info
         print(tag, json.dumps({k: round(v["pl"], 5) for k, v in ev.items()}), info.get("dp", {}).get("epsilon"),
@@ -236,7 +240,7 @@ def run(a) -> None:
         fedavg(train, None, "fedavg")
         fedavg(iid, None, "fedavg-iid")
     for sigma in [float(s) for s in a.sigmas.split(",")]:
-        dp = {"sigma": sigma, "clip": a.clip, "q": a.batch / a.n_site, "expected_batch": a.batch}
+        dp = {"sigma": sigma, "clip": a.clip, "q": a.dp_batch / a.n_site, "expected_batch": a.dp_batch}
         fedavg(train, dp, f"fedavg-dp-sigma{sigma}")
     write_result(Path(a.out), results, vars(a), a.seed, extra_tools={"torch": torch.__version__,
                                                                      "opacus": __import__("opacus").__version__})
@@ -257,9 +261,18 @@ def main() -> None:
     ap.add_argument("--sigmas", default="0.6,1.0,2.0")
     ap.add_argument("--delta", type=float, default=1e-5)
     ap.add_argument("--seed", type=int, default=77)
+    # DP-SGD needs large batches for a usable signal-to-noise ratio (DECISIONS D9); defaults = original config
+    ap.add_argument("--dp-batch", type=int, default=512)
+    ap.add_argument("--dp-rounds", type=int, default=None)
+    ap.add_argument("--dp-local-steps", type=int, default=None)
+    ap.add_argument("--dp-lr", type=float, default=None)
     ap.add_argument("--only-dp", action="store_true", help="run only the FedAvg+DP regimes (ablations)")
     ap.add_argument("--out", default=str(ROOT / "results/M7/federated_d3.json"))
-    run(ap.parse_args())
+    a = ap.parse_args()
+    a.dp_rounds = a.dp_rounds or a.rounds
+    a.dp_local_steps = a.dp_local_steps or a.local_steps
+    a.dp_lr = a.dp_lr or a.lr
+    run(a)
 
 
 if __name__ == "__main__":
