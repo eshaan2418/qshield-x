@@ -13,7 +13,7 @@
 | SymbiYosys, yosys-smtbmc | bundled | OSS CAD Suite |
 | Z3 / Bitwuzla / Yices | 5.1.0 / 0.9.1 / 2.7.0 | OSS CAD Suite / pip z3-solver 5.1.0 |
 | Java | OpenJDK 21.0.13 (Temurin) | `.tools/jdk` |
-| TLA+ tools (TLC) | 2.19 (tla2tools.jar) | `.tools/tla2tools.jar` |
+| TLA+ tools (TLC) | 2.19 (tla2tools.jar, release v1.7.4, sha256 936a2620…) | `.tools/tla2tools.jar` |
 | Emscripten | 6.0.13 | `.tools/emsdk` |
 | Node.js | v24.19.0 | bundled with emsdk |
 | Apple clang | 21.0.0 | Xcode |

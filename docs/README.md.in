@@ -87,7 +87,7 @@ make paper               # paper/qshieldx.pdf (12 pages; every number is a \clai
 ## Limitations
 
 See `FINAL_REVIEW.md` and §Limitations of the paper. In short: there's no board, so latency is
-cycle-exact simulation divided by post-PnR Fmax. k-induction of the real core covers d = 3 only. The noise is
+cycle-exact simulation divided by post-PnR Fmax. k-induction of the real core covers d = 3, 5 and 7 (LANES = 8). The noise is
 uniform circuit-level depolarizing noise. The federated study is a single-process simulation.
 
 ## Layout

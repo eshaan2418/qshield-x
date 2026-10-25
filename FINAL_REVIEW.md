@@ -1,0 +1,105 @@
+# QShield-X — final review
+
+Rendered from `docs/FINAL_REVIEW.md.in` by `bench/claims.py`. Every number is backed by a file in `results/`
+(`make check-numbers`).
+
+## Answer to the central question
+
+*Can hardware–software co-design with formally verified execution protocols deliver a better logical-error /
+latency / resource trade-off than a fixed software-only decoder?*
+
+**Mixed. Co-design buys a verifiable deadline, not raw speed, on this device class.**
+
+* *Latency.* The best placed RTL configuration has p99 833 ns at d = 3 against
+  0.54 µs for PyMatching on one CPU core (ratio 1.54), and 14,610 ns
+  against 3.12 µs at d = 5 [sim cycles / pnr Fmax]. The hardware is not faster in typical
+  latency.
+* *Worst case.* The RTL maximum is 5.0× below the CPU's observed tail at d = 3, and it is guaranteed
+  rather than observed: the watchdog proof (C2) plus the shell proofs mean a frame over budget becomes `WATCHDOG` and
+  goes to the verified fallback. Within a d × 1 µs block deadline (assumed round time) the hardware completes
+  100.0 % of d = 3 frames and 7.5 % of d = 5 frames.
+* *Accuracy.* P_L is 1.28× PyMatching's at d = 7 [sim (Monte Carlo, Stim)].
+* *Resources.* d = 5 fits only with narrow scans (99 % logic, 32.6 MHz).
+  The smallest d = 7 configuration needs 239,897 LUT4 after synthesis, 2.9× the device's LUT capacity.
+
+* *Objective.* With J = α·P_L + β·T + γ·A, RTL configurations minimise J for 0 % of
+  weightings under p99 latency and 23 % under worst-case latency at d = 3
+  (6 % at d = 5).
+
+## Strongest claims
+
+1. **Bit-exact RTL.** The parallel RTL decoder matches the sequential C++ golden model on 3,840,000
+   syndromes (d = 3, 5, 7), comparing status, rounds, observable, the full correction bitmap and the cycle count:
+   0 mismatches [sim (Verilator RTL vs C++ golden model)]. It is order-independent by construction (DECISIONS D1).
+2. **Unbounded safety proofs for the core and shell.** k-induction proves the shell properties P1–P6 for *any*
+   core behaviour satisfying the core's interface guarantees. It proves those guarantees (C1–C5: masking of
+   invalid results, watchdog bound, done protocol) for the real core at d = 3, 5 and 7. TLC checks the host
+   protocol, including liveness without any fairness for the accelerator. The bug TLC found in the first
+   protocol version is real and was fixed.
+3. **An upstreamable V8 patch with a vacuity check.** The arm64 `v128.any_true` branch fusion removes 2 of 5
+   instructions from every guarded branch. 2,955 V8 tests pass. The new mjsunit test fails on a
+   deliberately broken lowering, and the patch applies cleanly to the recorded upstream revision.
+4. **Exact accounting of where the cycles go.** At LANES = 8 the serial scans take 94 % of all
+   core cycles at d = 7; at LANES = V they take 26 % [sim (cycle-exact HwModel)]. An
+   identity checked on every shot confirms the decomposition.
+
+## Weakest claims (read these first)
+
+* **No board.** Every latency is cycle-exact simulation divided by post-PnR Fmax. One PnR seed, no transport,
+  no clock-domain crossing, no measured jitter.
+* **Energy** is a toggle-count proxy, not Watts. It cannot be compared against the CPU.
+* **Accuracy cost.** QSX-UF P_L is 1.28× that of PyMatching at d = 7, p = 0.003, and the gap grows
+  with d.
+* **CPU baselines** are single-thread, batch-1 latencies on a shared machine (BLOCKERS B6), with timer
+  resolution 41 ns.
+* **Federated study.** At d = 3, DP-limited training reaches a plateau that does not depend on σ within the
+  tested budget (DECISIONS D10). The privacy–utility curve therefore says more about the step budget than about
+  the noise.
+* **Adaptive policy.** Re-weighting QSX-UF from online statistics did not beat fixed weights under shifts in p,
+  and helped only modestly under a readout-error shift. Most of the hybrid policy's gain comes from routing to
+  PyMatching.
+
+## Evidence stage of every hardware number
+
+| Quantity | Stage | Source |
+|----------|-------|--------|
+| Correctness (bitmap, cycles) | sim (Verilator vs C++ model) | `results/M2/cosim*/` |
+| Core cycles (p50/p99/max) | sim (cycle-exact HwModel, co-sim verified) | `results/M2/hw_cycles.json` |
+| Shell overhead cycles | sim (Verilator `qsx_top`) | `results/M2/shell_latency.json` |
+| LUT4 / FF / BRAM | synth (Yosys `synth_ecp5`) | `results/M2/fpga/` |
+| Fmax, placed utilisation | pnr (nextpnr-ecp5, LFE5U-85F, seed 1) | `results/M2/fpga/` |
+| Latency in ns | sim cycles / pnr Fmax | `results/M2/report.json` |
+| Activity / energy | estimate (Verilator toggle coverage) | `results/M2/toggle_proxy.json` |
+| On-board latency, power | **not measured** | — |
+
+## Verification bounds
+
+| Property family | Method | Bound |
+|-----------------|--------|-------|
+| Shell P1–P6 (AXI-S, tags, no loss/dup, invalid ≠ valid, atomic cfg) | SymbiYosys k-induction, abstract core | unbounded |
+| Shell + real d = 3 core | SymbiYosys BMC | depth stated in `results/M3/formal_summary.json` |
+| Core C1–C5 | SymbiYosys k-induction, real core | unbounded, d = 3, 5, 7 graphs, LANES = 8 |
+| Ingress I1 | SymbiYosys k-induction | unbounded, two (W, NBUF) instances |
+| Host protocol safety + liveness | TLC | finite constants (N, K, MaxCfg) listed in the formal summary |
+| Core step equivalence vs reference | Z3 | one transition, all states, d = 3, 5, 7 |
+| Logical error rate | **not proved**: Monte Carlo with exact binomial CIs | — |
+
+## Threats to validity
+
+* The decoder graph is built for the true p (except in M6). Real devices drift, leak and have crosstalk.
+* Uniform circuit-level depolarizing noise; memory experiments only. Lattice surgery and logical-gate decoding
+  windows are untested.
+* Every FPGA number comes from one device family and one open-source flow. A vendor flow on a modern device would
+  give a different Fmax/area. That would not change the cycle counts, which are architecture properties.
+* No d = 9 FPGA synthesis: it was capped for time (DECISIONS D11). It could not place anyway, given the d = 7 area.
+* Timing on a shared machine. A/B comparisons were interleaved to pair the noise.
+
+## Next steps toward real quantum hardware
+
+1. Close the latency gap at d ≥ 7 with fewer, deeper vertex units: time-multiplex the vertex fabric with the scans
+   as the limiting resource, rather than full parallelism, which does not fit beyond d = 5.
+2. Put the design on a board (Artix-7 / ECP5 evaluation kit) with on-chip cycle counters and a host link, to
+   replace "sim / PnR" latency with measured latency including transport.
+3. Streaming (sliding-window) decoding across rounds, so latency does not scale with d rounds of buffering.
+4. Use device-calibrated detector error models (leakage, correlated errors) as the M6 noise-shift scenarios.
+5. Upstream the V8 CL (and the x64 analogue `ptest/setcc/test/jcc`) through Gerrit review.

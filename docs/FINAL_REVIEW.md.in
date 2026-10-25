@@ -91,6 +91,7 @@ latency / resource trade-off than a fixed software-only decoder?*
   windows are untested.
 * Every FPGA number comes from one device family and one open-source flow. A vendor flow on a modern device would
   give a different Fmax/area. That would not change the cycle counts, which are architecture properties.
+* No d = 9 FPGA synthesis: it was capped for time (DECISIONS D11). It could not place anyway, given the d = 7 area.
 * Timing on a shared machine. A/B comparisons were interleaved to pair the noise.
 
 ## Next steps toward real quantum hardware
