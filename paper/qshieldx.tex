@@ -19,21 +19,22 @@ with a WebAssembly Runtime and a V8 Code-Generation Fix}
 \begin{abstract}
 We ask whether hardware--software co-design with formally checked execution protocols gives a better
 logical-error / latency / resource trade-off than a fixed software decoder for rotated surface-code memory
-experiments under circuit-level depolarizing noise. We build \emph{QSX-UF}, a union-find decoder whose
-semantics are made evaluation-order independent so that a fully parallel SystemVerilog implementation and a
-sequential C++ golden model agree bit-for-bit, including the correction bitmap and the cycle count. The RTL
-agrees with the golden model on \claim{M2_cosim_total} co-simulated syndromes with \claim{M2_cosim_mm} mismatches.
-Shell properties (backpressure, round tags, no invalid result presented as valid, atomic reconfiguration,
-AXI-Stream compliance) are proven by k-induction; the host/accelerator/fallback protocol is model-checked in
-TLA+, where TLC found a liveness bug that we fixed; and Z3 proves one-step equivalence of the real core against an
-independent reference. On a Lattice ECP5-85F (open toolchain, post-place-and-route, no board), the decoder
-reaches a p99 latency of \claim{M2_hw_p99_ns_d5}\,ns per $d$-round block at $d=5$ \stage{sim cycles / PnR
-Fmax}, versus \claim{M1_p99_d5_p003_PM_us}\,\textmu s for PyMatching on one CPU core \stage{CPU}, at the cost
-of a \claim{M1_ratio_d5_p003}$\times$ higher logical error rate \stage{Monte Carlo}. The answer to the
-central question is therefore \emph{mixed}: large latency gains with bounded, verified behaviour, paid for in
-accuracy and in FPGA area that grows quickly with distance. We also report a Wasm SIMD study, an upstreamable V8
-arm64 code-generation fix found while profiling the decoder, adaptive and learned decoding under noise
-shifts, and a federated-learning simulation with differential privacy.
+experiments under circuit-level depolarizing noise. We build \emph{QSX-UF}, a union-find decoder whose semantics are
+evaluation-order independent, so that a fully parallel SystemVerilog implementation and a sequential C++ golden model
+agree bit for bit, including the correction bitmap and the cycle count. They agree on \claim{M2_cosim_total} plus
+\claim{M2_cosim_extra_total} co-simulated syndromes, with \claim{M2_cosim_mm} mismatches. k-induction proves the
+shell's protocol properties for every core behaviour and the core's safety and watchdog properties at $d=3,5,7$.
+TLA+ model checking of the host/accelerator/fallback protocol found a liveness bug, which we fixed. On a Lattice
+LFE5U-85F (open toolchain, after place-and-route, no board), the decoder is \emph{not} faster than PyMatching on one
+CPU core in p99 latency: \claim{M2_hw_p99_ns_d3}\,ns vs.\ \claim{M2_cpu_pm_p99_us_d3}\,\textmu s at $d=3$
+\stage{sim cycles / PnR Fmax vs.\ CPU}. Its worst case, however, is \claim{M2_ratio_max_d3}$\times$ lower than the
+CPU's observed tail and is guaranteed by proof. Frames over budget come back as \texttt{WATCHDOG} and go to the
+verified software path. QSX-UF costs \claim{M1_ratio_d7_p003}$\times$ PyMatching's logical error rate at $d=7$, and
+fully parallel cores exceed the device beyond $d=5$. The answer is therefore \emph{mixed}: co-design buys a
+verifiable deadline, not raw speed, on this device class. We also contribute an exact cycle accounting that
+identifies the architecture's latency lever, an upstreamable V8 arm64 code-generation fix found while profiling the
+decoder's WebAssembly build, adaptive and learned decoding under noise shifts, and a federated-learning simulation
+with differential privacy that locates a privacy--utility knee.
 \end{abstract}
 
 \section{Introduction}
@@ -221,7 +222,14 @@ believe is new is the combination: a UF variant designed for bit-exact co-simula
 protocol verified to stated bounds, and evaluated end to end with open tools.
 
 \section{Conclusion}
-TODO-conclusion
+For the question we set out to answer, the evidence supports a mixed result. A union-find decoder designed for
+bit-exact co-simulation and wrapped in a formally verified shell delivers what the verification promises: a
+latency bound that holds by proof, with a verified escape hatch to software. On a low-cost FPGA it does not deliver
+lower typical latency than one modern CPU core. Its accuracy trails matching by a factor that grows with distance,
+and full parallelism exhausts the device at $d=5$. The cycle accounting points to the next design: the serial
+scans, not the union-find fabric, dominate the cycle count. A time-multiplexed fabric with wide scans, on a faster
+FPGA and measured on a board, is where the co-design question should be asked again. The verification, the
+artefacts and the reproduction scripts carry over unchanged.
 
 \bibliographystyle{plain}
 \bibliography{refs}
