@@ -1,0 +1,248 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "c74a9af593de43219395fe019c403607e4b9c79b",
+   "dirty": false
+  },
+  "timestamp_utc": "2026-10-25T05:01:25+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+   "sby": "OSS CAD Suite 2026-10-24",
+   "tlc": "2.19"
+  },
+  "seed": null,
+  "config": {
+   "timeout": 21600,
+   "z3_d": "3,5",
+   "jobs": 4
+  }
+ },
+ "data": [
+  {
+   "tool": "SymbiYosys/smtbmc-bitwuzla",
+   "job": "ingress.sby:prove_w2_n4",
+   "mode": "prove",
+   "depth": 24,
+   "status": "PASS",
+   "failed": [],
+   "seconds": 1.6
+  },
+  {
+   "tool": "SymbiYosys/smtbmc-bitwuzla",
+   "job": "ingress.sby:prove_w4_n2",
+   "mode": "prove",
+   "depth": 24,
+   "status": "PASS",
+   "failed": [],
+   "seconds": 1.6
+  },
+  {
+   "tool": "SymbiYosys/smtbmc-bitwuzla",
+   "job": "top.sby:stub_prove",
+   "mode": "prove",
+   "depth": 20,
+   "status": "PASS",
+   "failed": [],
+   "seconds": 8.6
+  },
+  {
+   "tool": "SymbiYosys/smtbmc-bitwuzla",
+   "job": "top.sby:real_bmc",
+   "mode": "bmc",
+   "depth": 40,
+   "status": "PASS",
+   "failed": [],
+   "seconds": 180.6
+  },
+  {
+   "tool": "SymbiYosys/smtbmc-bitwuzla",
+   "job": "top.sby:real_cover",
+   "mode": "cover",
+   "depth": 60,
+   "status": "PASS",
+   "failed": [],
+   "seconds": 1735.8
+  },
+  {
+   "tool": "SymbiYosys/smtbmc-bitwuzla",
+   "job": "core.sby:prove",
+   "mode": "prove",
+   "depth": 12,
+   "status": "PASS",
+   "failed": [],
+   "seconds": 6.0
+  },
+  {
+   "tool": "SymbiYosys/smtbmc-bitwuzla",
+   "job": "core.sby:cover",
+   "mode": "cover",
+   "depth": 48,
+   "status": "PASS",
+   "failed": [],
+   "seconds": 2515.4
+  },
+  {
+   "tool": "TLC 2.19",
+   "job": "MC_main.cfg",
+   "constants": "CONSTANTS N = 4  K = 2  CHECK_STALE = TRUE  CHECK_STATUS = TRUE  CHECK_BYPASS = TRUE  MaxCfg = 2",
+   "ok": true,
+   "violations": [],
+   "distinct_states": 141744,
+   "depth": 25,
+   "seconds": 14.6
+  },
+  {
+   "tool": "TLC 2.19",
+   "job": "MC_main_N5K3.cfg",
+   "constants": "CONSTANTS N = 5  K = 3  CHECK_STALE = TRUE  CHECK_STATUS = TRUE  CHECK_BYPASS = TRUE  MaxCfg = 2",
+   "ok": true,
+   "violations": [],
+   "distinct_states": 1342628,
+   "depth": 30,
+   "seconds": 156.7
+  },
+  {
+   "tool": "TLC 2.19",
+   "job": "MC_mut_stale.cfg",
+   "constants": "CONSTANTS N = 4  K = 2  CHECK_STALE = FALSE  CHECK_STATUS = TRUE  CHECK_BYPASS = TRUE  MaxCfg = 2",
+   "ok": false,
+   "violations": [
+    "Invariant Safety is violated"
+   ],
+   "distinct_states": 395,
+   "depth": 7,
+   "seconds": 1.6
+  },
+  {
+   "tool": "TLC 2.19",
+   "job": "MC_mut_status.cfg",
+   "constants": "CONSTANTS N = 4  K = 2  CHECK_STALE = TRUE  CHECK_STATUS = FALSE  CHECK_BYPASS = TRUE  MaxCfg = 2",
+   "ok": false,
+   "violations": [
+    "Invariant Safety is violated"
+   ],
+   "distinct_states": 100,
+   "depth": 6,
+   "seconds": 0.9
+  },
+  {
+   "tool": "TLC 2.19",
+   "job": "MC_v0_nobypass.cfg",
+   "constants": "CONSTANTS N = 4  K = 2  CHECK_STALE = TRUE  CHECK_STATUS = TRUE  CHECK_BYPASS = FALSE  MaxCfg = 2",
+   "ok": false,
+   "violations": [
+    "Temporal properties were violated"
+   ],
+   "distinct_states": 68025,
+   "depth": null,
+   "seconds": 4.0
+  },
+  {
+   "tool": "Z3 (z3-solver 5.1.0)",
+   "job": "core_d3_step_equivalence",
+   "steps": [
+    {
+     "step": "label",
+     "result": "unsat",
+     "equivalent": true,
+     "seconds": 21.01,
+     "V": 24,
+     "E": 78
+    },
+    {
+     "step": "grow",
+     "result": "unsat",
+     "equivalent": true,
+     "seconds": 0.92,
+     "V": 24,
+     "E": 78
+    },
+    {
+     "step": "dist",
+     "result": "unsat",
+     "equivalent": true,
+     "seconds": 23.43,
+     "V": 24,
+     "E": 78
+    },
+    {
+     "step": "peh",
+     "result": "unsat",
+     "equivalent": true,
+     "seconds": 0.55,
+     "V": 24,
+     "E": 78
+    }
+   ],
+   "ok": true,
+   "seconds": 46.1
+  },
+  {
+   "tool": "Z3 (z3-solver 5.1.0)",
+   "job": "core_d5_step_equivalence",
+   "steps": [
+    {
+     "step": "label",
+     "result": "unsat",
+     "equivalent": true,
+     "seconds": 11140.46,
+     "V": 120,
+     "E": 502
+    },
+    {
+     "step": "grow",
+     "result": "unsat",
+     "equivalent": true,
+     "seconds": 35.1,
+     "V": 120,
+     "E": 502
+    },
+    {
+     "step": "dist",
+     "result": "unsat",
+     "equivalent": true,
+     "seconds": 6774.81,
+     "V": 120,
+     "E": 502
+    },
+    {
+     "step": "peh",
+     "result": "unsat",
+     "equivalent": true,
+     "seconds": 7.85,
+     "V": 120,
+     "E": 502
+    }
+   ],
+   "ok": true,
+   "seconds": 17958.4
+  },
+  {
+   "tool": "Z3 (z3-solver 5.1.0)",
+   "job": "core_d3_step_equivalence_mutant",
+   "steps": [
+    {
+     "step": "peh",
+     "result": "sat",
+     "equivalent": false,
+     "seconds": 0.14,
+     "V": 24,
+     "E": 78
+    }
+   ],
+   "ok": true,
+   "seconds": 0.3
+  }
+ ]
+}

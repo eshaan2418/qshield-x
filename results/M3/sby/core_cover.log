@@ -1,0 +1,69 @@
+SBY 19:58:13 [core_cover] Removing directory '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_cover'.
+SBY 19:58:13 [core_cover] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_formal.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_cover/src/core_formal.sv'.
+SBY 19:58:13 [core_cover] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_uf_core.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_cover/src/qsx_uf_core.sv'.
+SBY 19:58:13 [core_cover] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_min_tree.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_cover/src/qsx_min_tree.sv'.
+SBY 19:58:13 [core_cover] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../build/rtl/d3_q5/qsx_graph_defs.svh' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_cover/src/qsx_graph_defs.svh'.
+SBY 19:58:13 [core_cover] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../build/rtl/d3_q5/qsx_graph_tables.svh' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_cover/src/qsx_graph_tables.svh'.
+SBY 19:58:13 [core_cover] engine_0: smtbmc bitwuzla
+SBY 19:58:13 [core_cover] base: starting process "cd core_cover/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 19:58:14 [core_cover] base: finished (returncode=0)
+SBY 19:58:14 [core_cover] prep: starting process "cd core_cover/model; yosys -ql design_prep.log design_prep.ys"
+SBY 19:58:15 [core_cover] prep: finished (returncode=0)
+SBY 19:58:15 [core_cover] smt2: starting process "cd core_cover/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 19:58:15 [core_cover] smt2: finished (returncode=0)
+SBY 19:58:15 [core_cover] engine_0: starting process "cd core_cover; yosys-smtbmc -s bitwuzla --presat --unroll -c --noprogress -t 48  --append 0 --dump-vcd engine_0/trace%.vcd --dump-yw engine_0/trace%.yw --dump-vlogtb engine_0/trace%_tb.v --dump-smtc engine_0/trace%.smtc model/design_smt2.smt2"
+SBY 19:58:15 [core_cover] engine_0: ##   0:00:00  Solver: bitwuzla
+SBY 19:58:15 [core_cover] engine_0: ##   0:00:00  Checking cover reachability in step 0..
+SBY 19:58:15 [core_cover] engine_0: ##   0:00:00  Checking cover reachability in step 1..
+SBY 19:58:16 [core_cover] engine_0: ##   0:00:00  Checking cover reachability in step 2..
+SBY 19:58:16 [core_cover] engine_0: ##   0:00:00  Checking cover reachability in step 3..
+SBY 19:58:16 [core_cover] engine_0: ##   0:00:00  Checking cover reachability in step 4..
+SBY 19:58:16 [core_cover] engine_0: ##   0:00:00  Reached cover statement in step 4 at core_formal: core_formal.sv:64.26-64.56 (_witness_.check_core_formal_sv_64_cover_3334)
+SBY 19:58:16 [core_cover] engine_0: ##   0:00:00  Writing trace to VCD file: engine_0/trace0.vcd
+SBY 19:58:20 [core_cover] engine_0: ##   0:00:04  Writing trace to Verilog testbench: engine_0/trace0_tb.v
+SBY 19:58:20 [core_cover] engine_0: ##   0:00:04  Writing trace to constraints file: engine_0/trace0.smtc
+SBY 19:58:20 [core_cover] engine_0: ##   0:00:04  Writing trace to Yosys witness file: engine_0/trace0.yw
+SBY 19:58:20 [core_cover] engine_0: ##   0:00:04  Checking cover reachability in step 4..
+SBY 19:58:20 [core_cover] engine_0: ##   0:00:04  Checking cover reachability in step 5..
+SBY 19:58:20 [core_cover] engine_0: ##   0:00:04  Checking cover reachability in step 6..
+SBY 19:58:20 [core_cover] engine_0: ##   0:00:05  Checking cover reachability in step 7..
+SBY 19:58:21 [core_cover] engine_0: ##   0:00:05  Checking cover reachability in step 8..
+SBY 19:58:21 [core_cover] engine_0: ##   0:00:06  Checking cover reachability in step 9..
+SBY 19:58:22 [core_cover] engine_0: ##   0:00:06  Checking cover reachability in step 10..
+SBY 19:58:22 [core_cover] engine_0: ##   0:00:07  Reached cover statement in step 10 at core_formal: core_formal.sv:63.26-63.56 (_witness_.check_core_formal_sv_63_cover_3330)
+SBY 19:58:22 [core_cover] engine_0: ##   0:00:07  Writing trace to VCD file: engine_0/trace1.vcd
+SBY 20:01:21 [core_cover] engine_0: ##   0:03:05  Writing trace to Verilog testbench: engine_0/trace1_tb.v
+SBY 20:01:21 [core_cover] engine_0: ##   0:03:05  Writing trace to constraints file: engine_0/trace1.smtc
+SBY 20:01:21 [core_cover] engine_0: ##   0:03:05  Writing trace to Yosys witness file: engine_0/trace1.yw
+SBY 20:01:21 [core_cover] engine_0: ##   0:03:05  Checking cover reachability in step 10..
+SBY 20:01:21 [core_cover] engine_0: ##   0:03:05  Checking cover reachability in step 11..
+SBY 20:01:22 [core_cover] engine_0: ##   0:03:06  Checking cover reachability in step 12..
+SBY 20:01:22 [core_cover] engine_0: ##   0:03:07  Checking cover reachability in step 13..
+SBY 20:01:23 [core_cover] engine_0: ##   0:03:07  Checking cover reachability in step 14..
+SBY 20:01:25 [core_cover] engine_0: ##   0:03:09  Checking cover reachability in step 15..
+SBY 20:01:26 [core_cover] engine_0: ##   0:03:10  Checking cover reachability in step 16..
+SBY 20:01:28 [core_cover] engine_0: ##   0:03:12  Checking cover reachability in step 17..
+SBY 20:01:29 [core_cover] engine_0: ##   0:03:13  Checking cover reachability in step 18..
+SBY 20:01:30 [core_cover] engine_0: ##   0:03:15  Checking cover reachability in step 19..
+SBY 20:01:33 [core_cover] engine_0: ##   0:03:17  Checking cover reachability in step 20..
+SBY 20:01:35 [core_cover] engine_0: ##   0:03:20  Checking cover reachability in step 21..
+SBY 20:01:38 [core_cover] engine_0: ##   0:03:22  Checking cover reachability in step 22..
+SBY 20:01:40 [core_cover] engine_0: ##   0:03:24  Checking cover reachability in step 23..
+SBY 20:01:48 [core_cover] engine_0: ##   0:03:32  Reached cover statement in step 23 at core_formal: core_formal.sv:62.26-62.77 (_witness_.check_core_formal_sv_62_cover_3324)
+SBY 20:01:48 [core_cover] engine_0: ##   0:03:32  Writing trace to VCD file: engine_0/trace2.vcd
+SBY 20:40:06 [core_cover] engine_0: ##   0:41:50  Writing trace to Verilog testbench: engine_0/trace2_tb.v
+SBY 20:40:06 [core_cover] engine_0: ##   0:41:50  Writing trace to constraints file: engine_0/trace2.smtc
+SBY 20:40:06 [core_cover] engine_0: ##   0:41:50  Writing trace to Yosys witness file: engine_0/trace2.yw
+SBY 20:40:08 [core_cover] engine_0: ##   0:41:52  Status: passed
+SBY 20:40:08 [core_cover] engine_0: finished (returncode=0)
+SBY 20:40:08 [core_cover] engine_0: Status returned by engine: pass
+SBY 20:40:08 [core_cover] summary: Elapsed clock time [H:MM:SS (secs)]: 0:41:55 (2515)
+SBY 20:40:08 [core_cover] summary: Elapsed process time [H:MM:SS (secs)]: 0:21:51 (1311)
+SBY 20:40:08 [core_cover] summary: engine_0 (smtbmc bitwuzla) returned pass
+SBY 20:40:08 [core_cover] summary: cover trace: core_cover/engine_0/trace0.vcd
+SBY 20:40:08 [core_cover] summary:   reached cover statement core_formal._witness_.check_core_formal_sv_64_cover_3334 at core_formal.sv:64.26-64.56 step 4
+SBY 20:40:08 [core_cover] summary: cover trace: core_cover/engine_0/trace1.vcd
+SBY 20:40:08 [core_cover] summary:   reached cover statement core_formal._witness_.check_core_formal_sv_63_cover_3330 at core_formal.sv:63.26-63.56 step 10
+SBY 20:40:08 [core_cover] summary: cover trace: core_cover/engine_0/trace2.vcd
+SBY 20:40:08 [core_cover] summary:   reached cover statement core_formal._witness_.check_core_formal_sv_62_cover_3324 at core_formal.sv:62.26-62.77 step 23
+SBY 20:40:08 [core_cover] DONE (PASS, rc=0)

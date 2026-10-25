@@ -1,0 +1,4 @@
+{"step": "label", "result": "unsat", "equivalent": true, "seconds": 11140.46, "V": 120, "E": 502}
+{"step": "grow", "result": "unsat", "equivalent": true, "seconds": 35.1, "V": 120, "E": 502}
+{"step": "dist", "result": "unsat", "equivalent": true, "seconds": 6774.81, "V": 120, "E": 502}
+{"step": "peh", "result": "unsat", "equivalent": true, "seconds": 7.85, "V": 120, "E": 502}

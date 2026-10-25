@@ -1,0 +1,57 @@
+SBY 19:58:07 [core_prove] Removing directory '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove'.
+SBY 19:58:07 [core_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_formal.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove/src/core_formal.sv'.
+SBY 19:58:07 [core_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_uf_core.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove/src/qsx_uf_core.sv'.
+SBY 19:58:07 [core_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_min_tree.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove/src/qsx_min_tree.sv'.
+SBY 19:58:07 [core_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../build/rtl/d3_q5/qsx_graph_defs.svh' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove/src/qsx_graph_defs.svh'.
+SBY 19:58:07 [core_prove] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../build/rtl/d3_q5/qsx_graph_tables.svh' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_prove/src/qsx_graph_tables.svh'.
+SBY 19:58:07 [core_prove] engine_0: smtbmc bitwuzla
+SBY 19:58:07 [core_prove] base: starting process "cd core_prove/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 19:58:09 [core_prove] base: finished (returncode=0)
+SBY 19:58:09 [core_prove] prep: starting process "cd core_prove/model; yosys -ql design_prep.log design_prep.ys"
+SBY 19:58:09 [core_prove] prep: finished (returncode=0)
+SBY 19:58:09 [core_prove] smt2: starting process "cd core_prove/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 19:58:09 [core_prove] smt2: finished (returncode=0)
+SBY 19:58:09 [core_prove] engine_0.basecase: starting process "cd core_prove; yosys-smtbmc -s bitwuzla --presat --unroll --noprogress -t 12  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 19:58:09 [core_prove] engine_0.induction: starting process "cd core_prove; yosys-smtbmc -s bitwuzla --presat --unroll -i --noprogress -t 12  --append 0 --dump-vcd engine_0/trace_induct.vcd --dump-yw engine_0/trace_induct.yw --dump-vlogtb engine_0/trace_induct_tb.v --dump-smtc engine_0/trace_induct.smtc model/design_smt2.smt2"
+SBY 19:58:09 [core_prove] engine_0.basecase: ##   0:00:00  Solver: bitwuzla
+SBY 19:58:09 [core_prove] engine_0.induction: ##   0:00:00  Solver: bitwuzla
+SBY 19:58:09 [core_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 0..
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 0..
+SBY 19:58:10 [core_prove] engine_0.induction: ##   0:00:00  Trying induction in step 12..
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 1..
+SBY 19:58:10 [core_prove] engine_0.induction: ##   0:00:00  Trying induction in step 11..
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 1..
+SBY 19:58:10 [core_prove] engine_0.induction: ##   0:00:00  Temporal induction successful.
+SBY 19:58:10 [core_prove] engine_0.induction: ##   0:00:00  Status: passed
+SBY 19:58:10 [core_prove] engine_0.induction: finished (returncode=0)
+SBY 19:58:10 [core_prove] engine_0.induction: Status returned by engine for induction: pass
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 2..
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 2..
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 3..
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 3..
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 4..
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:00  Checking assertions in step 4..
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:00  Checking assumptions in step 5..
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:01  Checking assertions in step 5..
+SBY 19:58:10 [core_prove] engine_0.basecase: ##   0:00:01  Checking assumptions in step 6..
+SBY 19:58:11 [core_prove] engine_0.basecase: ##   0:00:01  Checking assertions in step 6..
+SBY 19:58:11 [core_prove] engine_0.basecase: ##   0:00:01  Checking assumptions in step 7..
+SBY 19:58:11 [core_prove] engine_0.basecase: ##   0:00:01  Checking assertions in step 7..
+SBY 19:58:11 [core_prove] engine_0.basecase: ##   0:00:01  Checking assumptions in step 8..
+SBY 19:58:11 [core_prove] engine_0.basecase: ##   0:00:02  Checking assertions in step 8..
+SBY 19:58:11 [core_prove] engine_0.basecase: ##   0:00:02  Checking assumptions in step 9..
+SBY 19:58:12 [core_prove] engine_0.basecase: ##   0:00:02  Checking assertions in step 9..
+SBY 19:58:12 [core_prove] engine_0.basecase: ##   0:00:02  Checking assumptions in step 10..
+SBY 19:58:12 [core_prove] engine_0.basecase: ##   0:00:02  Checking assertions in step 10..
+SBY 19:58:12 [core_prove] engine_0.basecase: ##   0:00:03  Checking assumptions in step 11..
+SBY 19:58:13 [core_prove] engine_0.basecase: ##   0:00:03  Checking assertions in step 11..
+SBY 19:58:13 [core_prove] engine_0.basecase: ##   0:00:03  Status: passed
+SBY 19:58:13 [core_prove] engine_0.basecase: finished (returncode=0)
+SBY 19:58:13 [core_prove] engine_0.basecase: Status returned by engine for basecase: pass
+SBY 19:58:13 [core_prove] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:05 (5)
+SBY 19:58:13 [core_prove] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:05 (5)
+SBY 19:58:13 [core_prove] summary: engine_0 (smtbmc bitwuzla) returned pass for basecase
+SBY 19:58:13 [core_prove] summary: engine_0 (smtbmc bitwuzla) returned pass for induction
+SBY 19:58:13 [core_prove] summary: engine_0 did not produce any traces
+SBY 19:58:13 [core_prove] summary: successful proof by k-induction.
+SBY 19:58:13 [core_prove] DONE (PASS, rc=0)

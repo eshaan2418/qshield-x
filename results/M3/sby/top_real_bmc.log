@@ -1,0 +1,107 @@
+SBY 19:58:06 [top_real_bmc] Removing directory '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_real_bmc'.
+SBY 19:58:06 [top_real_bmc] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/core_stub.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_real_bmc/src/core_stub.sv'.
+SBY 19:58:06 [top_real_bmc] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_formal.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_real_bmc/src/top_formal.sv'.
+SBY 19:58:06 [top_real_bmc] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_uf_core.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_real_bmc/src/qsx_uf_core.sv'.
+SBY 19:58:06 [top_real_bmc] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_min_tree.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_real_bmc/src/qsx_min_tree.sv'.
+SBY 19:58:06 [top_real_bmc] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_ingress.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_real_bmc/src/qsx_ingress.sv'.
+SBY 19:58:06 [top_real_bmc] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_cfg.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_real_bmc/src/qsx_cfg.sv'.
+SBY 19:58:06 [top_real_bmc] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../rtl/qsx_top.sv' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_real_bmc/src/qsx_top.sv'.
+SBY 19:58:06 [top_real_bmc] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../build/rtl/d3_q5/qsx_graph_defs.svh' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_real_bmc/src/qsx_graph_defs.svh'.
+SBY 19:58:06 [top_real_bmc] Copy '/Users/eshaan.kapooswalla/QShield-X/formal/sva/../../build/rtl/d3_q5/qsx_graph_tables.svh' to '/Users/eshaan.kapooswalla/QShield-X/formal/sva/top_real_bmc/src/qsx_graph_tables.svh'.
+SBY 19:58:06 [top_real_bmc] engine_0: smtbmc bitwuzla
+SBY 19:58:06 [top_real_bmc] base: starting process "cd top_real_bmc/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 19:58:08 [top_real_bmc] base: finished (returncode=0)
+SBY 19:58:08 [top_real_bmc] prep: starting process "cd top_real_bmc/model; yosys -ql design_prep.log design_prep.ys"
+SBY 19:58:08 [top_real_bmc] prep: finished (returncode=0)
+SBY 19:58:08 [top_real_bmc] smt2: starting process "cd top_real_bmc/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 19:58:09 [top_real_bmc] smt2: finished (returncode=0)
+SBY 19:58:09 [top_real_bmc] engine_0: starting process "cd top_real_bmc; yosys-smtbmc -s bitwuzla --presat --unroll --noprogress -t 40  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 19:58:09 [top_real_bmc] engine_0: ##   0:00:00  Solver: bitwuzla
+SBY 19:58:09 [top_real_bmc] engine_0: ##   0:00:00  Checking assumptions in step 0..
+SBY 19:58:09 [top_real_bmc] engine_0: ##   0:00:00  Checking assertions in step 0..
+SBY 19:58:09 [top_real_bmc] engine_0: ##   0:00:00  Checking assumptions in step 1..
+SBY 19:58:09 [top_real_bmc] engine_0: ##   0:00:00  Checking assertions in step 1..
+SBY 19:58:09 [top_real_bmc] engine_0: ##   0:00:00  Checking assumptions in step 2..
+SBY 19:58:09 [top_real_bmc] engine_0: ##   0:00:00  Checking assertions in step 2..
+SBY 19:58:10 [top_real_bmc] engine_0: ##   0:00:00  Checking assumptions in step 3..
+SBY 19:58:10 [top_real_bmc] engine_0: ##   0:00:00  Checking assertions in step 3..
+SBY 19:58:10 [top_real_bmc] engine_0: ##   0:00:01  Checking assumptions in step 4..
+SBY 19:58:10 [top_real_bmc] engine_0: ##   0:00:01  Checking assertions in step 4..
+SBY 19:58:10 [top_real_bmc] engine_0: ##   0:00:01  Checking assumptions in step 5..
+SBY 19:58:10 [top_real_bmc] engine_0: ##   0:00:01  Checking assertions in step 5..
+SBY 19:58:10 [top_real_bmc] engine_0: ##   0:00:01  Checking assumptions in step 6..
+SBY 19:58:10 [top_real_bmc] engine_0: ##   0:00:01  Checking assertions in step 6..
+SBY 19:58:10 [top_real_bmc] engine_0: ##   0:00:01  Checking assumptions in step 7..
+SBY 19:58:10 [top_real_bmc] engine_0: ##   0:00:01  Checking assertions in step 7..
+SBY 19:58:11 [top_real_bmc] engine_0: ##   0:00:02  Checking assumptions in step 8..
+SBY 19:58:11 [top_real_bmc] engine_0: ##   0:00:02  Checking assertions in step 8..
+SBY 19:58:11 [top_real_bmc] engine_0: ##   0:00:02  Checking assumptions in step 9..
+SBY 19:58:11 [top_real_bmc] engine_0: ##   0:00:02  Checking assertions in step 9..
+SBY 19:58:12 [top_real_bmc] engine_0: ##   0:00:03  Checking assumptions in step 10..
+SBY 19:58:12 [top_real_bmc] engine_0: ##   0:00:03  Checking assertions in step 10..
+SBY 19:58:12 [top_real_bmc] engine_0: ##   0:00:03  Checking assumptions in step 11..
+SBY 19:58:13 [top_real_bmc] engine_0: ##   0:00:03  Checking assertions in step 11..
+SBY 19:58:13 [top_real_bmc] engine_0: ##   0:00:04  Checking assumptions in step 12..
+SBY 19:58:14 [top_real_bmc] engine_0: ##   0:00:04  Checking assertions in step 12..
+SBY 19:58:15 [top_real_bmc] engine_0: ##   0:00:05  Checking assumptions in step 13..
+SBY 19:58:15 [top_real_bmc] engine_0: ##   0:00:06  Checking assertions in step 13..
+SBY 19:58:16 [top_real_bmc] engine_0: ##   0:00:06  Checking assumptions in step 14..
+SBY 19:58:16 [top_real_bmc] engine_0: ##   0:00:07  Checking assertions in step 14..
+SBY 19:58:17 [top_real_bmc] engine_0: ##   0:00:08  Checking assumptions in step 15..
+SBY 19:58:18 [top_real_bmc] engine_0: ##   0:00:08  Checking assertions in step 15..
+SBY 19:58:19 [top_real_bmc] engine_0: ##   0:00:10  Checking assumptions in step 16..
+SBY 19:58:19 [top_real_bmc] engine_0: ##   0:00:10  Checking assertions in step 16..
+SBY 19:58:22 [top_real_bmc] engine_0: ##   0:00:13  Checking assumptions in step 17..
+SBY 19:58:23 [top_real_bmc] engine_0: ##   0:00:14  Checking assertions in step 17..
+SBY 19:58:25 [top_real_bmc] engine_0: ##   0:00:15  Checking assumptions in step 18..
+SBY 19:58:26 [top_real_bmc] engine_0: ##   0:00:16  Checking assertions in step 18..
+SBY 19:58:27 [top_real_bmc] engine_0: ##   0:00:18  Checking assumptions in step 19..
+SBY 19:58:28 [top_real_bmc] engine_0: ##   0:00:19  Checking assertions in step 19..
+SBY 19:58:29 [top_real_bmc] engine_0: ##   0:00:19  Checking assumptions in step 20..
+SBY 19:58:29 [top_real_bmc] engine_0: ##   0:00:20  Checking assertions in step 20..
+SBY 19:58:31 [top_real_bmc] engine_0: ##   0:00:22  Checking assumptions in step 21..
+SBY 19:58:32 [top_real_bmc] engine_0: ##   0:00:23  Checking assertions in step 21..
+SBY 19:58:35 [top_real_bmc] engine_0: ##   0:00:26  Checking assumptions in step 22..
+SBY 19:58:36 [top_real_bmc] engine_0: ##   0:00:27  Checking assertions in step 22..
+SBY 19:58:41 [top_real_bmc] engine_0: ##   0:00:32  Checking assumptions in step 23..
+SBY 19:58:42 [top_real_bmc] engine_0: ##   0:00:33  Checking assertions in step 23..
+SBY 19:58:46 [top_real_bmc] engine_0: ##   0:00:37  Checking assumptions in step 24..
+SBY 19:58:47 [top_real_bmc] engine_0: ##   0:00:38  Checking assertions in step 24..
+SBY 19:58:49 [top_real_bmc] engine_0: ##   0:00:40  Checking assumptions in step 25..
+SBY 19:58:50 [top_real_bmc] engine_0: ##   0:00:41  Checking assertions in step 25..
+SBY 19:58:54 [top_real_bmc] engine_0: ##   0:00:44  Checking assumptions in step 26..
+SBY 19:58:55 [top_real_bmc] engine_0: ##   0:00:46  Checking assertions in step 26..
+SBY 19:58:59 [top_real_bmc] engine_0: ##   0:00:50  Checking assumptions in step 27..
+SBY 19:59:00 [top_real_bmc] engine_0: ##   0:00:51  Checking assertions in step 27..
+SBY 19:59:07 [top_real_bmc] engine_0: ##   0:00:58  Checking assumptions in step 28..
+SBY 19:59:09 [top_real_bmc] engine_0: ##   0:01:00  Checking assertions in step 28..
+SBY 19:59:13 [top_real_bmc] engine_0: ##   0:01:04  Checking assumptions in step 29..
+SBY 19:59:15 [top_real_bmc] engine_0: ##   0:01:06  Checking assertions in step 29..
+SBY 19:59:20 [top_real_bmc] engine_0: ##   0:01:11  Checking assumptions in step 30..
+SBY 19:59:23 [top_real_bmc] engine_0: ##   0:01:14  Checking assertions in step 30..
+SBY 19:59:31 [top_real_bmc] engine_0: ##   0:01:22  Checking assumptions in step 31..
+SBY 19:59:34 [top_real_bmc] engine_0: ##   0:01:25  Checking assertions in step 31..
+SBY 19:59:38 [top_real_bmc] engine_0: ##   0:01:29  Checking assumptions in step 32..
+SBY 19:59:40 [top_real_bmc] engine_0: ##   0:01:31  Checking assertions in step 32..
+SBY 19:59:44 [top_real_bmc] engine_0: ##   0:01:35  Checking assumptions in step 33..
+SBY 19:59:47 [top_real_bmc] engine_0: ##   0:01:38  Checking assertions in step 33..
+SBY 19:59:52 [top_real_bmc] engine_0: ##   0:01:43  Checking assumptions in step 34..
+SBY 19:59:55 [top_real_bmc] engine_0: ##   0:01:45  Checking assertions in step 34..
+SBY 20:00:08 [top_real_bmc] engine_0: ##   0:01:59  Checking assumptions in step 35..
+SBY 20:00:12 [top_real_bmc] engine_0: ##   0:02:03  Checking assertions in step 35..
+SBY 20:00:18 [top_real_bmc] engine_0: ##   0:02:09  Checking assumptions in step 36..
+SBY 20:00:22 [top_real_bmc] engine_0: ##   0:02:13  Checking assertions in step 36..
+SBY 20:00:26 [top_real_bmc] engine_0: ##   0:02:17  Checking assumptions in step 37..
+SBY 20:00:30 [top_real_bmc] engine_0: ##   0:02:21  Checking assertions in step 37..
+SBY 20:00:35 [top_real_bmc] engine_0: ##   0:02:26  Checking assumptions in step 38..
+SBY 20:00:39 [top_real_bmc] engine_0: ##   0:02:30  Checking assertions in step 38..
+SBY 20:00:48 [top_real_bmc] engine_0: ##   0:02:39  Checking assumptions in step 39..
+SBY 20:00:55 [top_real_bmc] engine_0: ##   0:02:45  Checking assertions in step 39..
+SBY 20:01:06 [top_real_bmc] engine_0: ##   0:02:57  Status: passed
+SBY 20:01:06 [top_real_bmc] engine_0: finished (returncode=0)
+SBY 20:01:06 [top_real_bmc] engine_0: Status returned by engine: pass
+SBY 20:01:06 [top_real_bmc] summary: Elapsed clock time [H:MM:SS (secs)]: 0:03:00 (180)
+SBY 20:01:06 [top_real_bmc] summary: Elapsed process time [H:MM:SS (secs)]: 0:01:45 (105)
+SBY 20:01:06 [top_real_bmc] summary: engine_0 (smtbmc bitwuzla) returned pass
+SBY 20:01:06 [top_real_bmc] summary: engine_0 did not produce any traces
+SBY 20:01:06 [top_real_bmc] DONE (PASS, rc=0)
