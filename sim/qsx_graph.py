@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import math
+import os
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -66,6 +67,7 @@ class Graph:
         return len(self.eu)
 
     def write(self, path: str) -> None:
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
         with open(path, "w") as f:
             f.write("qsxg 1\n")
             f.write(f"V {self.V} E {self.E} O {self.O}\n")
