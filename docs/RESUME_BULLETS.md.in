@@ -21,7 +21,7 @@ Each number is rendered from `results/` and carries its evidence stage; the sour
 - **Found and fixed a V8 code-generation inefficiency.** While profiling the decoder's Wasm SIMD build, found that
   arm64 lowered `br_if(v128.any_true)` with a redundant compare/set. Wrote an in-tree Turboshaft
   instruction-selector patch (5 → 3 instructions), 3 unittests and an mjsunit test that catches a mutated
-  lowering. {{M5_tests_ran}} V8 tests pass; zero-block scan time is {{M5_micro_ratio_0}}× the baseline
+  lowering. {{M5_tests_ran}} V8 tests pass; a zero-block scan runs at {{M5_micro_ratio_0}}× the baseline
   [{{M5_micro_ratio_0:stage}}] (`results/M5/`).
 - **Built the research infrastructure around it.** Native vs Wasm-scalar vs Wasm-SIMD builds, bit-exact across
   Node, d8 and Chrome. A browser dashboard decodes live and verifies Ed25519-signed results with WebCrypto.

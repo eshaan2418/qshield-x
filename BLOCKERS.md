@@ -9,3 +9,4 @@
 | B5 | 2026-10-24 | `wasm/harness.js` d8 path never executed (IIFE shadowed d8's global `arguments`; no TextEncoder in d8). | Fixed; d8 numbers only from after the fix. | M4 smoke results before the fix contain no d8 rows. |
 | B6 | 2026-10-24 | Machine shared with an unrelated workload (docker); load average up to ~60 during campaigns. | Timing experiments run last, with load average recorded; A/B runs interleaved base/patched. | Absolute latencies may be pessimistic; A/B ratios are paired. |
 | B7 | 2026-10-24 | Headless Chrome `performance.now()` resolution 5 µs (COOP/COEP isolated). | Chrome reported by steady-state throughput only. | No per-shot Chrome latency percentiles. |
+| B8 | 2026-10-25 | `--liftoff --no-wasm-tier-up` no longer prevents tier-up in V8 15.8 (dynamic tiering), so the first M4 "liftoff-only" rows were TurboFan. | Switched to `--liftoff-only` (d8 and Chrome `--js-flags`) and re-ran M4. | Only the re-run is reported. |

@@ -103,11 +103,15 @@ change from \texttt{umaxp; fmov; cmp; cset; cbnz} to \texttt{umaxp; fmov; cbz/cb
 tests pass on the patched build (\claim{M5_tests_failed} failures), covering the arm64 instruction-selector and
 scheduler unittests, the Wasm SIMD execution unittests, and \texttt{mjsunit/wasm}. The new mjsunit test passes on
 both builds and fails on a deliberately broken lowering that moves only the low 32 bits of the reduction. In
-interleaved A/B runs of the two d8 binaries, the zero-block scan takes \claim{M5_micro_ratio_0}$\times$ the
-unpatched time on all-zero data, and the decoder's SIMD unpack kernel at $d=9$, $p=0.001$ takes
-\claim{M5_unpack_ratio_d9}$\times$ (medians; bootstrap intervals in \texttt{results/M5/anytrue\_fusion.json})
-\stage{d8 measurement}. Full decode time at the same point changes by a factor of \claim{M5_steady_ratio_d9}, because
-union-find dominates it, so the patch matters for sparse-scan kernels rather than for the decoder as a whole.
+interleaved A/B runs of the two d8 binaries (medians, bootstrap 95\% CIs) \stage{d8 measurement}, the zero-block scan
+takes \claim{M5_micro_ratio_0}$\times$ the unpatched time on all-zero data (CI \claim{M5_micro_ci_lo_0}--\claim{M5_micro_ci_hi_0})
+and \claim{M5_micro_ratio_5}$\times$ when a small share of blocks is non-zero. The gain disappears once the branch
+is mostly taken (\claim{M5_micro_ratio_25}$\times$, CI \claim{M5_micro_ci_lo_25}--\claim{M5_micro_ci_hi_25}). In the
+decoder itself the effect is not measurable: the SIMD unpack kernel at $d=9$, $p=0.001$ runs at
+\claim{M5_unpack_ratio_d9}$\times$ (CI \claim{M5_unpack_ci_lo_d9}--\claim{M5_unpack_ci_hi_d9}), and full decode
+time at \claim{M5_steady_ratio_d9}$\times$. Its 16-byte blocks are seldom all zero at these sizes, and union-find
+dominates the decode. The patch is a verified code-generation improvement for sparse-scan kernels, not a decoder
+speed-up.
 
 \begin{figure}[t]\centering
 \includegraphics[width=0.52\linewidth]{M4/figs/runtime.pdf}\hfill

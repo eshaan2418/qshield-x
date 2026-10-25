@@ -58,9 +58,10 @@ circuit-level depolarizing noise, d = 3–9)
   `results/M3/formal_summary.json`.
 * The verified shell costs {{M3_shell_lut_pct_d5}} % of LUT4 at d = 5 [{{M3_shell_lut_pct_d5:stage}}] and
   {{M3_shell_cycles_d5}} cycles per frame [{{M3_shell_cycles_d5:stage}}].
-* V8 patch: the decoder's SIMD unpack kernel at d = 9, p = 0.001 runs at {{M5_unpack_ratio_d9}}× the
-  unpatched time, and the zero-block scan microbenchmark at {{M5_micro_ratio_0}}× [{{M5_micro_ratio_0:stage}}].
-  {{M5_tests_ran}} V8 tests pass. The new test fails on a mutated lowering.
+* V8 patch: every `v128.any_true` branch drops from 5 to 3 instructions. A zero-block scan microbenchmark runs at
+  {{M5_micro_ratio_0}}× the unpatched time [{{M5_micro_ratio_0:stage}}]. In the decoder itself the effect is within
+  noise (unpack kernel {{M5_unpack_ratio_d9}}×, 95% CI {{M5_unpack_ci_lo_d9}}–{{M5_unpack_ci_hi_d9}}).
+  {{M5_tests_ran}} V8 tests pass, and the new test fails on a mutated lowering.
 * Wasm SIMD128 vs native NEON at d = 5: {{M4_wasm_simd_over_native_d5}}× steady-state time [{{M4_wasm_simd_over_native_d5:stage}}].
 * End-to-end demo: {{E2E_hw}} rounds committed from hardware and {{E2E_sw}} from the software fallback, including
   {{E2E_lost}} injected lost responses. The Wasm replay reproduces the signed predictions: {{E2E_replay}}.
