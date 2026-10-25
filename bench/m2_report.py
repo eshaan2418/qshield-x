@@ -1,7 +1,7 @@
 """M2 report: resources vs bounded latency (Pareto), hardware vs CPU p99 latency.
 
 Inputs (all must exist):
-  results/M2/fpga/fpga_base.json   synth (Yosys) cells + pnr (nextpnr-ecp5) Fmax/utilisation per config
+  results/M2/fpga/fpga_*.json      synth (Yosys) cells + pnr (nextpnr-ecp5) Fmax/utilisation per config
   results/M2/hw_cycles.json        cycle distributions (cycle-exact HwModel, co-sim verified)
   results/M2/shell_latency.json    end-to-end shell overhead cycles (Verilator qsx_top)
   results/M2/toggle_proxy.json     switching-activity estimate
@@ -35,7 +35,7 @@ def main() -> None:
     import matplotlib.pyplot as plt
 
     plotstyle.apply()
-    fpga = J("M2/fpga/fpga_base.json")
+    fpga = [r for f in sorted((R / "M2/fpga").glob("fpga_*.json")) for r in json.loads(f.read_text())["data"]]
     cyc = J("M2/hw_cycles.json")
     shell = {r["d"]: r for r in J("M2/shell_latency.json")}
     cpu = J("M1/latency.json")
@@ -158,7 +158,7 @@ def main() -> None:
     plotstyle.save(fig, figs / "lanes.png")
 
     write_result(R / "M2/report.json", {"configs": rows, "hw_vs_cpu": comp},
-                 {"p_ref": P_REF, "sources": ["results/M2/fpga/fpga_base.json", "results/M2/hw_cycles.json",
+                 {"p_ref": P_REF, "sources": ["results/M2/fpga/fpga_*.json", "results/M2/hw_cycles.json",
                                               "results/M2/shell_latency.json", "results/M1/latency.json"]}, None)
     for e in comp:
         print(json.dumps(e))

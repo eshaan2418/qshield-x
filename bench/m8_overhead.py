@@ -71,7 +71,8 @@ def main() -> None:
     for r in out["aes_gcm"]:
         print(f"AES-GCM {r['mb']:3d} MB: enc {r['encrypt_mb_per_s']:7.0f} MB/s dec {r['decrypt_mb_per_s']:7.0f} MB/s")
     print(out["control_api"])
-    write_result(ROOT / "results/M8/overhead.json", out, {"reps": 5}, None,
+    dst = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "results/M8/overhead.json"
+    write_result(dst, out, {"reps": 5}, None,
                  extra_tools={"cryptography": __import__("cryptography").__version__,
                               "openssl": __import__("ssl").OPENSSL_VERSION})
 

@@ -94,8 +94,18 @@ def render() -> dict:
     lines.append("\\makeatother")
     (ROOT / "paper").mkdir(exist_ok=True)
     (ROOT / "paper" / "numbers.tex").write_text("\n".join(lines) + "\n")
+    try:
+        from bench import claims_ext as _ext
+    except ImportError:
+        return out
+    out["paper tables"] = _ext.tables()
     return out
 
 
 if __name__ == "__main__":
-    print(json.dumps(render(), indent=1))
+    import sys
+
+    sys.path.insert(0, str(ROOT))
+    from bench import claims as _claims  # the package module is the one claims_ext registers into
+
+    print(json.dumps(_claims.render(), indent=1))

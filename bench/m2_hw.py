@@ -63,7 +63,8 @@ def cycles_grid(a) -> list[dict]:
                 _, status, cyc = dec.decode_batch_hw(dets, lanes=L, pipe=P)
                 return L, P, status, cyc
 
-            lps = [(L, P) for L in map(int, a.lanes.split(",")) for P in (0, 1)]
+            lanes = [dec.V if x == "V" else int(x) for x in a.lanes.split(",")]  # "V": one lane per vertex
+            lps = [(L, P) for L in lanes for P in (0, 1)]
             with ThreadPoolExecutor(a.jobs) as ex:
                 for L, P, status, cyc in ex.map(one, lps):
                     rows.append({"d": d, "p": p, "lanes": L, "pipe": P, "shots": int(len(cyc)),
@@ -136,7 +137,7 @@ def main() -> None:
     ap.add_argument("--what", default="cycles,shell,toggle")
     ap.add_argument("--distances", default="3,5,7,9")
     ap.add_argument("--ps", default="0.001,0.003,0.006")
-    ap.add_argument("--lanes", default="1,4,8,16,32")
+    ap.add_argument("--lanes", default="1,4,8,16,32,V")
     ap.add_argument("--shots", type=int, default=100_000)
     ap.add_argument("--shell-distances", default="3,5,7")
     ap.add_argument("--shell-p", type=float, default=0.003)
