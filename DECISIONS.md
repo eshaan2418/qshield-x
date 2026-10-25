@@ -112,3 +112,9 @@ by round 20. Sigma = 2.0 is still at the base rate at round 10 and reaches the s
 predictions are frozen while the parameters keep changing. Every per-example gradient is clipped (median norm ~5.5
 vs clip 1). So noise slows convergence to a common fixed point and prevents escaping it within 4000 steps, which
 clip-only training does.
+
+## 2026-10-25 D11 — FPGA matrix time cap
+The d = 9 synthesis-only configurations (and any other unfinished configuration) are capped at 03:30 local time on
+2026-10-25 and reported as "not finished". Rationale: d = 9 cannot place on the device. The area trend is already
+established by d = 3/5/7, which take ~7.6k / ~63k / ~240k LUT4 after synthesis. The cap would otherwise delay the
+remaining work by up to ~8 hours. Impact: no d = 9 LUT count in the report; the claims and tables say so explicitly.
