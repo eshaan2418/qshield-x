@@ -94,4 +94,56 @@ header and syndrome beats, the dispatcher's load and the output header. Formal-o
 TODO-wasm
 
 \subsection{Extensions}\label{sec:ext}
-TODO-ext
+\paragraph{Learned decoding.} A small message-passing GNN over the decoding graph, trained on Stim data at
+several $p$, reaches P\textsubscript{L} $=\claim{M6_pl_d5_GNN}$ at $d=5$, $p=0.003$, against \claim{M6_pl_d5_UF}
+for QSX-UF and \claim{M6_pl_d5_PM} for PyMatching, i.e.\ \claim{M6_gnn_ratio_d5}$\times$ PyMatching. At $d=3$ the
+ratio is \claim{M6_gnn_ratio_d3}. Its single-thread CPU inference takes \claim{M6_gnn_b1_p50_us_d5}\,\textmu s at
+batch 1 and \claim{M6_gnn_batched_us_d5}\,\textmu s per shot batched \stage{CPU}. That is far slower than either
+classical decoder. It is a baseline, not a competitor to large learned decoders \cite{bausch2024alphaqubit}.
+
+\paragraph{Adaptive policy under noise shifts.} An online policy estimates $(p,\,m)$ from two window statistics
+(the detection-event density and the fraction of adjacent defect pairs joined by time-like edges). It then
+reconfigures the accelerator's threshold table through the verified atomic session (P5/P6), or routes windows to
+PyMatching (``hybrid''). We compare it with fixed decoders and with oracles that know the true noise
+(Fig.~\ref{fig:adapt}). After a step change in $p$, the hybrid policy matches the PyMatching oracle
+(\claim{M6_step_adaptivehybrid} vs.\ \claim{M6_step_oraclePM}) within \claim{M6_recovery_shots} shots. Re-weighting
+QSX-UF alone did \emph{not} help: adaptive and oracle UF are at \claim{M6_step_adaptiveUF} and
+\claim{M6_step_oracleUF}, against \claim{M6_step_fixedUF} for fixed weights. The median-normalised 3-bit thresholds are
+nearly invariant under a uniform change of $p$. The policy costs at most \claim{M6_policy_ns}\,ns per shot
+\stage{CPU}; its statistics are counters that the shell could compute in hardware.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.49\linewidth]{M6/figs/adaptive.pdf}\hfill
+\includegraphics[width=0.49\linewidth]{M7/figs/privacy_utility.pdf}
+\caption{Left: P\textsubscript{L} per strategy and noise-shift scenario ($d=5$, 95\% CIs). Right: federated
+DP-SGD, $\varepsilon$ vs.\ P\textsubscript{L} per site, with non-DP FedAvg and PyMatching for reference.}
+\label{fig:adapt}
+\end{figure}
+
+\paragraph{Federated training with differential privacy.} Three simulated sites have different noise
+(Table~\ref{tab:m7}). FedAvg with pairwise-mask secure aggregation approaches centralized training. The first DP-SGD
+configuration (lot 512) gave P\textsubscript{L} that did not depend on $\sigma$. Ablations traced this to a plateau
+that DP-limited training converges to, rather than to clipping (DECISIONS D9/D10, \texttt{results/M7/dp\_debug.json}).
+With large lots (8192), privacy from $\varepsilon=\claim{M7_max_eps}$ down to $\varepsilon=\claim{M7_knee_eps}$
+($\delta=10^{-5}$, RDP accountant) costs nothing beyond that plateau. At $\varepsilon=\claim{M7_below_knee_eps}$
+P\textsubscript{L} rises at least \claim{M7_below_knee_factor}$\times$ at every site. Tripling the step budget lets
+the noisiest run reach the plateau, but only at a higher $\varepsilon$. This is a single-process simulation; the
+masks assume honest-but-curious parties and no dropouts.
+\input{gen_m7.tex}
+
+\paragraph{Secure experiment infrastructure.} Syndrome traces and result manifests are Ed25519-signed, results are
+stored with AES-256-GCM, and runs are started and stopped through an mTLS control API, all with the
+\texttt{cryptography} library and Python's \texttt{ssl}. \claim{M8_tests} tests pass (\claim{M8_tests_failed}
+failures), including the negative cases: a tampered trace, a manifest with a wrong key, an unsigned or replayed
+command, and a missing or untrusted client certificate are all rejected. Verification runs at
+\claim{M8_verify_mbps}\,MB/s and encryption at \claim{M8_aes_enc_mbps}\,MB/s. A fresh mTLS connection costs
+\claim{M8_mtls_p50_ms}\,ms (p50), against \claim{M8_plain_p50_ms}\,ms for plain HTTP \stage{CPU}.
+
+\paragraph{End to end.} The integration demo (\texttt{bench/e2e\_demo.py}) samples \claim{E2E_shots} Stim shots and
+streams them through the RTL accelerator in Verilator. The accelerator is configured by an atomic session with a
+small growth-round limit, and \claim{E2E_mm} frames mismatch the model. The host implements
+\texttt{QSXProtocol.tla} and asserts its safety invariants at run time. \claim{E2E_hw} rounds were committed from
+hardware and \claim{E2E_sw} from the software fallback, covering \claim{E2E_timeouts} hardware timeouts and
+\claim{E2E_lost} injected lost responses. The committed predictions are signed and stored encrypted. A browser view
+(M9, \texttt{viz/}) verifies the signature with WebCrypto and replays the trace through the Wasm decoder,
+reproducing the committed predictions (\claim{E2E_replay}).
