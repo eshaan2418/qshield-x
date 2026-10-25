@@ -23,11 +23,11 @@ Environment assumptions (all harnesses): reset asserted in cycle 0; AXI-Stream /
 | P5 | Atomic reconfiguration: `cfg_ok`/`cfg_open` equal a reference model (COMMIT valid only if every threshold word was written in the session) | `top_formal.sv` | prove / bmc |
 | P6 | The core starts only with `cfg_ok && !cfg_open`, no configuration write is accepted while the core is busy or starting, and thresholds are constant during a decode (asserted inside the abstract core) | `qsx_top.sv`, `core_stub.sv` | prove |
 | I1 | Ingress: never writes a beat while all slots are full (no silent overwrite); occupancy = pointer distance; framing counters bounded | `qsx_ingress.sv` | prove (W=2,NBUF=4 and W=4,NBUF=2) |
-| C1 | Core: status ≠ OK ⇒ correction = 0 and obs = 0 | `core_formal.sv` | prove (d=3) |
-| C2 | Core: with watchdog enabled, work cycles ≤ `cycle_budget` (bounded latency by construction) | `core_formal.sv` | prove (d=3) |
-| C3 | Core: status codes ∈ {0..3} | `core_formal.sv` | prove (d=3) |
-| C4 | Core: busy span ≤ budget + 1 | `core_formal.sv` | prove (d=3) |
-| C5 | Core: `done` is a one-cycle pulse followed by idle | `core_formal.sv` | prove (d=3) |
+| C1 | Core: status ≠ OK ⇒ correction = 0 and obs = 0 | `core_formal.sv` | prove (d=3, 5, 7) |
+| C2 | Core: with watchdog enabled, work cycles ≤ `cycle_budget` (bounded latency by construction) | `core_formal.sv` | prove (d=3, 5, 7) |
+| C3 | Core: status codes ∈ {0..3} | `core_formal.sv` | prove (d=3, 5, 7) |
+| C4 | Core: busy span ≤ budget + 1 | `core_formal.sv` | prove (d=3, 5, 7) |
+| C5 | Core: `done` is a one-cycle pulse followed by idle | `core_formal.sv` | prove (d=3, 5, 7) |
 
 **Abstraction argument.** `stub_prove` replaces `qsx_uf_core` by `core_stub.sv`, which allows *any*
 latency, status and correction, constrained only by the core's interface guarantees (busy/done protocol,
@@ -35,8 +35,10 @@ outputs stable while idle, status ≠ OK ⇒ zero correction). Those guarantees 
 core (C1, C5) for d=3. The shell properties therefore hold for every core behaviour, and the real-core BMC
 (`real_bmc`) checks the composition directly to the stated depth.
 
-**Scope / bounds.** The real-core proofs use the d=3 graph (V=24, E=78, LANES=8). The d=5/d=7 cores are
-covered by co-simulation (M2) and by the Z3 step-equivalence check (below), not by k-induction.
+**Scope / bounds.** The real-core k-induction proofs (C1–C5) run on the d=3, d=5 and d=7 graphs with LANES=8
+(`core.sby` tasks `prove`, `prove_d5`, `prove_d7`). These properties concern control and masking, so they stay
+tractable as the datapath grows: the d=7 proof takes minutes, mostly elaboration. Functional equivalence of the larger
+cores is covered by co-simulation (M2) and by the Z3 one-step check (below), not by k-induction.
 C2/C4 are scoped to `cycle_budget ≠ 0`. With the watchdog disabled the 20-bit `cycles` counter could only
 wrap after 2^20 work cycles. The analytical worst case is (max_rounds+1)·(V+1+2·⌈V/LANES⌉+2) + 2V + 4, which
 for max_rounds = 255 is below 2^17 for d ≤ 7.
