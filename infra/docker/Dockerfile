@@ -12,7 +12,9 @@ RUN curl -sL -o oss.tgz https://github.com/YosysHQ/oss-cad-suite-build/releases/
  && tar xzf oss.tgz && rm oss.tgz
 RUN git clone --depth 1 https://github.com/emscripten-core/emsdk.git && cd emsdk \
  && ./emsdk install ${EMSDK_VERSION} && ./emsdk activate ${EMSDK_VERSION}
-RUN curl -sL -o /opt/tla2tools.jar https://github.com/tlaplus/tlaplus/releases/download/v1.8.0/tla2tools.jar
+# v1.7.4 = TLC 2.19, byte-identical to the host .tools/tla2tools.jar (v1.8.0 is a rolling pre-release)
+RUN curl -sL -o /opt/tla2tools.jar https://github.com/tlaplus/tlaplus/releases/download/v1.7.4/tla2tools.jar && \
+    echo "936a262061c914694dfd669a543be24573c45d5aa0ff20a8b96b23d01e050e88  /opt/tla2tools.jar" | sha256sum -c -
 ARG TECTONIC_VERSION=0.17.0
 RUN curl -sL https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%40${TECTONIC_VERSION}/tectonic-${TECTONIC_VERSION}-x86_64-unknown-linux-musl.tar.gz \
  | tar -xz -C /usr/local/bin tectonic
