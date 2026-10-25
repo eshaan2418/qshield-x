@@ -67,8 +67,10 @@ def cycles_grid(a) -> list[dict]:
             lps = [(L, P) for L in lanes for P in (0, 1)]
             with ThreadPoolExecutor(a.jobs) as ex:
                 for L, P, status, cyc in ex.map(one, lps):
+                    vals, cnts = np.unique(cyc, return_counts=True)
                     rows.append({"d": d, "p": p, "lanes": L, "pipe": P, "shots": int(len(cyc)),
                                  "non_ok": int((status != 0).sum()), "cycles": pct(cyc.astype(np.float64)),
+                                 "hist": [[int(v), int(c)] for v, c in zip(vals, cnts)],
                                  "stage": "sim (cycle-exact HwModel, co-sim verified)"})
                     print(f"cycles d={d} p={p} L={L} P={P} p50={rows[-1]['cycles']['p50']:.0f} "
                           f"p99={rows[-1]['cycles']['p99']:.0f}", flush=True)

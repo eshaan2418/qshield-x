@@ -25,6 +25,7 @@ from bench.provenance import write_result  # noqa: E402
 
 R = ROOT / "results"
 P_REF = 0.003
+T_ROUND_NS = 1000.0  # assumed syndrome-round time (typical superconducting cycle); a parameter, not a measurement
 
 
 def J(p):
@@ -41,11 +42,15 @@ def main() -> None:
     cpu = J("M1/latency.json")
     tog = {(r["d"], r["p"]): r for r in J("M2/toggle_proxy.json")}
 
-    def cycles(d, L, P, p=P_REF):
+    def cycrow(d, L, P, p=P_REF):
         for r in cyc:
             if r["d"] == d and r["lanes"] == L and r["pipe"] == P and abs(r["p"] - p) < 1e-9:
-                return r["cycles"]
+                return r
         return None
+
+    def cycles(d, L, P, p=P_REF):
+        r = cycrow(d, L, P, p)
+        return r["cycles"] if r else None
 
     def cpu_lat(d, dec, p=P_REF):
         for r in cpu:
@@ -81,6 +86,18 @@ def main() -> None:
                                      "p50": (c["p50"] + ov) * 1e3 / fm, "p99": (c["p99"] + ov) * 1e3 / fm,
                                      "max": (c["max"] + ov) * 1e3 / fm}
                 row["throughput_decodes_per_s"] = {"stage": "sim cycles / pnr Fmax", "value": fm * 1e6 / c["mean"]}
+                # Guaranteed deadline via the verified watchdog (property C2): budget B such that shell + B cycles
+                # fit in the d-round block time; frames needing more than B cycles return WATCHDOG -> software.
+                hist = cycrow(d, L, P).get("hist")
+                dl_ns = d * T_ROUND_NS
+                budget = int(dl_ns * fm / 1e3) - int(round(ov))
+                if hist and budget > 0:
+                    n = sum(cn for _, cn in hist)
+                    within = sum(cn for v, cn in hist if v <= budget) / n
+                    row["deadline"] = {"stage": "sim cycles / pnr Fmax; bound by proof C2 (watchdog)",
+                                       "deadline_ns": dl_ns, "t_round_ns_assumed": T_ROUND_NS,
+                                       "watchdog_budget_cycles": budget, "hw_fraction_within": within,
+                                       "fallback_fraction": 1 - within}
         t = tog.get((d, P_REF))
         if t and L == 8 and P == 0:
             row["toggles_per_decode"] = {"stage": t["stage"], "value": t["toggles_per_decode"]}
@@ -93,11 +110,14 @@ def main() -> None:
             continue
         b = min(best, key=lambda r: r["latency_ns"]["p99"])
         e = {"d": d, "p": P_REF, "hw_best_tag": b["tag"], "hw_p99_ns": b["latency_ns"]["p99"],
-             "hw_stage": b["latency_ns"]["stage"]}
+             "hw_max_ns": b["latency_ns"]["max"], "hw_stage": b["latency_ns"]["stage"],
+             "hw_deadline": b.get("deadline")}
         for dec, k in (("pymatching", "cpu_pm"), ("qsxuf-q5", "cpu_uf")):
             c = cpu_lat(d, dec)
             if c:
                 e[f"{k}_p99_ns"] = c["lat_ns_p99"]
+                e[f"{k}_p999_ns"] = c["lat_ns_p999"]
+                e[f"{k}_max_ns"] = c["lat_ns_max"]
                 e[f"{k}_stage"] = "CPU measurement (1 thread)"
         if "cpu_pm_p99_ns" in e:
             e["speedup_vs_pm_p99"] = e["cpu_pm_p99_ns"] / e["hw_p99_ns"]
