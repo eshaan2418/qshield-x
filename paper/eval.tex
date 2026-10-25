@@ -136,9 +136,10 @@ reconfigures the accelerator's threshold table through the verified atomic sessi
 PyMatching (``hybrid''). We compare it with fixed decoders and with oracles that know the true noise
 (Fig.~\ref{fig:adapt}). After a step change in $p$, the hybrid policy matches the PyMatching oracle
 (\claim{M6_step_adaptivehybrid} vs.\ \claim{M6_step_oraclePM}) within \claim{M6_recovery_shots} shots. Re-weighting
-QSX-UF alone did \emph{not} help: adaptive and oracle UF are at \claim{M6_step_adaptiveUF} and
+QSX-UF alone did \emph{not} help when $p$ shifts: adaptive and oracle UF are at \claim{M6_step_adaptiveUF} and
 \claim{M6_step_oracleUF}, against \claim{M6_step_fixedUF} for fixed weights. The median-normalised 3-bit thresholds are
-nearly invariant under a uniform change of $p$. The policy costs at most \claim{M6_policy_ns}\,ns per shot
+nearly invariant under a uniform change of $p$. Re-weighting helped modestly when the \emph{relative} error rates
+change, as in the readout-error shift (\claim{M6_readout_adaptiveUF} vs.\ \claim{M6_readout_fixedUF}). The policy costs at most \claim{M6_policy_ns}\,ns per shot
 \stage{CPU}; its statistics are counters that the shell could compute in hardware.
 
 \begin{figure}[t]\centering

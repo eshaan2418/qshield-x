@@ -51,8 +51,9 @@ latency / resource trade-off than a fixed software-only decoder?*
 * **Federated study.** At d = 3, DP-limited training reaches a plateau that does not depend on σ within the
   tested budget (DECISIONS D10). The privacy–utility curve therefore says more about the step budget than about
   the noise.
-* **Adaptive policy.** Re-weighting QSX-UF from online statistics did not beat fixed weights. The hybrid policy
-  helped only by routing to PyMatching.
+* **Adaptive policy.** Re-weighting QSX-UF from online statistics did not beat fixed weights under shifts in p,
+  and helped only modestly under a readout-error shift. Most of the hybrid policy's gain comes from routing to
+  PyMatching.
 
 ## Evidence stage of every hardware number
 
