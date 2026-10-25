@@ -3,9 +3,12 @@ SHELL := /bin/bash
 ROOT  := $(abspath .)
 ENV   := source $(ROOT)/env.sh &&
 PY    := $(ROOT)/.venv/bin/python
-CXX   ?= clang++
+ifeq ($(origin CXX),default)
+CXX   := clang++
+endif
 CXXFLAGS ?= -std=c++17 -O3 -Wall -Wextra -Idecoders/include
 B     := build
+SHLIB := $(if $(filter Darwin,$(shell uname -s)),-undefined dynamic_lookup,)
 DISTANCES ?= 3 5 7 9
 
 DEC_SRC := decoders/src/decoder.cpp
@@ -39,7 +42,7 @@ $(B)/qsx_decode: $(DEC_SRC) $(DEC_HDR) decoders/src/qsx_decode_main.cpp | $(B)
 $(B)/test_decoder: $(DEC_SRC) $(DEC_HDR) decoders/tests/test_decoder.cpp | $(B)
 	$(CXX) $(CXXFLAGS) -O2 $(DEC_SRC) decoders/tests/test_decoder.cpp -o $@
 $(B)/qsxdec$(PYEXT): $(DEC_SRC) $(DEC_HDR) decoders/src/pybind.cpp | $(B)
-	$(CXX) $(CXXFLAGS) -shared -fPIC -undefined dynamic_lookup $$($(PY) -m pybind11 --includes) \
+	$(CXX) $(CXXFLAGS) -shared -fPIC $(SHLIB) $$($(PY) -m pybind11 --includes) \
 	  $(DEC_SRC) decoders/src/pybind.cpp -o $@
 
 # PyMatching v2.4.0 C++ library (reference baseline) + harness
