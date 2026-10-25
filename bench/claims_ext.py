@@ -196,6 +196,51 @@ claim("E2E_replay", lambda: "yes" if J("M10/e2e_demo.json")["wasm_replay_matches
 claim("E2E_mm", lambda: J("M10/e2e_demo.json")["rtl_testbench"]["mismatches"], "{}", "sim (Verilator RTL)", E2E)
 
 
+# ---------------------------------------------------------------- M3 summary / M5 V8 / M4 Wasm
+def _formal_ok(r) -> bool:
+    if r["tool"].startswith("TLC"):  # mutations and the pre-fix model must FAIL; the main models must pass
+        expect_fail = any(t in r["job"] for t in ("mut_", "v0_"))
+        return (not r["ok"]) if expect_fail else r["ok"]
+    if r["tool"].startswith("Z3"):
+        return r["ok"]
+    return r["status"] == "PASS"
+
+
+if _exists("M3/formal_summary.json"):
+    FS = "results/M3/formal_summary.json"
+    claim("M3_n_jobs", lambda: len(J("M3/formal_summary.json")), "{}", "formal", FS)
+    claim("M3_n_pass", lambda: sum(_formal_ok(r) for r in J("M3/formal_summary.json")), "{}", "formal", FS)
+
+V8T = "results/M5/v8_tests.json"
+claim("M5_tests_ran", lambda: sum(x["ran"] for x in J("M5/v8_tests.json")["suites"]), "{:,}",
+      "V8 test runner (run-tests.py), patched d8", V8T)
+claim("M5_tests_failed", lambda: sum(x["failed"] for x in J("M5/v8_tests.json")["suites"]), "{}",
+      "V8 test runner (run-tests.py), patched d8", V8T)
+claim("M5_sites_fused", lambda: J("M5/v8_tests.json")["codegen_qsx_simd"]["patched"]["fused_cbz_cbnz"], "{}",
+      "V8 --print-wasm-code (arm64)", V8T)
+claim("M5_sites_total", lambda: J("M5/v8_tests.json")["codegen_qsx_simd"]["base"]["any_true_sites"], "{}",
+      "V8 --print-wasm-code (arm64)", V8T)
+if _exists("M5/anytrue_fusion.json"):
+    AF = "results/M5/anytrue_fusion.json"
+    claim("M5_micro_ratio_0", lambda: _find(J("M5/anytrue_fusion.json"), workload="micro zero_block_scan",
+                                            nonzero_block_fraction=0.0)["ratio"], "{:.2f}",
+          "d8 measurement (interleaved A/B, median)", AF)
+    claim("M5_unpack_ratio_d9", lambda: _find(J("M5/anytrue_fusion.json"), workload="qsx d=9 p=0.001",
+                                              metric="unpack_simd_ns_per_shot")["ratio"], "{:.2f}",
+          "d8 measurement (interleaved A/B, median)", AF)
+if _exists("M4/runtime.json"):
+    RT = "results/M4/runtime.json"
+
+    def _rt(d, label, key="steady_ns_per_shot"):
+        row = _find(J("M4/runtime.json"), d=d)
+        return next(r for r in row["runs"] if r["label"] == label)[key]
+
+    claim("M4_wasm_simd_over_native_d5", lambda: _rt(5, "d8-simd-default") / _rt(5, "native-O3-neon"), "{:.2f}",
+          "CPU measurement (d8 vs native)", RT)
+    claim("M4_bitexact", lambda: "all" if all(r["bit_exact"] for r in J("M4/runtime.json")) else "NOT all", "{}",
+          "FNV-1a hash comparison", RT)
+
+
 # ---------------------------------------------------------------- generated paper tables
 def _tex(s) -> str:
     return str(s).replace("\\", "\\textbackslash{}").replace("_", "\\_").replace("%", "\\%").replace("&", "\\&")
@@ -331,8 +376,10 @@ def _m7_rows():
     rows.append(("centralized (pooled data)", "--", fed["centralized"], None, "M7/federated_d3.json"))
     for k, lab in (("fedavg", "FedAvg + SecAgg, non-IID"), ("fedavg-iid", "FedAvg + SecAgg, IID split")):
         rows.append((lab, "--", fed[k]["eval"], fed[k], "M7/federated_d3.json"))
-    for src, tag in (("M7/federated_d3_clip_ablation.json", "lot 512"), ("M7/federated_d3.json", "lot 512"),
-                     ("M7/federated_d3_dp_b8192.json", "lot 8192")):
+    for src, tag in (("M7/federated_d3_clip_ablation.json", "lot 512, 4000 steps"),
+                     ("M7/federated_d3.json", "lot 512, 4000 steps"),
+                     ("M7/federated_d3_dp_b8192.json", "lot 8192, 300 steps"),
+                     ("M7/federated_d3_dp_b8192_long.json", "lot 8192, 900 steps")):
         if not _exists(src):
             continue
         dat = J(src)
