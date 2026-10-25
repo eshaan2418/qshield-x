@@ -21,6 +21,8 @@
 | PyMatching C++ | v2.4.0 (libpymatching, built from source) | `.tools/src/pymatching` |
 | Google Chrome | 155.0.8059.85 | /Applications |
 | Docker | 29.7.2 (daemon up) | system |
+| tectonic (paper build) | 0.17.0 | Homebrew |
+| d8 (V8 15.8, built from source) | rev in build/v8_rev.txt | v8/src/v8/out/rel |
 
 Not available: Vivado, Quartus, any FPGA board, vendor power estimators, cmake (installed via pip into .venv).
 
