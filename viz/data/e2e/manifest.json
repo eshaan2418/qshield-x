@@ -1,0 +1,40 @@
+{
+ "payload": {
+  "version": 1,
+  "meta": {
+   "experiment": "e2e_demo",
+   "seed": 1010,
+   "d": 5,
+   "shots": 1000
+  },
+  "files": [
+   {
+    "name": "trace.b8",
+    "size": 15000,
+    "sha256": "3e44c6571b8776bd37f0d38731aff069684f484c89f6954d27938b43ea10c2aa"
+   },
+   {
+    "name": "frames.bin",
+    "size": 72000,
+    "sha256": "9ea353e5fbea21a633390e124f563f059ba9fa2580e4770d02296199facbd370"
+   },
+   {
+    "name": "committed_predictions.u8",
+    "size": 1000,
+    "sha256": "20042119cf16bb1a7f3b655b268f47c17054cd20c6731b76fc93957c5ffe7ad5"
+   },
+   {
+    "name": "summary.json",
+    "size": 182,
+    "sha256": "a7ef1c4a8fd1d40eac22b88c955a0a68108b032ee92211cfbc64deeed0444647"
+   },
+   {
+    "name": "d5_q5.qsxg",
+    "size": 13294,
+    "sha256": "b47d4eda38a3bd7c8ff0307e5affc4ad332c219261486f8eb3e63522f99c2f6e"
+   }
+  ]
+ },
+ "sig": "a5eIrtPNwllqXa/rPTyT768YzzOJvFzr585iP2bYe7CRrkU1CSSmrn32/5vM874MbiGaBH3Ov1IcFDsYpmLpBA==",
+ "kid": "a7cc3034523757d4"
+}

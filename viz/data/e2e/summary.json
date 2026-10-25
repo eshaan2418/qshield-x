@@ -1,0 +1,9 @@
+{
+ "d": 5,
+ "p": 0.006,
+ "shots": 1000,
+ "errors": 21,
+ "hw_committed": 970,
+ "sw_committed": 30,
+ "pred_sha256": "20042119cf16bb1a7f3b655b268f47c17054cd20c6731b76fc93957c5ffe7ad5"
+}

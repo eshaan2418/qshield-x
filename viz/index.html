@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>QShield-X — live surface-code decoding (Wasm)</title>
+<style>
+.viz-root {
+  color-scheme: light;
+  --surface-1: #fcfcfb; --surface-2: #f3f2ef; --border: #e4e3df;
+  --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #7a7974;
+  --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-4: #eda100;
+  --node: #c9c8c2; --good: #1baf7a; --critical: #e34948;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) .viz-root {
+    color-scheme: dark;
+    --surface-1: #1a1a19; --surface-2: #232322; --border: #34342f;
+    --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
+    --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500;
+    --node: #55554f; --good: #199e70; --critical: #e66767;
+  }
+}
+:root[data-theme="dark"] .viz-root {
+  color-scheme: dark;
+  --surface-1: #1a1a19; --surface-2: #232322; --border: #34342f;
+  --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
+  --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500;
+  --node: #55554f; --good: #199e70; --critical: #e66767;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+.viz-root { background: var(--surface-1); color: var(--text-primary); min-height: 100vh;
+  font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; padding: 16px 20px 40px; }
+h1 { font-size: 18px; margin: 0 0 2px; font-weight: 600; }
+.sub { color: var(--text-secondary); margin: 0 0 14px; font-size: 13px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 8px 0 14px;
+  border-bottom: 1px solid var(--border); margin-bottom: 14px; }
+.controls label { color: var(--text-secondary); font-size: 12px; display: flex; gap: 6px; align-items: center; }
+select, button, input[type=range] { font: inherit; color: var(--text-primary); }
+select, button { background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; }
+button { cursor: pointer; } button:hover { border-color: var(--text-muted); }
+button.primary { background: var(--series-1); border-color: var(--series-1); color: #fff; }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 18px; }
+@media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+.card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.card h2 { font-size: 13px; font-weight: 600; margin: 0 0 8px; color: var(--text-primary); }
+.card .note { color: var(--text-muted); font-size: 11px; margin-top: 6px; }
+.layers { display: flex; flex-wrap: wrap; gap: 10px; }
+.layer { border: 1px solid var(--border); border-radius: 8px; padding: 4px 6px 2px; }
+.layer .t { font-size: 11px; color: var(--text-secondary); }
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tile { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+.tile .k { font-size: 11px; color: var(--text-secondary); }
+.tile .v { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 11px; color: var(--text-muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--text-secondary); margin: 4px 0 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.swl { width: 16px; height: 0; border-top: 2px solid; display: inline-block; }
+#tip { position: fixed; pointer-events: none; background: var(--surface-2); color: var(--text-primary);
+  border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font-size: 12px; display: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15); z-index: 10; font-variant-numeric: tabular-nums; }
+table { border-collapse: collapse; font-size: 12px; width: 100%; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 2px 6px; border-bottom: 1px solid var(--border); }
+th { color: var(--text-secondary); font-weight: 500; }
+.status-ok::before { content: "✓ "; color: var(--good); }
+.status-bad::before { content: "✕ "; color: var(--critical); }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; word-break: break-all; }
+svg text { fill: var(--text-secondary); font-size: 10px; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="viz-root" id="root">
+  <h1>QShield-X · live surface-code decoding</h1>
+  <p class="sub">Stim-sampled rotated surface-code memory shots decoded in your browser by the QSX-UF decoder compiled to
+    WebAssembly SIMD, the same C++ code that is bit-exact with the RTL accelerator. Hardware cycles come from the
+    cycle-exact model of the RTL core.</p>
+  <div class="controls">
+    <label>Dataset <select id="set"></select></label>
+    <button id="play" class="primary">Play</button>
+    <button id="step">Step</button>
+    <button id="nextDef">Next with defects</button>
+    <button id="nextFail">Next logical failure</button>
+    <label>Speed <input id="speed" type="range" min="1" max="200" value="20"> <span id="speedv">20</span>/frame</label>
+    <label>RTL LANES <select id="lanes"><option>1</option><option>4</option><option selected>8</option>
+      <option>16</option><option>32</option><option value="V">V (all)</option></select></label>
+    <label>PIPE <select id="pipe"><option value="0">0</option><option value="1">1</option></select></label>
+    <button id="tableBtn">Table view</button>
+    <button id="themeBtn">Theme</button>
+  </div>
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2 id="shotTitle">Shot</h2>
+        <div class="legend">
+          <span><i class="sw" style="background:var(--node)"></i>detector</span>
+          <span><i class="sw" style="background:var(--series-1)"></i>detection event (defect)</span>
+          <span><i class="swl" style="border-color:var(--series-2)"></i>correction (space-like / boundary)</span>
+          <span><i class="sw" style="border:2px solid var(--series-2);background:transparent"></i>correction (time-like, between rounds)</span>
+        </div>
+        <div class="layers" id="layers"></div>
+        <div class="note">One panel per detector time layer t. Detector coordinates come from Stim. A boundary correction is drawn as a
+          stub that points away from the lattice centre.</div>
+      </div>
+      <div class="card" id="tableCard" style="margin-top:14px" hidden>
+        <h2>Current shot, as a table</h2>
+        <div id="tableView"></div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h2>Running logical error rate, P<sub>L</sub> (95% Wilson interval)</h2>
+        <svg id="plChart" width="100%" height="190" role="img" aria-label="Running logical error rate"></svg>
+        <div class="note">P<sub>L</sub> is the fraction of shots where the decoder's predicted observable differs from Stim's true observable.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <h2>Statistics</h2>
+        <div class="tiles">
+          <div class="tile"><div class="k">Shots decoded</div><div class="v" id="tShots">0</div><div class="s" id="tSet"></div></div>
+          <div class="tile"><div class="k">Logical failures</div><div class="v" id="tFail">0</div><div class="s" id="tPl">P_L —</div></div>
+          <div class="tile"><div class="k">Wasm decode, median</div><div class="v" id="tWasm">—</div><div class="s">ns per shot, this browser</div></div>
+          <div class="tile"><div class="k">RTL core cycles (this shot)</div><div class="v" id="tCyc">—</div><div class="s" id="tCycS">cycle-exact model</div></div>
+          <div class="tile"><div class="k">RTL estimate (this shot)</div><div class="v" id="tNs">—</div><div class="s" id="tNsS">core cycles / PnR Fmax</div></div>
+          <div class="tile"><div class="k">Growth rounds</div><div class="v" id="tRounds">—</div><div class="s" id="tStatus">status</div></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h2>RTL core cycles per shot (histogram)</h2>
+        <svg id="hist" width="100%" height="150" role="img" aria-label="Histogram of RTL core cycles"></svg>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h2>Inspect signed results (end-to-end demo)</h2>
+        <p class="note" style="margin-top:0">Verifies the demo's Ed25519 manifest with WebCrypto, checks the SHA-256 of every file, then
+          replays the syndrome trace through the Wasm decoder and compares it with the committed (hardware or fallback) predictions.</p>
+        <button id="verifyBtn">Verify &amp; replay</button>
+        <div id="verifyOut" style="margin-top:8px"></div>
+      </div>
+    </div>
+  </div>
+  <div id="tip"></div>
+</div>
+<script src="../wasm/dist/qsx_simd.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
