@@ -1,0 +1,133 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "889d37654aea5ad0c70b7499254e185f3d588ed4",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-25T01:16:21+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+   "verilator": "Verilator 5.053 devel rev v5.052-567-g0041d207c (mod)"
+  },
+  "seed": 424242,
+  "config": {
+   "distances": "3,5",
+   "random": 200000,
+   "stim": 20000,
+   "chunks": 8,
+   "lanes": 8,
+   "pipe": 1,
+   "lanes_sweep": "0",
+   "sweep_random": 20000,
+   "top_random": 10000,
+   "top_stim": 10000,
+   "jobs": 8,
+   "seed": 424242,
+   "out": "results/M2/cosim_pipe1"
+  }
+ },
+ "data": {
+  "aggregate": [
+   {
+    "d": 3,
+    "kind": "core-random",
+    "syndromes": 200000,
+    "mismatches": 0,
+    "chunks": 8,
+    "ok": 200000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 92
+   },
+   {
+    "d": 3,
+    "kind": "core-stim",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 8,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 79
+   },
+   {
+    "d": 3,
+    "kind": "top-random-stress",
+    "syndromes": 10000,
+    "mismatches": 0,
+    "chunks": 2,
+    "malformed": 205,
+    "cfg_invalid": 98,
+    "reconf_frames": 2361
+   },
+   {
+    "d": 3,
+    "kind": "top-stim-stress",
+    "syndromes": 10000,
+    "mismatches": 0,
+    "chunks": 2,
+    "malformed": 0,
+    "cfg_invalid": 0,
+    "reconf_frames": 0
+   },
+   {
+    "d": 5,
+    "kind": "core-random",
+    "syndromes": 200000,
+    "mismatches": 0,
+    "chunks": 8,
+    "ok": 200000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 402
+   },
+   {
+    "d": 5,
+    "kind": "core-stim",
+    "syndromes": 20000,
+    "mismatches": 0,
+    "chunks": 8,
+    "ok": 20000,
+    "timeout": 0,
+    "watchdog": 0,
+    "parity": 0,
+    "max_cycles": 381
+   },
+   {
+    "d": 5,
+    "kind": "top-random-stress",
+    "syndromes": 10000,
+    "mismatches": 0,
+    "chunks": 2,
+    "malformed": 214,
+    "cfg_invalid": 95,
+    "reconf_frames": 2348
+   },
+   {
+    "d": 5,
+    "kind": "top-stim-stress",
+    "syndromes": 10000,
+    "mismatches": 0,
+    "chunks": 2,
+    "malformed": 0,
+    "cfg_invalid": 0,
+    "reconf_frames": 0
+   }
+  ],
+  "total_mismatches": 0
+ }
+}

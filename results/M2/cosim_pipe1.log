@@ -1,0 +1,9 @@
+{"d": 3, "kind": "core-random", "syndromes": 200000, "mismatches": 0, "chunks": 8, "ok": 200000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 92}
+{"d": 3, "kind": "core-stim", "syndromes": 20000, "mismatches": 0, "chunks": 8, "ok": 20000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 79}
+{"d": 3, "kind": "top-random-stress", "syndromes": 10000, "mismatches": 0, "chunks": 2, "malformed": 205, "cfg_invalid": 98, "reconf_frames": 2361}
+{"d": 3, "kind": "top-stim-stress", "syndromes": 10000, "mismatches": 0, "chunks": 2, "malformed": 0, "cfg_invalid": 0, "reconf_frames": 0}
+{"d": 5, "kind": "core-random", "syndromes": 200000, "mismatches": 0, "chunks": 8, "ok": 200000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 402}
+{"d": 5, "kind": "core-stim", "syndromes": 20000, "mismatches": 0, "chunks": 8, "ok": 20000, "timeout": 0, "watchdog": 0, "parity": 0, "max_cycles": 381}
+{"d": 5, "kind": "top-random-stress", "syndromes": 10000, "mismatches": 0, "chunks": 2, "malformed": 214, "cfg_invalid": 95, "reconf_frames": 2348}
+{"d": 5, "kind": "top-stim-stress", "syndromes": 10000, "mismatches": 0, "chunks": 2, "malformed": 0, "cfg_invalid": 0, "reconf_frames": 0}
+TOTAL MISMATCHES 0
