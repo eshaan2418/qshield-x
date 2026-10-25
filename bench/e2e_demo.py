@@ -65,6 +65,7 @@ def main() -> None:
     ap.add_argument("--max-rounds", type=int, default=3)
     ap.add_argument("--lose", type=float, default=0.01)
     ap.add_argument("--seed", type=int, default=1010)
+    ap.add_argument("--viz", type=int, default=1, help="copy signed artefacts to viz/data/e2e")
     ap.add_argument("--out", default=str(ROOT / "results/M10/e2e_demo.json"))
     a = ap.parse_args()
     B.mkdir(parents=True, exist_ok=True)
@@ -155,8 +156,10 @@ def main() -> None:
     summ_f.write_text(json.dumps(summary, indent=1))
     key = signing.generate_key()
     man_f = B / "manifest.json"
-    signing.sign_manifest([trace, frames_f, pred_f, summ_f], {"experiment": "e2e_demo", "seed": a.seed}, key,
-                          man_f)
+    graph_f = B / gp.name  # signed copy of the decoding graph next to the other artefacts
+    graph_f.write_bytes(gp.read_bytes())
+    signing.sign_manifest([trace, frames_f, pred_f, summ_f, graph_f], {"experiment": "e2e_demo", "seed": a.seed,
+                                                                "d": a.d, "shots": N}, key, man_f)
     trusted = {signing.key_id(key.public_key()): key.public_key()}
     signing.verify_manifest(man_f, trusted)
     k = EncryptedStore.new_key()
@@ -178,6 +181,19 @@ def main() -> None:
            "wasm_replay_matches_committed": rep["pred_sha256"] == pred_sha,
            "stage": "sim (Verilator RTL + host protocol model)"}
     assert res["wasm_replay_matches_committed"], (rep, pred_sha)
+    if a.viz:  # publish the signed artefacts + trusted public key for the in-browser verifier (viz/)
+        import base64
+        import shutil
+
+        from cryptography.hazmat.primitives import serialization
+
+        vd = ROOT / "viz/data/e2e"
+        vd.mkdir(parents=True, exist_ok=True)
+        for f in (trace, frames_f, pred_f, summ_f, graph_f, man_f):
+            shutil.copy(f, vd / f.name)
+        raw = key.public_key().public_bytes(serialization.Encoding.Raw, serialization.PublicFormat.Raw)
+        (vd / "pubkey.json").write_text(json.dumps({"kid": signing.key_id(key.public_key()), "ed25519_raw_b64":
+                                                    base64.b64encode(raw).decode(), "graph": gp.name}))
     write_result(a.out, res, vars(a), a.seed)
     print(json.dumps({k2: res[k2] for k2 in ("shots", "hw_committed", "sw_committed", "responses_lost_injected",
                                               "errors", "wasm_replay_matches_committed")}))
