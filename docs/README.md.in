@@ -1,0 +1,83 @@
+# QShield-X
+
+A union-find decoder for the surface code, written as SystemVerilog and checked formally, targeting an FPGA. It
+is built together with a bit-exact C++ golden model, a WebAssembly runtime, and a fix to V8's arm64 code generation.
+
+> Every number below is rendered from `results/` by `bench/claims.py` (`make check-numbers` fails on any
+> number without a source). Hardware numbers carry their evidence stage. **No number comes from a physical
+> FPGA board or an ASIC.**
+
+## The question and the answer
+
+*Does hardware–software co-design with formally checked execution protocols give a better logical-error /
+latency / resource trade-off than a fixed software decoder?* (rotated surface-code memory, uniform
+circuit-level depolarizing noise, d = 3–9)
+
+**Mixed.**
+
+* **Latency: large gain.** At d = 5, p = 0.003 the RTL decoder's p99 latency per d-round block is
+  {{M2_hw_p99_ns_d5}} ns [{{M2_hw_p99_ns_d5:stage}}]. PyMatching takes {{M1_p99_d5_p003_PM_us}} µs and the same
+  QSX-UF algorithm in C++ takes {{M1_p99_d5_p003_UF_us}} µs [{{M1_p99_d5_p003_PM_us:stage}}].
+* **Accuracy: a cost.** QSX-UF (q5 weights) has P_L {{M1_PL_d7_p003_UF}} against {{M1_PL_d7_p003_PM}} for
+  PyMatching at d = 7, p = 0.003 [{{M1_PL_d7_p003_UF:stage}}]. The threshold crossing (d = 7/9) is
+  {{M1_thr_UF_7_9}} against {{M1_thr_PM_7_9}}.
+* **Resources: steep growth.** A fully parallel core needs {{M2_lut_d5_L8}} LUT4 at d = 5
+  [{{M2_lut_d5_L8:stage}}] and closes at {{M2_fmax_d5_L8}} MHz [{{M2_fmax_d5_L8:stage}}] on an LFE5U-85F.
+  {{M2_d7_fit_text}}
+* **Verified behaviour.** The protocol and shell guarantees are proven to stated bounds. They are what make the
+  hardware path safe to deploy behind a software fallback (tables below).
+
+## What's here
+
+| Area | What | Evidence |
+|------|------|----------|
+| Algorithm | QSX-UF: Jacobi-synchronous UF with canonical BFS peeling (bit-exact parallel ↔ sequential) | `DECISIONS.md` D1 |
+| Software baselines | Stim memory experiments d = 3–9, PyMatching 2.4 vs QSX-UF, exact binomial CIs | `results/M1/` |
+| RTL | `rtl/`: parameterised core (LANES, PIPE), AXI-Stream shell, frame FIFO, atomic config, watchdog | `rtl/README.md` |
+| Co-simulation | {{M2_cosim_total}} syndromes, {{M2_cosim_mm}} mismatches (bitmap + cycles) | `results/M2/cosim/` |
+| FPGA | Yosys + nextpnr-ecp5, LFE5U-85F | `results/M2/fpga/`, `results/M2/report.json` |
+| Formal | SVA/SymbiYosys k-induction, TLA+/TLC (liveness counterexample found and fixed), Z3 step equivalence | `results/M3/`, `formal/README.md` |
+| Wasm | native vs Wasm scalar vs Wasm SIMD128 in Node, d8, Chrome; bit-exact | `results/M4/` |
+| V8 | arm64 `v128.any_true` → `cbz/cbnz` fusion: patch, unittests, mjsunit test | `v8/`, `results/M5/` |
+| Learned/adaptive | GNN decoder, noise-shift adaptive policy vs fixed and oracle | `results/M6/` |
+| Federated | FedAvg, DP-SGD (RDP accountant), pairwise-mask secure aggregation, 3 sites | `results/M7/` |
+| Infra | Ed25519-signed traces and manifests, AES-256-GCM storage, mTLS control API, negative tests | `infra/`, `results/M8/` |
+| End to end | Stim → RTL (Verilator) → verified fallback → signed results → Wasm replay | `bench/e2e_demo.py`, `results/M10/` |
+
+## Selected results
+
+* RTL vs golden model: {{M2_cosim_mm}} mismatches over {{M2_cosim_total}} syndromes, d = 3, 5, 7 [{{M2_cosim_total:stage}}].
+* Formal: {{M3_n_pass}} of {{M3_n_jobs}} formal jobs pass as expected (mutants must fail). Details are in
+  `results/M3/formal_summary.json`.
+* The verified shell costs {{M3_shell_lut_pct_d5}} % of LUT4 at d = 5 [{{M3_shell_lut_pct_d5:stage}}] and
+  {{M3_shell_cycles_d5}} cycles per frame [{{M3_shell_cycles_d5:stage}}].
+* V8 patch: the decoder's SIMD unpack kernel at d = 9, p = 0.001 runs at {{M5_unpack_ratio_d9}}× the
+  unpatched time, and the zero-block scan microbenchmark at {{M5_micro_ratio_0}}× [{{M5_micro_ratio_0:stage}}].
+  {{M5_tests_ran}} V8 tests pass. The new test fails on a mutated lowering.
+* Wasm SIMD128 vs native NEON at d = 5: {{M4_wasm_simd_over_native_d5}}× steady-state time [{{M4_wasm_simd_over_native_d5:stage}}].
+* End-to-end demo: {{E2E_hw}} rounds committed from hardware and {{E2E_sw}} from the software fallback, including
+  {{E2E_lost}} injected lost responses. The Wasm replay reproduces the signed predictions: {{E2E_replay}}.
+
+## Reproduce
+
+```
+source env.sh            # project-local toolchains (see ENVIRONMENT.md)
+make test                # C++ golden model + Python + infra tests
+make ci                  # lint, tests, quick co-simulation, quick formal
+make reproduce-quick     # < 1 h: rebuild, reduced experiments, figures, number cross-check
+make reproduce-full      # every experiment (many hours; FPGA d >= 7 needs > 16 GB RAM)
+make paper               # paper/qshieldx.pdf
+```
+
+## Limitations
+
+See `FINAL_REVIEW.md` and §Limitations of the paper. In short: there's no board, so latency is
+cycle-exact simulation divided by post-PnR Fmax. k-induction of the real core covers d = 3 only. The noise is
+uniform circuit-level depolarizing noise. The federated study is a single-process simulation.
+
+## Layout
+
+`sim/` graphs and circuits · `decoders/` C++ golden model + Python bindings · `rtl/` SystemVerilog · `tb/`
+Verilator testbenches · `formal/` SVA, TLA+, Z3 · `fpga/` open-flow scripts · `wasm/` Emscripten builds +
+harness · `v8/` patch, reduced cases, analysis · `learned/` GNN and adaptive policy · `federated/` ·
+`infra/` signing/encryption/mTLS · `bench/` runners, statistics, plots, claims · `paper/` · `results/`

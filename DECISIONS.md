@@ -63,3 +63,26 @@ q5/q6/q8 with 4-bit thresholds (max 15). q5 was best or tied-best among 3-bit op
 only marginally better at high p. Choice: `q5` (thr = clamp(round(5·w/median(w)),1,7), 3-bit counters) is the
 default "weighted QSX-UF" configuration for RTL; `unweighted` (thr=2, 2-bit counters) is the minimal-area configuration.
 Both are reported.
+
+## 2026-10-24 D6 — M5 engine contribution: arm64 `v128.any_true` → `cbz/cbnz` fusion (V8 path)
+`--print-wasm-code` on the decoder's SIMD unpack loop (zero-block skip, `qsx::unpack_simd`) showed that
+Turboshaft/arm64 lowers `br_if(v128.any_true(x))` to `umaxp; fmov; cmp; cset; cbnz` — the boolean is
+materialised and then tested again. The patch (v8/patches/0001-*.patch) matches a covered
+`Simd128TestOp::kV128AnyTrue` in `VisitWordCompareZero` and emits a new `kArm64V128AnyTrueRaw`
+(`umaxp; fmov`) followed by `cbz/cbnz` (or `tst` + flags for select/set). Chosen because it is (a) present in
+the project's own hot loop (3 sites in the real module), (b) small, local and testable with the existing
+instruction-selector unittest infrastructure, and (c) not already upstream at the recorded revision (code
+inspection; x64 has the same pattern with `ptest/setcc/test/jcc`, left as follow-up). Blink path not taken.
+
+## 2026-10-24 D7 — Hardware latency methodology
+Hardware latency = cycles × (1/Fmax). Cycles come from the cycle-exact `qsx::HwModel` (bit- and
+cycle-exact with the RTL core, checked per syndrome in co-simulation) plus the shell's measured framing
+overhead (Verilator `qsx_top`, one frame in flight); Fmax comes from nextpnr-ecp5 (timing-driven, seed 1).
+Every derived latency is labelled "sim cycles / pnr Fmax". It excludes host↔FPGA transport (PCIe/USB),
+which a board measurement would include; the CPU baselines likewise exclude syndrome acquisition.
+
+## 2026-10-24 D8 — End-to-end demo
+The M10 demo drives the real RTL (Verilator `qsx_top`) rather than the model, configures it through an
+atomic cfg session with a small growth-round limit so that hardware TIMEOUTs occur, injects lost responses,
+and implements the host side of `QSXProtocol.tla` in Python with the spec's safety invariants asserted at
+run time. Inspection replay uses the Wasm build in Node.js (same code path as the browser).
