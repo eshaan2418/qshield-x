@@ -286,6 +286,31 @@ def _m7_rows():
     return rows
 
 
+def _knee():
+    """Smallest epsilon whose P_L is within 5% of the least-private DP point at every site (lot-8192 sweep)."""
+    dat = J("M7/federated_d3_dp_b8192.json")
+    pts = sorted(((dat[g]["dp"]["epsilon"], dat[g]["eval"]) for g in dat
+                  if g.startswith("fedavg-dp") and dat[g]["dp"]["sigma"] > 0), key=lambda x: -x[0])
+    ref = pts[0][1]
+    knee, nxt = pts[0], None
+    for k, (eps, ev) in enumerate(pts):
+        if all(ev[s]["pl"] <= 1.05 * ref[s]["pl"] for s in ref):
+            knee, nxt = (eps, ev), (pts[k + 1] if k + 1 < len(pts) else None)
+    return knee, nxt, ref
+
+
+if _exists("M7/federated_d3_dp_b8192.json"):
+    K7 = "results/M7/federated_d3_dp_b8192.json"
+    claim("M7_knee_eps", lambda: _knee()[0][0], "{:.2f}", "DP accounting (Opacus RDP) + Monte Carlo", K7)
+    claim("M7_below_knee_eps", lambda: _knee()[1][0], "{:.2f}", "DP accounting (Opacus RDP)", K7)
+    claim("M7_below_knee_factor", lambda: min(_knee()[1][1][s]["pl"] / _knee()[0][1][s]["pl"] for s in _knee()[2]),
+          "{:.1f}", "sim (Monte Carlo, Stim)", K7)
+    claim("M7_max_eps", lambda: max(J("M7/federated_d3_dp_b8192.json")[g]["dp"]["epsilon"]
+                                    for g in J("M7/federated_d3_dp_b8192.json") if g.startswith("fedavg-dp")
+                                    and J("M7/federated_d3_dp_b8192.json")[g]["dp"]["sigma"] > 0), "{:.1f}",
+          "DP accounting (Opacus RDP)", K7)
+
+
 if _exists("M7/federated_d3.json"):
     _M7 = []
     for i, (lab, _kind, ev, info, src) in enumerate(_m7_rows()):
@@ -319,6 +344,83 @@ if _exists("M7/federated_d3.json"):
             r"\label{tab:m7}",
             r"\begin{tabular}{lrrrrr}\toprule regime & $\varepsilon$ & A & B & C & upload MB \\ \midrule",
             *_M7, r"\bottomrule\end{tabular}\end{table}"])
+
+
+# ---------------------------------------------------------------- M2 report (synth / pnr / latency / deadline)
+if _exists("M2/report.json"):
+    REP = "results/M2/report.json"
+    _rep = J("M2/report.json")
+    for r in _rep["configs"]:
+        t = r["tag"].replace("_", "")
+        claim(f"M2_lut_{t}", lambda r=r: r["synth"]["LUT4"], "{:,}", "synth (Yosys synth_ecp5)", REP)
+        claim(f"M2_ff_{t}", lambda r=r: r["synth"]["FF"], "{:,}", "synth (Yosys synth_ecp5)", REP)
+        if "pnr" in r:
+            claim(f"M2_fmax_{t}", lambda r=r: r["pnr"]["fmax_mhz"], "{:.1f}", "pnr (nextpnr-ecp5, LFE5U-85F)", REP)
+            claim(f"M2_util_{t}", lambda r=r: 100 * r["pnr"]["comb"] / r["pnr"]["comb_avail"], "{:.0f}",
+                  "pnr (nextpnr-ecp5, LFE5U-85F)", REP)
+        if "latency_ns" in r:
+            for q in ("p50", "p99", "max"):
+                claim(f"M2_{q}ns_{t}", lambda r=r, q=q: r["latency_ns"][q], "{:,.0f}", "sim cycles / pnr Fmax", REP)
+        if "deadline" in r:
+            claim(f"M2_fallback_{t}", lambda r=r: 100 * r["deadline"]["fallback_fraction"], "{:.2f}",
+                  "sim cycles / pnr Fmax; bound by proof C2", REP)
+            claim(f"M2_budget_{t}", lambda r=r: r["deadline"]["watchdog_budget_cycles"], "{:,}",
+                  "sim cycles / pnr Fmax; bound by proof C2", REP)
+    for e in _rep["hw_vs_cpu"]:
+        d = e["d"]
+        claim(f"M2_hw_p99_ns_d{d}", lambda e=e: e["hw_p99_ns"], "{:,.0f}", "sim cycles / pnr Fmax", REP)
+        claim(f"M2_hw_max_ns_d{d}", lambda e=e: e["hw_max_ns"], "{:,.0f}", "sim cycles / pnr Fmax", REP)
+        claim(f"M2_hw_best_d{d}", lambda e=e: _tex(e["hw_best_tag"]), "{}", "config", REP)
+        for k in ("cpu_pm", "cpu_uf"):
+            for q in ("p99", "p999", "max"):
+                if f"{k}_{q}_ns" in e:
+                    claim(f"M2_{k}_{q}_us_d{d}", lambda e=e, k=k, q=q: e[f"{k}_{q}_ns"] / 1000, "{:.2f}",
+                          "CPU measurement (1 thread)", REP)
+        if "cpu_pm_p99_ns" in e:
+            claim(f"M2_ratio_p99_d{d}", lambda e=e: e["hw_p99_ns"] / e["cpu_pm_p99_ns"], "{:.2f}",
+                  "sim cycles / pnr Fmax vs CPU measurement", REP)
+            claim(f"M2_ratio_max_d{d}", lambda e=e: e["cpu_pm_max_ns"] / e["hw_max_ns"], "{:.1f}",
+                  "sim cycles / pnr Fmax vs CPU measurement", REP)
+        if e.get("hw_deadline"):
+            claim(f"M2_hw_fallback_d{d}", lambda e=e: 100 * e["hw_deadline"]["fallback_fraction"], "{:.2f}",
+                  "sim cycles / pnr Fmax; bound by proof C2", REP)
+
+    def _fit_rows():
+        rows = []
+        for r in _rep["configs"]:
+            t = r["tag"].replace("_", "")
+            fit = "pnr" in r
+            reason = "" if fit else _tex(r.get("pnr_error", "synth only")[:60])
+            rows.append((r, t, fit, reason))
+        return rows
+
+    _FT = []
+    for i, (r, t, fit, reason) in enumerate(_fit_rows()):
+        claim(f"M2_ft_{i}_cfg", lambda r=r: f"$d={r['d']}$, {r['weights']}, L{r['lanes']}, P{r['pipe']}", "{}",
+              "config", REP)
+        claim(f"M2_ft_{i}_why", lambda reason=reason: reason, "{}", "pnr (nextpnr-ecp5)", REP)
+        cells = [f"\\claim{{M2_ft_{i}_cfg}}", f"\\claim{{M2_lut_{t}}}", f"\\claim{{M2_ff_{t}}}"]
+        if fit:
+            cells += [f"\\claim{{M2_util_{t}}}", f"\\claim{{M2_fmax_{t}}}"]
+            cells += ([f"\\claim{{M2_p99ns_{t}}}", f"\\claim{{M2_maxns_{t}}}"] if "latency_ns" in r else ["--", "--"])
+            cells += [f"\\claim{{M2_fallback_{t}}}"] if "deadline" in r else ["--"]
+        else:
+            cells += [f"\\multicolumn{{5}}{{l}}{{\\claim{{M2_ft_{i}_why}}}}"]
+        _FT.append(" & ".join(cells) + r" \\")
+
+    @table("gen_fpga.tex")
+    def _t_fpga():
+        return "\n".join([
+            r"\begin{table*}[t]\centering\small",
+            r"\caption{FPGA implementation on the Lattice LFE5U-85F (open flow). LUT4/FF after Yosys synthesis"
+            r" \stage{synth}; logic utilisation and Fmax after nextpnr place-and-route \stage{PnR}; latency per"
+            r" $d$-round block at $p=0.003$ including the shell, cycles from the cycle-exact model divided by Fmax"
+            r" \stage{sim/PnR}; fallback = share of frames that would exceed the $d\times 1\,\mu$s"
+            r" block deadline and be answered WATCHDOG (then decoded in software).}",
+            r"\label{tab:fpga}",
+            r"\begin{tabular}{lrrrrrrr}\toprule configuration & LUT4 & FF & util.\,\% & Fmax MHz & p99 ns &"
+            r" max ns & fallback \% \\ \midrule",
+            *_FT, r"\bottomrule\end{tabular}\end{table*}"])
 
 
 def tables() -> list[str]:

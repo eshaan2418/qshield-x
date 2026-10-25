@@ -108,11 +108,12 @@ def toggle_proxy(a) -> list[dict]:
         exe = mdir / "toggle_tb"
         if not exe.exists() or exe.stat().st_mtime < max((ROOT / s).stat().st_mtime for s in RTL[:2]
                                                          + ["tb/toggle_tb.cpp"]):
-            sh(["verilator", "--cc", "--exe", "--build", "-j", "8", "-O3", "--coverage-toggle",
-                "--coverage-max-width", "1000000", "--x-assign", "fast", "--x-initial", "fast", f"-I{inc}",
+            # --output-split: the coverage-instrumented model is huge; sharding it keeps C++ compile times sane
+            sh(["verilator", "--cc", "--exe", "--build", "-j", "8", "-O3", "--coverage-toggle", "--output-split",
+                "20000", "--coverage-max-width", "1000000", "--x-assign", "fast", "--x-initial", "fast", f"-I{inc}",
                 "--Mdir", str(mdir), "-GLANES=8", "-GPIPE=0", *RTL[:2], "--top-module", "qsx_uf_core",
                 "tb/toggle_tb.cpp", str(ROOT / "decoders/src/decoder.cpp"),
-                "-CFLAGS", f"-std=c++17 -O2 -I{ROOT}/decoders/include -DQSX_TB={tbits}", "-o", "toggle_tb"])
+                "-CFLAGS", f"-std=c++17 -O1 -I{ROOT}/decoders/include -DQSX_TB={tbits}", "-o", "toggle_tb"])
         for p in map(float, a.ps.split(",")):
             c, _ = build_graph(d, p)
             f = B / "m2hw" / f"toggle_d{d}_p{p:g}.b8"

@@ -129,25 +129,39 @@ def m7() -> None:
     figs = R / "M7/figs"
     figs.mkdir(parents=True, exist_ok=True)
     sites = list(res["pymatching_reference"])
-    dp = sorted(k for k in res if k.startswith("fedavg-dp"))
-    regimes = ["local-only", "centralized", "fedavg", "fedavg-iid"] + dp
-    fig, ax = plt.subplots(figsize=(6.4, 3.6))
-    w = 0.8 / len(sites)
-    for i, s in enumerate(sites):
-        vals = []
-        for g in regimes:
-            ev = res[g] if g in ("local-only", "centralized") else res[g]["eval"]
-            vals.append(ev[s]["pl"] / max(res["pymatching_reference"][s]["pl"], 1e-12))
-        ax.bar([j + (i - (len(sites) - 1) / 2) * w for j in range(len(regimes))], vals, width=w * 0.9,
-               color=plotstyle.SERIES[i], label=s, zorder=3)
-    labels = []
-    for g in regimes:
-        eps = res[g].get("dp", {}).get("epsilon") if isinstance(res[g], dict) and "dp" in res[g] else None
-        labels.append(g + (f"\neps={eps:.2g}" if eps is not None else ""))
-    ax.set_xticks(range(len(regimes)), labels, fontsize=6)
-    ax.axhline(1.0, color=plotstyle.INK2, lw=0.8)
-    ax.set_ylabel("P_L(GNN) / P_L(PyMatching), per site")
-    ax.legend()
+    # privacy-utility: epsilon vs P_L per site for the lot-8192 sweeps (300 steps and, if present, 900 steps)
+    fig, axs = plt.subplots(1, len(sites), figsize=(8.4, 3.2), sharey=False)
+    runs = [("M7/federated_d3_dp_b8192.json", "300 DP steps", "-"), ("M7/federated_d3_dp_b8192_long.json",
+                                                                     "900 DP steps", "--")]
+    for ax, site in zip(axs, sites):
+        for k, (src, lab, ls) in enumerate(runs):
+            if not (R / src).exists():
+                continue
+            dat = J(src)
+            pts = sorted((dat[g]["dp"]["epsilon"], dat[g]["eval"][site]["pl"], dat[g]["eval"][site]["ci95"])
+                         for g in dat if g.startswith("fedavg-dp") and dat[g]["dp"]["sigma"] > 0)
+            ax.errorbar([q[0] for q in pts], [q[1] for q in pts],
+                        yerr=[[q[1] - q[2][0] for q in pts], [q[2][1] - q[1] for q in pts]], ls=ls, capsize=2,
+                        label=lab, **plotstyle.style(k))
+        ax.axhline(res["fedavg"]["eval"][site]["pl"], color=plotstyle.SERIES[2], lw=1.0, ls=":",
+                   label="FedAvg, no DP")
+        ax.axhline(res["pymatching_reference"][site]["pl"], color=plotstyle.INK2, lw=1.0, ls="-.",
+                   label="PyMatching")
+        from matplotlib.ticker import FixedLocator, FormatStrFormatter, LogLocator, NullFormatter, NullLocator, \
+            ScalarFormatter
+
+        ax.set_xscale("log")
+        ax.set_yscale("log")
+        ax.xaxis.set_major_locator(FixedLocator([1, 2, 5, 10, 20]))
+        ax.xaxis.set_major_formatter(ScalarFormatter())
+        ax.xaxis.set_minor_locator(NullLocator())
+        ax.yaxis.set_major_locator(LogLocator(base=10, subs=(1.0, 2.0, 5.0)))
+        ax.yaxis.set_major_formatter(FormatStrFormatter("%g"))
+        ax.yaxis.set_minor_formatter(NullFormatter())
+        ax.set_title(site)
+        ax.set_xlabel("epsilon (delta = 1e-5)")
+    axs[0].set_ylabel("P_L per d-round block (95% CI)")
+    axs[0].legend(fontsize=6)
     plotstyle.save(fig, figs / "privacy_utility.png")
 
 
