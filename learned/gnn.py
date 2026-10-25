@@ -122,6 +122,7 @@ def evaluate(a) -> None:
 
     from bench.stats import clopper_pearson
 
+    torch.set_num_threads(a.threads)  # same single-thread setting as the CPU decoders' latency numbers
     A, st, V = graph_tensors(a.d)
     model = GNN(A, st, a.hidden, a.layers)
     model.load_state_dict(torch.load(Path(a.out) / "model.pt"))
@@ -151,20 +152,27 @@ def evaluate(a) -> None:
             for _ in range(20):
                 model(xb)
             ts = []
-            for j in range(300):
+            for j in range(2000):
+                xj = torch.tensor(x[j:j + 1].astype(np.float32))
                 t0 = time.perf_counter()
-                model(torch.tensor(x[j:j + 1].astype(np.float32)))
+                model(xj)
                 ts.append(time.perf_counter() - t0)
-            t0 = time.perf_counter()
-            model(torch.tensor(x[:4096].astype(np.float32)))
-            tb = (time.perf_counter() - t0) / 4096
-        ts.sort()
-        row["gnn_latency_batch1_us"] = {"p50": 1e6 * ts[150], "p99": 1e6 * ts[296]}
+            tb = float("inf")
+            xb4 = torch.tensor(x[:4096].astype(np.float32))
+            for _ in range(3):
+                t0 = time.perf_counter()
+                model(xb4)
+                tb = min(tb, (time.perf_counter() - t0) / 4096)
+        ts = np.sort(np.array(ts))
+        row["gnn_latency_batch1_us"] = {"p50": 1e6 * float(np.percentile(ts, 50)),
+                                        "p99": 1e6 * float(np.percentile(ts, 99)), "n": len(ts),
+                                        "threads": a.threads}
         row["gnn_batched_us_per_shot"] = 1e6 * tb
         rows.append(row)
         print(json.dumps(row), flush=True)
     write_result(Path(a.out) / "eval.json", rows, vars(a), a.seed,
-                 extra_tools={"torch": torch.__version__, "torch_threads": torch.get_num_threads()})
+                 extra_tools={"torch": torch.__version__, "torch_threads": torch.get_num_threads(),
+                              "loadavg_at_end": list(__import__("os").getloadavg())})
 
 
 def main() -> None:
@@ -180,6 +188,7 @@ def main() -> None:
     ap.add_argument("--eval-ps", default="0.002,0.003,0.005")
     ap.add_argument("--eval-shots", type=int, default=200_000)
     ap.add_argument("--device", default="cpu")
+    ap.add_argument("--threads", type=int, default=1, help="torch intra-op threads for evaluation/latency")
     ap.add_argument("--seed", type=int, default=6)
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
