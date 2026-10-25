@@ -1,0 +1,128 @@
+/Applications/Xcode.app/Contents/Developer/usr/bin/make env
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python bench/env_probe.py
+{'cpu': 'Apple M5 Pro', 'ncpu': 18, 'ram_gb': 48.0, 'os': 'Darwin 27.0.0', 'loadavg': (8.49365234375, 10.58154296875, 15.4990234375), 'timer_resolution_ns': 41}
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python bench/m1_latency.py
+d=3 p=0.001 pymatching         p50=       0ns p99=     209ns thr=  19355463/s err=169
+d=3 p=0.001 qsxuf-unweighted   p50=       0ns p99=     250ns thr=  18348624/s err=217
+d=3 p=0.001 qsxuf-q5           p50=       0ns p99=     250ns thr=  18859029/s err=191
+d=3 p=0.003 pymatching         p50=      42ns p99=     542ns thr=  11291142/s err=1326
+d=3 p=0.003 qsxuf-unweighted   p50=      42ns p99=     583ns thr=   9287638/s err=1669
+d=3 p=0.003 qsxuf-q5           p50=      42ns p99=     583ns thr=  10002000/s err=1375
+d=3 p=0.005 pymatching         p50=      42ns p99=     750ns thr=   7611798/s err=3352
+d=3 p=0.005 qsxuf-unweighted   p50=      83ns p99=     666ns thr=   6691425/s err=4251
+d=3 p=0.005 qsxuf-q5           p50=      83ns p99=     792ns thr=   6235775/s err=3676
+d=5 p=0.001 pymatching         p50=      84ns p99=    1125ns thr=   4815912/s err=29
+d=5 p=0.001 qsxuf-unweighted   p50=      84ns p99=    1291ns thr=   4222438/s err=44
+d=5 p=0.001 qsxuf-q5           p50=     125ns p99=    1208ns thr=   4049075/s err=27
+d=5 p=0.003 pymatching         p50=     375ns p99=    3125ns thr=   1519445/s err=692
+d=5 p=0.003 qsxuf-unweighted   p50=     459ns p99=    3208ns thr=   1342462/s err=1021
+d=5 p=0.003 qsxuf-q5           p50=     500ns p99=    2792ns thr=   1382476/s err=775
+d=5 p=0.005 pymatching         p50=     792ns p99=    4750ns thr=    842971/s err=2816
+d=5 p=0.005 qsxuf-unweighted   p50=    1000ns p99=    4834ns thr=    711812/s err=4076
+d=5 p=0.005 qsxuf-q5           p50=     958ns p99=    3958ns thr=    794474/s err=3373
+d=7 p=0.001 pymatching         p50=     375ns p99=    2250ns thr=   1603618/s err=0
+d=7 p=0.001 qsxuf-unweighted   p50=     417ns p99=    2416ns thr=   1441483/s err=11
+d=7 p=0.001 qsxuf-q5           p50=     500ns p99=    2375ns thr=   1333476/s err=2
+d=7 p=0.003 pymatching         p50=    1541ns p99=    7083ns thr=    472158/s err=278
+d=7 p=0.003 qsxuf-unweighted   p50=    1667ns p99=    6834ns thr=    446712/s err=587
+d=7 p=0.003 qsxuf-q5           p50=    1750ns p99=    6292ns thr=    446522/s err=369
+d=7 p=0.005 pymatching         p50=    3167ns p99=   12292ns thr=    246390/s err=2020
+d=7 p=0.005 qsxuf-unweighted   p50=    3584ns p99=   11625ns thr=    227344/s err=4010
+d=7 p=0.005 qsxuf-q5           p50=    3167ns p99=    9333ns thr=    264643/s err=2962
+d=9 p=0.001 pymatching         p50=     958ns p99=    3750ns thr=    699726/s err=0
+d=9 p=0.001 qsxuf-unweighted   p50=    1000ns p99=    3916ns thr=    665890/s err=1
+d=9 p=0.001 qsxuf-q5           p50=    1167ns p99=    3917ns thr=    611636/s err=0
+d=9 p=0.003 pymatching         p50=    3750ns p99=   12459ns thr=    208725/s err=98
+d=9 p=0.003 qsxuf-unweighted   p50=    4042ns p99=   12500ns thr=    198908/s err=283
+d=9 p=0.003 qsxuf-q5           p50=    4208ns p99=   11709ns thr=    195382/s err=147
+d=9 p=0.005 pymatching         p50=    8166ns p99=   24583ns thr=    102392/s err=1412
+d=9 p=0.005 qsxuf-unweighted   p50=    8875ns p99=   22875ns thr=     97579/s err=3365
+d=9 p=0.005 qsxuf-q5           p50=    7750ns p99=   18750ns thr=    112320/s err=2046
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python bench/m4_runtime.py
+d=3 native-novec-naive           hash=3427ea96c91e40bc steady=     66.1 ns/shot compile=  0.00 ms
+d=3 native-novec-word            hash=3427ea96c91e40bc steady=     65.0 ns/shot compile=  0.00 ms
+d=3 native-O3-word               hash=3427ea96c91e40bc steady=     65.8 ns/shot compile=  0.00 ms
+d=3 native-O3-neon               hash=3427ea96c91e40bc steady=     65.9 ns/shot compile=  0.00 ms
+d=3 node-scalar                  hash=3427ea96c91e40bc steady=    116.6 ns/shot compile=  0.59 ms
+d=3 d8-scalar-default            hash=3427ea96c91e40bc steady=     87.0 ns/shot compile=  0.72 ms
+d=3 d8-scalar-liftoff-only       hash=3427ea96c91e40bc steady=     84.3 ns/shot compile=  0.31 ms
+d=3 d8-scalar-turbofan-only      hash=3427ea96c91e40bc steady=     82.6 ns/shot compile=  0.28 ms
+d=3 chrome-scalar-default        hash=3427ea96c91e40bc steady=     84.3 ns/shot compile=  1.63 ms
+d=3 chrome-scalar-liftoff-only   hash=3427ea96c91e40bc steady=     84.0 ns/shot compile=  0.40 ms
+d=3 node-simd                    hash=3427ea96c91e40bc steady=     95.5 ns/shot compile=  0.29 ms
+d=3 d8-simd-default              hash=3427ea96c91e40bc steady=     84.5 ns/shot compile=  0.29 ms
+d=3 d8-simd-liftoff-only         hash=3427ea96c91e40bc steady=     83.7 ns/shot compile=  0.31 ms
+d=3 d8-simd-turbofan-only        hash=3427ea96c91e40bc steady=     82.8 ns/shot compile=  0.28 ms
+d=3 chrome-simd-default          hash=3427ea96c91e40bc steady=     84.1 ns/shot compile=  0.38 ms
+d=3 chrome-simd-liftoff-only     hash=3427ea96c91e40bc steady=     83.8 ns/shot compile=  0.45 ms
+d=5 native-novec-naive           hash=0b9aba0308c38985 steady=    682.9 ns/shot compile=  0.00 ms
+d=5 native-novec-word            hash=0b9aba0308c38985 steady=    654.5 ns/shot compile=  0.00 ms
+d=5 native-O3-word               hash=0b9aba0308c38985 steady=    649.3 ns/shot compile=  0.00 ms
+d=5 native-O3-neon               hash=0b9aba0308c38985 steady=    645.2 ns/shot compile=  0.00 ms
+d=5 node-scalar                  hash=0b9aba0308c38985 steady=    845.7 ns/shot compile=  0.32 ms
+d=5 d8-scalar-default            hash=0b9aba0308c38985 steady=    785.3 ns/shot compile=  0.33 ms
+d=5 d8-scalar-liftoff-only       hash=0b9aba0308c38985 steady=    787.3 ns/shot compile=  0.28 ms
+d=5 d8-scalar-turbofan-only      hash=0b9aba0308c38985 steady=    775.0 ns/shot compile=  0.29 ms
+d=5 chrome-scalar-default        hash=0b9aba0308c38985 steady=    788.1 ns/shot compile=  0.38 ms
+d=5 chrome-scalar-liftoff-only   hash=0b9aba0308c38985 steady=    785.0 ns/shot compile=  0.38 ms
+d=5 node-simd                    hash=0b9aba0308c38985 steady=    837.2 ns/shot compile=  0.43 ms
+d=5 d8-simd-default              hash=0b9aba0308c38985 steady=    796.1 ns/shot compile=  0.27 ms
+d=5 d8-simd-liftoff-only         hash=0b9aba0308c38985 steady=    801.0 ns/shot compile=  0.31 ms
+d=5 d8-simd-turbofan-only        hash=0b9aba0308c38985 steady=    779.1 ns/shot compile=  0.27 ms
+d=5 chrome-simd-default          hash=0b9aba0308c38985 steady=    798.1 ns/shot compile=  0.36 ms
+d=5 chrome-simd-liftoff-only     hash=0b9aba0308c38985 steady=    798.2 ns/shot compile=  0.39 ms
+d=7 native-novec-naive           hash=f0910a1ec39446d3 steady=   2156.2 ns/shot compile=  0.00 ms
+d=7 native-novec-word            hash=f0910a1ec39446d3 steady=   2023.0 ns/shot compile=  0.00 ms
+d=7 native-O3-word               hash=f0910a1ec39446d3 steady=   2018.3 ns/shot compile=  0.00 ms
+d=7 native-O3-neon               hash=f0910a1ec39446d3 steady=   2005.1 ns/shot compile=  0.00 ms
+d=7 node-scalar                  hash=f0910a1ec39446d3 steady=   2617.4 ns/shot compile=  0.29 ms
+d=7 d8-scalar-default            hash=f0910a1ec39446d3 steady=   2392.6 ns/shot compile=  0.29 ms
+d=7 d8-scalar-liftoff-only       hash=f0910a1ec39446d3 steady=   2406.7 ns/shot compile=  0.24 ms
+d=7 d8-scalar-turbofan-only      hash=f0910a1ec39446d3 steady=   2341.8 ns/shot compile=  0.25 ms
+d=7 chrome-scalar-default        hash=f0910a1ec39446d3 steady=   2393.1 ns/shot compile=  0.36 ms
+d=7 chrome-scalar-liftoff-only   hash=f0910a1ec39446d3 steady=   2391.5 ns/shot compile=  0.39 ms
+d=7 node-simd                    hash=f0910a1ec39446d3 steady=   2541.1 ns/shot compile=  0.32 ms
+d=7 d8-simd-default              hash=f0910a1ec39446d3 steady=   2395.4 ns/shot compile=  0.28 ms
+d=7 d8-simd-liftoff-only         hash=f0910a1ec39446d3 steady=   2393.0 ns/shot compile=  0.27 ms
+d=7 d8-simd-turbofan-only        hash=f0910a1ec39446d3 steady=   2339.6 ns/shot compile=  0.29 ms
+d=7 chrome-simd-default          hash=f0910a1ec39446d3 steady=   2393.3 ns/shot compile=  0.38 ms
+d=7 chrome-simd-liftoff-only     hash=f0910a1ec39446d3 steady=   2420.1 ns/shot compile=  0.45 ms
+bit-exact: [True, True, True]
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python v8/bench_anytrue.py
+{"workload": "micro zero_block_scan", "nonzero_block_fraction": 0.0, "median_base": 0.2929687500000002, "median_patched": 0.24780273437499925, "ratio": 0.8458333333333301, "ratio_ci95": [0.8257261410788351, 0.858333333333337]}
+{"workload": "micro zero_block_scan", "nonzero_block_fraction": 0.05, "median_base": 0.34057617187499994, "median_patched": 0.30273437499999917, "ratio": 0.8888888888888866, "ratio_ci95": [0.861111111111108, 0.924187725631766]}
+{"workload": "micro zero_block_scan", "nonzero_block_fraction": 0.25, "median_base": 0.39916992187499994, "median_patched": 0.3955078124999998, "ratio": 0.9908256880733941, "ratio_ci95": [0.9603658536585314, 1.0644171779141072]}
+{"workload": "qsx d=5 p=0.001", "metric": "unpack_simd_ns_per_shot", "median_base": 12.1, "median_patched": 11.86, "ratio": 0.9801652892561983, "ratio_ci95": [0.968954248366013, 1.0201342281879195], "bit_exact": true}
+{"workload": "qsx d=5 p=0.001", "metric": "steady_ns_per_shot", "median_base": 238.28, "median_patched": 238.26, "ratio": 0.9999160651334564, "ratio_ci95": [0.9932319518716577, 1.0021872633969882], "bit_exact": true}
+{"workload": "qsx d=7 p=0.001", "metric": "unpack_simd_ns_per_shot", "median_base": 27.46, "median_patched": 26.8, "ratio": 0.9759650400582666, "ratio_ci95": [0.9325681492109039, 1.0131099781500363], "bit_exact": true}
+{"workload": "qsx d=7 p=0.001", "metric": "steady_ns_per_shot", "median_base": 742.78, "median_patched": 742.8200000000006, "ratio": 1.0000538517461437, "ratio_ci95": [0.9970961497096149, 1.0022352687708715], "bit_exact": true}
+{"workload": "qsx d=9 p=0.001", "metric": "unpack_simd_ns_per_shot", "median_base": 59.88, "median_patched": 60.38, "ratio": 1.0083500334001336, "ratio_ci95": [0.9598287783997365, 1.0223501523874026], "bit_exact": true}
+{"workload": "qsx d=9 p=0.001", "metric": "steady_ns_per_shot", "median_base": 1646.44, "median_patched": 1647.2, "ratio": 1.000461602001895, "ratio_ci95": [0.998664351542674, 1.0020544864391738], "bit_exact": true}
+{"workload": "qsx d=9 p=0.003", "metric": "unpack_simd_ns_per_shot", "median_base": 83.62, "median_patched": 83.16, "ratio": 0.9944989237024634, "ratio_ci95": [0.9811052431104699, 1.001679865610751], "bit_exact": true}
+{"workload": "qsx d=9 p=0.003", "metric": "steady_ns_per_shot", "median_base": 5581.94, "median_patched": 5585.72, "ratio": 1.000677183918136, "ratio_ci95": [0.9975902839103185, 1.0017537819285145], "bit_exact": true}
+/Applications/Xcode.app/Contents/Developer/usr/bin/make m6 m8 e2e
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python learned/adaptive.py
+step {"fixed-UF": [0.00867, 0], "fixed-PM": [0.00742, 0], "adaptive-UF": [0.00887, 61], "adaptive-hybrid": [0.00754, 61], "oracle-UF": [0.00886, 0], "oracle-PM": [0.00745, 0]} recovery {'windows': 1, 'shots': 2000}
+readout {"fixed-UF": [0.00675, 0], "fixed-PM": [0.00572, 0], "adaptive-UF": [0.00649, 42], "adaptive-hybrid": [0.00567, 42], "oracle-UF": [0.00649, 0], "oracle-PM": [0.00539, 0]} recovery {'windows': 1, 'shots': 2000}
+drift {"fixed-UF": [0.01036, 0], "fixed-PM": [0.00912, 0], "adaptive-UF": [0.01074, 78], "adaptive-hybrid": [0.00959, 78], "oracle-UF": [0.01073, 0], "oracle-PM": [0.00917, 0]} recovery None
+burst {"fixed-UF": [0.00433, 0], "fixed-PM": [0.00382, 0], "adaptive-UF": [0.00449, 63], "adaptive-hybrid": [0.00436, 63], "oracle-UF": [0.00433, 0], "oracle-PM": [0.00369, 0]} recovery None
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python learned/gnn.py eval --d 3 --hidden 64 --layers 6 --out results/M6/gnn_d3
+{"d": 3, "p": 0.002, "shots": 200000, "gnn": {"errors": 668, "pl": 0.00334, "ci95": [0.0030918621057511647, 0.003602700219738148]}, "pymatching": {"errors": 625, "pl": 0.003125, "ci95": [0.0028851136851165736, 0.0033794612324824615]}, "qsxuf-q5": {"errors": 661, "pl": 0.003305, "ci95": [0.003058186710107848, 0.0035663776230587074]}, "gnn_latency_batch1_us": {"p50": 131.4590008405503, "p99": 152.17365835269445, "n": 2000, "threads": 1}, "gnn_batched_us_per_shot": 25.353942870509627}
+{"d": 3, "p": 0.003, "shots": 200000, "gnn": {"errors": 1409, "pl": 0.007045, "ci95": [0.00668310467845463, 0.007421291502397668]}, "pymatching": {"errors": 1307, "pl": 0.006535, "ci95": [0.0061865391547015515, 0.006897876796705201]}, "qsxuf-q5": {"errors": 1413, "pl": 0.007065, "ci95": [0.00670258812217614, 0.00744180729438224]}, "gnn_latency_batch1_us": {"p50": 128.87499906355515, "p99": 134.29100999928778, "n": 2000, "threads": 1}, "gnn_batched_us_per_shot": 25.13768505796321}
+{"d": 3, "p": 0.005, "shots": 200000, "gnn": {"errors": 3717, "pl": 0.018585, "ci95": [0.017997595320713388, 0.019186416130052075]}, "pymatching": {"errors": 3475, "pl": 0.017375, "ci95": [0.016806852608137017, 0.01795719667756992]}, "qsxuf-q5": {"errors": 3800, "pl": 0.019, "ci95": [0.018406143838244023, 0.019607854697322177]}, "gnn_latency_batch1_us": {"p50": 128.08400060748681, "p99": 133.29241010069381, "n": 2000, "threads": 1}, "gnn_batched_us_per_shot": 25.363993407800933}
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python learned/gnn.py eval --d 5 --hidden 64 --layers 6 --out results/M6/gnn_d5
+{"d": 5, "p": 0.002, "shots": 200000, "gnn": {"errors": 575, "pl": 0.002875, "ci95": [0.0026450776583814136, 0.0031195127750032327]}, "pymatching": {"errors": 199, "pl": 0.000995, "ci95": [0.0008616068160024732, 0.001143178936230885]}, "qsxuf-q5": {"errors": 227, "pl": 0.001135, "ci95": [0.0009922105149347596, 0.0012925494955003326]}, "gnn_latency_batch1_us": {"p50": 185.83399833005387, "p99": 213.0208293237956, "n": 2000, "threads": 1}, "gnn_batched_us_per_shot": 142.09625244188118}
+{"d": 5, "p": 0.003, "shots": 200000, "gnn": {"errors": 1822, "pl": 0.00911, "ci95": [0.008698232263957295, 0.009536088329195358]}, "pymatching": {"errors": 639, "pl": 0.003195, "ci95": [0.0029523965224913054, 0.0034521742254223675]}, "qsxuf-q5": {"errors": 766, "pl": 0.00383, "ci95": [0.003564006007775797, 0.004110529664895894]}, "gnn_latency_batch1_us": {"p50": 183.8749994931277, "p99": 277.13917013898026, "n": 2000, "threads": 1}, "gnn_batched_us_per_shot": 139.846517090092}
+{"d": 5, "p": 0.005, "shots": 200000, "gnn": {"errors": 7104, "pl": 0.03552, "ci95": [0.03471305946414897, 0.036340438808106654]}, "pymatching": {"errors": 2813, "pl": 0.014065, "ci95": [0.013553459932017689, 0.014590694592841232]}, "qsxuf-q5": {"errors": 3437, "pl": 0.017185, "ci95": [0.016619940002004667, 0.017764115250983484]}, "gnn_latency_batch1_us": {"p50": 183.04199693375267, "p99": 212.59341967379441, "n": 2000, "threads": 1}, "gnn_batched_us_per_shot": 138.0337116696495}
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && PYTHONPATH=/Users/eshaan.kapooswalla/QShield-X pytest -q tests/test_infra.py --junitxml=results/M8/tests.xml && /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python bench/m8_overhead.py
+.......                                                                  [100%]
+7 passed in 1.71s
+sign/verify   1 MB: sign      0.5 ms verify      0.6 ms
+sign/verify  16 MB: sign      6.4 ms verify      6.3 ms
+sign/verify  64 MB: sign     25.3 ms verify     24.6 ms
+AES-GCM   1 MB: enc    3487 MB/s dec    5388 MB/s
+AES-GCM  16 MB: enc    4250 MB/s dec    5269 MB/s
+AES-GCM  64 MB: enc    3961 MB/s dec    4327 MB/s
+{'plain_http': {'requests': 280, 'new_connection_per_request': True, 'p50_ms': 0.17925000065588392, 'p99_ms': 0.35658300112118013}, 'mtls': {'requests': 280, 'new_connection_per_request': True, 'p50_ms': 1.1851249983010348, 'p99_ms': 1.3623749982798472}}
+source /Users/eshaan.kapooswalla/QShield-X/env.sh && /Users/eshaan.kapooswalla/QShield-X/.venv/bin/python bench/e2e_demo.py --max-rounds 6
+{"shots": 5000, "hw_committed": 4831, "sw_committed": 169, "responses_lost_injected": 50, "errors": 128, "wasm_replay_matches_committed": true}

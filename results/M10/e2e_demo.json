@@ -1,0 +1,87 @@
+{
+ "provenance": {
+  "git": {
+   "commit": "9a33955f835994b0db6e1964444b491e12250d39",
+   "dirty": true
+  },
+  "timestamp_utc": "2026-10-25T05:10:15+00:00",
+  "host": {
+   "machine": "arm64",
+   "system": "Darwin",
+   "release": "27.0.0",
+   "cpu": "Apple M5 Pro",
+   "ncpu": 18
+  },
+  "tools": {
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "numpy": "2.5.4",
+   "python": "3.12.14",
+   "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)"
+  },
+  "seed": 1010,
+  "config": {
+   "d": 5,
+   "p": 0.006,
+   "shots": 5000,
+   "max_rounds": 6,
+   "lose": 0.01,
+   "seed": 1010,
+   "viz": 1,
+   "out": "/Users/eshaan.kapooswalla/QShield-X/results/M10/e2e_demo.json"
+  }
+ },
+ "data": {
+  "d": 5,
+  "p": 0.006,
+  "shots": 5000,
+  "errors": 128,
+  "hw_committed": 4831,
+  "sw_committed": 169,
+  "pred_sha256": "d6ebe60ce281e7ca469dcf35b9e4bd5d89489260903aff6edaee3c433477c6f8",
+  "pl": 0.0256,
+  "pl_ci95": [
+   0.021400981731911583,
+   0.03036450147197234
+  ],
+  "max_rounds_hw": 6,
+  "rtl_testbench": {
+   "frames": 5000,
+   "mismatches": 0,
+   "status_counts": [
+    4881,
+    119,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "hw_status_counts_received": {
+   "OK": 4831,
+   "TIMEOUT": 119,
+   "PARITY_ERROR": 0,
+   "WATCHDOG": 0,
+   "FRAME_ERROR": 0,
+   "CFG_INVALID": 0
+  },
+  "responses_lost_injected": 50,
+  "stale_filtered": 0,
+  "hw_only_errors": 115,
+  "tla_invariants_checked": [
+   "NoDoubleCommit",
+   "NoSkip",
+   "ExclusiveSource",
+   "NoInvalidCommit"
+  ],
+  "manifest_verified": true,
+  "encrypted_roundtrip": true,
+  "wasm_replay": {
+   "shots": 5000,
+   "bad_status": 0,
+   "pred_sha256": "d6ebe60ce281e7ca469dcf35b9e4bd5d89489260903aff6edaee3c433477c6f8"
+  },
+  "wasm_replay_matches_committed": true,
+  "stage": "sim (Verilator RTL + host protocol model)"
+ }
+}

@@ -1,10 +1,10 @@
 {
  "provenance": {
   "git": {
-   "commit": "befda1110920ff787d586806dfecef5463a46e7e",
+   "commit": "9a33955f835994b0db6e1964444b491e12250d39",
    "dirty": true
   },
-  "timestamp_utc": "2026-10-24T18:46:09+00:00",
+  "timestamp_utc": "2026-10-25T05:10:04+00:00",
   "host": {
    "machine": "arm64",
    "system": "Darwin",
@@ -19,7 +19,12 @@
    "python": "3.12.14",
    "cxx": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
    "torch": "2.14.1",
-   "torch_threads": 6
+   "torch_threads": 1,
+   "loadavg_at_end": [
+    9.23095703125,
+    9.3486328125,
+    13.30224609375
+   ]
   },
   "seed": 6,
   "config": {
@@ -34,6 +39,7 @@
    "eval_ps": "0.002,0.003,0.005",
    "eval_shots": 200000,
    "device": "cpu",
+   "threads": 1,
    "seed": 6,
    "out": "results/M6/gnn_d5"
   }
@@ -68,10 +74,12 @@
     ]
    },
    "gnn_latency_batch1_us": {
-    "p50": 2829.624980222434,
-    "p99": 89055.70901697502
+    "p50": 185.83399833005387,
+    "p99": 213.0208293237956,
+    "n": 2000,
+    "threads": 1
    },
-   "gnn_batched_us_per_shot": 1052.8907573217339
+   "gnn_batched_us_per_shot": 142.09625244188118
   },
   {
    "d": 5,
@@ -102,10 +110,12 @@
     ]
    },
    "gnn_latency_batch1_us": {
-    "p50": 5757.167004048824,
-    "p99": 187978.2080068253
+    "p50": 183.8749994931277,
+    "p99": 277.13917013898026,
+    "n": 2000,
+    "threads": 1
    },
-   "gnn_batched_us_per_shot": 4584.099141354159
+   "gnn_batched_us_per_shot": 139.846517090092
   },
   {
    "d": 5,
@@ -136,10 +146,12 @@
     ]
    },
    "gnn_latency_batch1_us": {
-    "p50": 5961.417045909911,
-    "p99": 72209.00000538677
+    "p50": 183.04199693375267,
+    "p99": 212.59341967379441,
+    "n": 2000,
+    "threads": 1
    },
-   "gnn_batched_us_per_shot": 898.934875493751
+   "gnn_batched_us_per_shot": 138.0337116696495
   }
  ]
 }
