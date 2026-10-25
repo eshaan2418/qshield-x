@@ -86,3 +86,14 @@ The M10 demo drives the real RTL (Verilator `qsx_top`) rather than the model, co
 atomic cfg session with a small growth-round limit so that hardware TIMEOUTs occur, injects lost responses,
 and implements the host side of `QSXProtocol.tla` in Python with the spec's safety invariants asserted at
 run time. Inspection replay uses the Wasm build in Node.js (same code path as the browser).
+
+## 2026-10-24 D9 — DP-SGD configuration for M7 (found by debugging, tuned on validation data only)
+The first FedAvg+DP runs (batch 512, 40x100 steps, Adam lr 2e-3, clip 1) produced P_L that was identical across
+sigma = 0.6, 1.0, 2.0. Investigation: at batch 512 the clipped per-coordinate signal from the ~4-10% positive
+examples (~4e-4) is below the per-coordinate noise (sigma*clip/batch ~ 1e-3 to 4e-3). Adam normalises the
+noise-dominated updates, and the local models drift to the majority-class predictor. Following Abadi et al. (large
+lots), DP regimes use batch 8192 (q = 0.041), 20 rounds x 15 local steps, lr 3e-3. These settings were checked on
+validation data drawn with seeds disjoint from fed.py's train/test seeds. On validation, sigma = 0.6 learns (P_L 2.7%,
+base rate 10.3%) and sigma = 2.0 collapses, i.e. noise now visibly trades utility for privacy. The batch-512 results
+stay in results/M7/federated_d3.json and are reported as the failed configuration. Their sigma-independence is
+explained in results/M7/dp_debug.json.
