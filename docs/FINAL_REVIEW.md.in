@@ -8,10 +8,19 @@ Rendered from `docs/FINAL_REVIEW.md.in` by `bench/claims.py`. Every number is ba
 *Can hardware–software co-design with formally verified execution protocols deliver a better logical-error /
 latency / resource trade-off than a fixed software-only decoder?*
 
-**Mixed. The hardware path wins on bounded, verified latency at d = 5 only if it pays for wide scans. It loses on
-accuracy everywhere, and on area beyond d = 5 for this device.**
+**Mixed. Co-design buys a verifiable deadline, not raw speed, on this device class.**
 
-{{HW_VERDICT_TEXT}}
+* *Latency.* The best placed RTL configuration has p99 {{M2_hw_p99_ns_d3}} ns at d = 3 against
+  {{M2_cpu_pm_p99_us_d3}} µs for PyMatching on one CPU core (ratio {{M2_ratio_p99_d3}}), and {{M2_hw_p99_ns_d5}} ns
+  against {{M2_cpu_pm_p99_us_d5}} µs at d = 5 [{{M2_hw_p99_ns_d3:stage}}]. The hardware is not faster in typical
+  latency.
+* *Worst case.* The RTL maximum is {{M2_ratio_max_d3}}× below the CPU's observed tail at d = 3, and it is guaranteed
+  rather than observed: the watchdog proof (C2) plus the shell proofs mean a frame over budget becomes `WATCHDOG` and
+  goes to the verified fallback. Within a d × 1 µs block deadline (assumed round time) the hardware completes
+  {{M2_hw_within_d3}} % of d = 3 frames and {{M2_hw_within_d5}} % of d = 5 frames.
+* *Accuracy.* P_L is {{M1_ratio_d7_p003}}× PyMatching's at d = 7 [{{M1_ratio_d7_p003:stage}}].
+* *Resources.* d = 5 fits only with narrow scans ({{M2_util_d5q5L4PIPE0}} % logic, {{M2_fmax_d5q5L4PIPE0}} MHz).
+  The smallest d = 7 configuration needs {{M2_min_lut_d7}} LUT4 after synthesis, {{M2_d7_over_device}}× the device's LUT capacity.
 
 ## Strongest claims
 
