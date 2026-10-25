@@ -7,7 +7,7 @@ Status legend: todo / in-progress / done / blocked-with-fallback
 | M0 | Bootstrap | done | ENVIRONMENT.md, Makefile, CI workflow, Dockerfile; local `make ci` green (results/ci/) |
 | M1 | Software baselines | done | results/M1/ |
 | M2 | RTL decoder + FPGA flow | in-progress (FPGA tail) | co-sim 3.84M + 1.04M syndromes, 0 mismatches; hw_cycles, cycle_breakdown, shell_latency, toggle_proxy; FPGA d=3/5 placed, d>=7 does not fit; d=9 synth + LANES=V batch running |
-| M3 | Formal verification | in-progress | all SBY proofs PASS incl. real core d=3/5/7 k-induction; run_formal summary pending (Z3 d=5 running); then `run_formal --only core.sby:prove_d5,core.sby:prove_d7` merge |
+| M3 | Formal verification | done | results/M3/formal_summary.json: 17/17 jobs as expected (k-induction shell + real core d=3/5/7, BMC/cover, TLC main + mutants + pre-fix cex, Z3 d=3/5 + mutant); overhead in results/M3/overhead.json |
 | M4 | Native + Wasm SIMD | done | results/M4 (bit-exact; Liftoff vs Turboshaft fixed, B8) |
 | M5 | V8 engine contribution | done | v8/patches/0001, results/M5/v8_tests.json (2,955 tests pass, mutation caught, applies cleanly) |
 | M6 | Adaptive / learned | done | results/M6; C++ policy statistics; re-measure in `make timing` |
