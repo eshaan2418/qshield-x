@@ -2,6 +2,7 @@
 
 M1: bench/m1_plots.py      -> results/M1/figs/
 M2: bench/m2_report.py     -> results/M2/figs/ (+ results/M2/report.json)
+M10: bench/objective.py    -> results/M10/figs/objective_d*.png (+ results/M10/objective.json)
 M4: runtime comparison     -> results/M4/figs/runtime.png, warmup.png
 M5: V8 patch before/after  -> results/M5/figs/anytrue_fusion.png
 M6: GNN vs UF vs MWPM, adaptive policy -> results/M6/figs/
@@ -18,7 +19,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from bench import m1_plots, m2_report, plotstyle  # noqa: E402
+from bench import m1_plots, m2_report, objective, plotstyle  # noqa: E402
 
 R = ROOT / "results"
 
@@ -154,6 +155,7 @@ def main() -> None:
     plotstyle.apply()
     m1_plots.main()
     m2_report.main()
+    objective.main()
     for f in (m4, m5, m6, m7):
         f()
     print("figures OK")
