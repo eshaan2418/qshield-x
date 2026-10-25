@@ -382,8 +382,17 @@ if _exists("M2/report.json"):
             claim(f"M2_ratio_max_d{d}", lambda e=e: e["cpu_pm_max_ns"] / e["hw_max_ns"], "{:.1f}",
                   "sim cycles / pnr Fmax vs CPU measurement", REP)
         if e.get("hw_deadline"):
+            claim(f"M2_hw_within_d{d}", lambda e=e: 100 * e["hw_deadline"]["hw_fraction_within"], "{:.1f}",
+                  "sim cycles / pnr Fmax; bound by proof C2", REP)
             claim(f"M2_hw_fallback_d{d}", lambda e=e: 100 * e["hw_deadline"]["fallback_fraction"], "{:.2f}",
                   "sim cycles / pnr Fmax; bound by proof C2", REP)
+
+    def _pipe_gain(d=3, L=32):
+        f = {r["pipe"]: r["pnr"]["fmax_mhz"] for r in _rep["configs"]
+             if r["d"] == d and r["lanes"] == L and r["weights"] == "q5" and "pnr" in r}
+        return 100 * (f[1] / f[0] - 1)
+
+    claim("M2_pipe_gain_pct_d3", _pipe_gain, "{:.0f}", "pnr (nextpnr-ecp5)", REP)
 
     def _fit_rows():
         rows = []
